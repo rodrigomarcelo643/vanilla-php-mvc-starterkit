@@ -1,0 +1,25 @@
+/* ── Alpine cloak ── */
+[x-cloak] { display: none !important; }
+
+/* ── Base ── */
+*, *::before, *::after { box-sizing: border-box; }
+body { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #e4e4e7; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+
+/* ── Sidebar scrollbar ── */
+aside::-webkit-scrollbar { width: 3px; }
+aside::-webkit-scrollbar-thumb { background: #e4e4e7; }
+
+/* ── Sidebar transition ── */
+aside { transition: width 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1); }
+
+/* ── Focus ring ── */
+:focus-visible { outline: 2px solid #18181b; outline-offset: 2px; }
+
+/* ── Table ── */
+tbody tr { transition: background-color 0.1s; }
