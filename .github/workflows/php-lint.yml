@@ -1,0 +1,48 @@
+# ──────────────────────────────────────────────────────────────
+#  PHP Syntax Check
+#  Lints every .php file in the project using `php -l`.
+#  Catches parse errors and fatal syntax issues before deploy.
+#
+#  STATUS: inactive — trigger manually via Actions > Run workflow
+# ──────────────────────────────────────────────────────────────
+
+name: PHP Syntax Check
+
+on:
+  workflow_dispatch:
+  # To activate on push/PR, uncomment below:
+  # push:
+  #   branches: [main, develop]
+  # pull_request:
+  #   branches: [main]
+
+jobs:
+  lint:
+    name: Lint PHP Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.1
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: none
+
+      - name: Run PHP syntax check
+        run: |
+          echo "Scanning all PHP files..."
+          ERRORS=0
+          while IFS= read -r -d '' file; do
+            php -l "$file" > /dev/null 2>&1 || { echo "❌ Syntax error: $file"; ERRORS=$((ERRORS+1)); }
+          done < <(find . -name "*.php" \
+            -not -path "./.git/*" \
+            -not -path "./vendor/*" \
+            -print0)
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "::error::$ERRORS PHP file(s) have syntax errors."
+            exit 1
+          fi
+          echo "✅ All PHP files passed syntax check."
