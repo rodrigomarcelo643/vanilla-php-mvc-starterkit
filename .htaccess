@@ -1,0 +1,11 @@
+Options -Indexes
+
+RewriteEngine On
+RewriteBase /starterkit/
+
+# Skip real files and directories (assets, css, js, images)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Route everything to index.php
+RewriteRule ^(.*)$ index.php [QSA,L]
