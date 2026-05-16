@@ -1,0 +1,64 @@
+# ──────────────────────────────────────────────────────────────
+#  SQL Schema Validation
+#  Spins up a MySQL service and imports database/starter.sql
+#  to verify the schema is valid and all tables create cleanly.
+#
+#  STATUS: inactive — trigger manually via Actions > Run workflow
+# ──────────────────────────────────────────────────────────────
+
+name: SQL Schema Validation
+
+on:
+  workflow_dispatch:
+  # To activate when schema changes, uncomment below:
+  # push:
+  #   paths:
+  #     - 'database/**.sql'
+  # pull_request:
+  #   paths:
+  #     - 'database/**.sql'
+
+jobs:
+  validate-sql:
+    name: Import & Validate SQL
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: starter_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Wait for MySQL
+        run: |
+          until mysqladmin ping -h 127.0.0.1 -uroot -proot --silent; do
+            echo "Waiting for MySQL..."; sleep 2;
+          done
+
+      - name: Import starter.sql
+        run: |
+          mysql -h 127.0.0.1 -uroot -proot starter_test < database/starter.sql
+          echo "✅ SQL schema imported successfully."
+
+      - name: Verify tables exist
+        run: |
+          TABLES=$(mysql -h 127.0.0.1 -uroot -proot starter_test \
+            -e "SHOW TABLES;" --batch --skip-column-names)
+          echo "Tables found: $TABLES"
+          for table in users admins sessions password_resets activity_logs; do
+            echo "$TABLES" | grep -q "^$table$" \
+              && echo "✅ $table" \
+              || { echo "❌ Missing table: $table"; exit 1; }
+          done
