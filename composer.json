@@ -1,0 +1,17 @@
+{
+    "name": "mardev/starter-kit",
+    "description": "Starter Kit — PHP MVC Boilerplate",
+    "type": "project",
+    "minimum-stability": "stable",
+    "require-dev": {
+        "phpunit/phpunit": "^11"
+    },
+    "scripts": {
+        "test":         "phpunit",
+        "test:unit":    "phpunit --testsuite Unit",
+        "test:feature": "phpunit --testsuite Feature"
+    },
+    "require": {
+        "phpmailer/phpmailer": "^7.1"
+    }
+}
