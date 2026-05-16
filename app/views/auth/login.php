@@ -34,8 +34,18 @@
         </div>
 
         <!-- Bottom stats -->
+        <?php
+        $loginStars = '—';
+        $ctx = stream_context_create(['http' => ['timeout' => 3, 'header' => "User-Agent: PHP\r\n"]]);
+        $json = @file_get_contents('https://api.github.com/repos/rodrigomarcelo643/php-vanilla-mvc-starterkit', false, $ctx);
+        if ($json) {
+            $d = json_decode($json, true);
+            $c = $d['stargazers_count'] ?? 0;
+            $loginStars = $c >= 1000 ? round($c / 1000, 1) . 'k' : $c;
+        }
+        ?>
         <div class="flex items-center gap-8 relative z-10">
-            <?php foreach ([['1.2k','GitHub Stars'],['MIT','License'],['PHP 8','Required']] as $s): ?>
+            <?php foreach ([[$loginStars,'GitHub Stars'],['PHP 8','Required']] as $s): ?>
             <div>
                 <p class="text-white font-semibold text-lg"><?= $s[0] ?></p>
                 <p class="text-zinc-500 text-xs"><?= $s[1] ?></p>
