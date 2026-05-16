@@ -100,24 +100,48 @@
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-200 border border-zinc-200 rounded-xl overflow-hidden">
             <?php
             $features = [
-                ['icon' => 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
-                 'title' => 'MVC Architecture',  'desc' => 'Controllers, Models, Views — clean separation of concerns out of the box.'],
-                ['icon' => 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z',
-                 'title' => 'Session Auth',       'desc' => 'Login, register, and logout with secure PHP sessions and bcrypt passwords.'],
-                ['icon' => 'M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7',
-                 'title' => 'Admin Dashboard',    'desc' => 'Full admin panel with collapsible sidebar, topbar, and data tables.'],
-                ['icon' => 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15',
-                 'title' => 'AJAX Helpers',       'desc' => 'Lightweight fetch wrappers for POST/GET with JSON responses built in.'],
-                ['icon' => 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
-                 'title' => 'Tailwind CSS',        'desc' => 'Utility-first styling via CDN — no build step required.'],
-                ['icon' => 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',
-                 'title' => 'Composer Ready',      'desc' => 'PHPMailer, PHPUnit, and more — managed via Composer with a clean composer.json.'],
+                [
+                    'title' => 'MVC Architecture',
+                    'desc'  => 'Controllers, Models, Views — clean separation of concerns out of the box.',
+                    'svg'   => '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+                    'fill'  => true,
+                ],
+                [
+                    'title' => 'Session Auth',
+                    'desc'  => 'Login, register, and logout with secure PHP sessions and bcrypt passwords.',
+                    'svg'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 11h14l1 9H4l1-9z"/>',
+                    'fill'  => false,
+                ],
+                [
+                    'title' => 'Admin Dashboard',
+                    'desc'  => 'Full admin panel with collapsible sidebar, topbar, and data tables.',
+                    'svg'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 6h18M3 14h12M3 18h8"/>',
+                    'fill'  => false,
+                ],
+                [
+                    'title' => 'AJAX Helpers',
+                    'desc'  => 'Lightweight fetch wrappers for POST/GET with JSON responses built in.',
+                    'svg'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>',
+                    'fill'  => false,
+                ],
+                [
+                    'title' => 'Tailwind CSS',
+                    'desc'  => 'Utility-first styling via CDN — no build step required.',
+                    'svg'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6C9.6 6 8.1 7.2 7.5 9.6c.9-1.2 1.95-1.65 3.15-1.35.685.171 1.174.668 1.715 1.219C13.24 10.39 14.205 11.4 16.5 11.4c2.4 0 3.9-1.2 4.5-3.6-.9 1.2-1.95 1.65-3.15 1.35-.685-.171-1.174-.668-1.715-1.219C15.26 7.011 14.295 6 12 6zm-4.5 5.4C5.1 11.4 3.6 12.6 3 15c.9-1.2 1.95-1.65 3.15-1.35.685.171 1.174.668 1.715 1.219C8.74 15.79 9.705 16.8 12 16.8c2.4 0 3.9-1.2 4.5-3.6-.9 1.2-1.95 1.65-3.15 1.35-.685-.171-1.174-.668-1.715-1.219C10.76 12.411 9.795 11.4 7.5 11.4z"/>',
+                    'fill'  => false,
+                ],
+                [
+                    'title' => 'Composer Ready',
+                    'desc'  => 'PHPMailer, PHPUnit, and more — managed via Composer with a clean composer.json.',
+                    'svg'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>',
+                    'fill'  => false,
+                ],
             ];
             foreach ($features as $f): ?>
             <div class="bg-white p-6 hover:bg-zinc-50 transition-colors fade-in">
                 <div class="w-8 h-8 rounded-lg bg-zinc-100 flex items-center justify-center mb-4">
-                    <svg class="w-4 h-4 text-zinc-700" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="<?= $f['icon'] ?>"/>
+                    <svg class="w-4 h-4 text-zinc-700" fill="<?= $f['fill'] ? 'currentColor' : 'none' ?>" stroke="<?= $f['fill'] ? 'none' : 'currentColor' ?>" stroke-width="2" viewBox="0 0 24 24">
+                        <?= $f['svg'] ?>
                     </svg>
                 </div>
                 <h3 class="text-sm font-semibold text-zinc-900 mb-1.5"><?= $f['title'] ?></h3>
@@ -138,9 +162,9 @@
         <div class="grid sm:grid-cols-3 gap-6">
             <?php
             $steps = [
-                ['01', 'Clone the repo',    'Download or clone the project into your htdocs folder.', 'M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4'],
-                ['02', 'Import the DB',     'Run the SQL file in phpMyAdmin to set up your database.', 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4'],
-                ['03', 'Start building',    'Visit localhost and start customizing for your project.', 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4'],
+                ['01', 'Clone the repo',   'Download or clone the project into your htdocs folder.',    '<path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>'],
+                ['02', 'Import the DB',    'Run the SQL file in phpMyAdmin to set up your database.',   '<ellipse cx="12" cy="5" rx="9" ry="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 5v14c0 1.657 4.03 3 9 3s9-1.343 9-3V5M3 12c0 1.657 4.03 3 9 3s9-1.343 9-3"/>'],
+                ['03', 'Start building',   'Visit localhost and start customizing for your project.',   '<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>'],
             ];
             foreach ($steps as $s): ?>
             <div class="bg-white border border-zinc-200 rounded-xl p-6 fade-in">
@@ -148,13 +172,13 @@
                     <span class="text-xs font-mono font-bold text-zinc-400"><?= $s[0] ?></span>
                     <div class="flex-1 h-px bg-zinc-100"></div>
                     <div class="w-8 h-8 rounded-lg bg-zinc-100 flex items-center justify-center">
-                        <svg class="w-4 h-4 text-zinc-700" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="<?= $s[2] ?>"/>
+                        <svg class="w-4 h-4 text-zinc-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <?= $s[3] ?>
                         </svg>
                     </div>
                 </div>
                 <h3 class="text-sm font-semibold text-zinc-900 mb-1.5"><?= $s[1] ?></h3>
-                <p class="text-xs text-zinc-500 leading-relaxed"><?= $s[3] ?></p>
+                <p class="text-xs text-zinc-500 leading-relaxed"><?= $s[2] ?></p>
             </div>
             <?php endforeach; ?>
         </div>
