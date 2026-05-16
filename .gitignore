@@ -1,0 +1,28 @@
+# Environment
+.env
+
+# Agent — keep context/prompts, ignore any local secret overrides
+.agent/context/local.md
+.claude/local.md
+
+# Storage
+storage/logs/
+storage/cache/
+storage/uploads/logs/
+storage/uploads/avatars/*
+!storage/uploads/avatars/.htaccess
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Dependencies
+vendor/
+node_modules/
+
+# Composer
+composer.lock
