@@ -1,0 +1,54 @@
+# ──────────────────────────────────────────────────────────────
+#  Deploy to Server
+#  Deploys the project to a remote server via SSH + rsync.
+#  Requires GitHub Secrets to be configured before enabling.
+#
+#  Required Secrets (Settings > Secrets > Actions):
+#    SSH_HOST        — server IP or hostname
+#    SSH_USER        — SSH username
+#    SSH_PRIVATE_KEY — private key (contents of id_rsa)
+#    DEPLOY_PATH     — absolute path on server e.g. /var/www/html/project
+#
+#  STATUS: inactive — trigger manually via Actions > Run workflow
+# ──────────────────────────────────────────────────────────────
+
+name: Deploy
+
+on:
+  workflow_dispatch:
+  # To auto-deploy on push to main, uncomment below:
+  # push:
+  #   branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy via SSH + rsync
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        run: |
+          rsync -avz --delete \
+            --exclude='.git/' \
+            --exclude='.env' \
+            --exclude='.github/' \
+            --exclude='.agent/' \
+            --exclude='.claude/' \
+            --exclude='storage/logs/' \
+            --exclude='storage/cache/' \
+            ./ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}"
+
+      - name: Verify deployment
+        run: |
+          ssh "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "php -l ${{ secrets.DEPLOY_PATH }}/index.php && echo '✅ Deploy verified.'"
