@@ -1,0 +1,50 @@
+# ──────────────────────────────────────────────────────────────
+#  PHP Code Quality
+#  Runs PHPMD (mess detector) and PHPCS (coding standards)
+#  against app/ to catch complexity, unused vars, and style issues.
+#
+#  STATUS: inactive — trigger manually via Actions > Run workflow
+# ──────────────────────────────────────────────────────────────
+
+name: PHP Code Quality
+
+on:
+  workflow_dispatch:
+  # To activate on push/PR, uncomment below:
+  # push:
+  #   branches: [main, develop]
+  # pull_request:
+  #   branches: [main]
+
+jobs:
+  quality:
+    name: PHPMD + PHPCS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.1
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: phpmd, phpcs
+
+      - name: PHPMD — Mess Detector
+        run: |
+          phpmd app/ text cleancode,codesize,controversial,design,naming,unusedcode \
+            --exclude 'app/views/*' \
+            || true
+        # `|| true` keeps the job green as a warning-only pass for now.
+        # Remove it to make PHPMD failures block the workflow.
+
+      - name: PHPCS — Coding Standards (PSR-12)
+        run: |
+          phpcs --standard=PSR12 \
+                --extensions=php \
+                --ignore=app/views/ \
+                --report=summary \
+                app/ \
+            || true
+        # Same — remove `|| true` to enforce hard failures.
