@@ -1,0 +1,33 @@
+/* ── Base ── */
+*, *::before, *::after { box-sizing: border-box; }
+body { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #e4e4e7; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+
+/* ── Focus ring ── */
+:focus-visible { outline: 2px solid #18181b; outline-offset: 2px; }
+
+/* ── Smooth transitions ── */
+a, button { transition: color 0.15s, background-color 0.15s, border-color 0.15s, opacity 0.15s; }
+
+/* ── Marquee ── */
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+.marquee-track {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    width: max-content !important;
+    animation: marquee 35s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+/* ── Alert variants ── */
+.alert-error   { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+.alert-success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
