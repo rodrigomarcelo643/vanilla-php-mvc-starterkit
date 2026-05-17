@@ -57,7 +57,7 @@ class ProfileController extends Controller
         };
 
         $session    = Session::get('user');
-        $uploadDir  = __DIR__ . '/../../storage/uploads/avatars/';
+        $uploadDir  = __DIR__ . '/../../../storage/uploads/avatars/';
         $filename   = 'avatar_' . $session['id'] . '_' . time() . '.' . $ext;
         $destPath   = $uploadDir . $filename;
         $avatarUrl  = BASE_URL . '/storage/uploads/avatars/' . $filename;
@@ -192,9 +192,9 @@ class ProfileController extends Controller
         if (!$avatarUrl) return;
 
         $base = rtrim(BASE_URL, '/');
-        $path = __DIR__ . '/../../' . ltrim(str_replace($base, '', $avatarUrl), '/');
+        $path = __DIR__ . '/../../../' . ltrim(str_replace($base, '', $avatarUrl), '/');
         $real = realpath($path);
-        $dir  = realpath(__DIR__ . '/../../storage/uploads/avatars/');
+        $dir  = realpath(__DIR__ . '/../../../storage/uploads/avatars/');
 
         // Only delete if the file is inside the avatars directory
         if ($real && $dir && str_starts_with($real, $dir) && is_file($real)) {

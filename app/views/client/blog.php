@@ -4,7 +4,7 @@
         <p class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-3">Blog</p>
         <h1 class="text-3xl sm:text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Articles & Guides</h1>
         <p class="text-base text-zinc-500 dark:text-zinc-400 max-w-lg leading-relaxed">
-            Tutorials, tips, and deep dives on PHP development, MVC patterns, and building with <?= APP_NAME ?>.
+            Beginner-friendly tutorials on PHP MVC, vanilla patterns, and everything you need to know before jumping into Laravel.
         </p>
     </div>
 </section>
@@ -15,7 +15,7 @@
 
         <!-- Category filter -->
         <div class="flex flex-wrap gap-2 mb-10 fade-in">
-            <?php foreach (['All', 'Tutorial', 'Guide', 'Tips', 'Release'] as $i => $cat): ?>
+            <?php foreach (['All', 'Tutorial', 'Guide', 'Tips', 'Laravel Prep'] as $i => $cat): ?>
             <button class="px-3 py-1.5 text-xs font-medium rounded-full border transition-colors
                            <?= $i === 0 ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 border-zinc-900 dark:border-zinc-100' : 'border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-zinc-400 dark:hover:border-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100' ?>">
                 <?= $cat ?>
@@ -26,12 +26,12 @@
         <!-- Featured post -->
         <?php
         $posts = [
-            ['Getting Started with PHP MVC',        'A complete walkthrough of setting up and customizing this starter kit for your next project. Covers routing, controllers, views, and database setup.',  'Jan 12, 2025', '5 min read', 'Tutorial', true],
-            ['Building REST APIs with Vanilla PHP',  'How to create clean JSON endpoints without any framework overhead. Includes AJAX integration examples.',                                                'Jan 8, 2025',  '8 min read', 'Guide',    false],
-            ['Tailwind CSS Tips for PHP Devs',       'Practical utility-first patterns that work great in PHP template files. No build step required.',                                                      'Jan 3, 2025',  '4 min read', 'Tips',     false],
-            ['Session Auth Deep Dive',               'Understanding how the authentication system works under the hood, and how to extend it for your needs.',                                               'Dec 28, 2024', '6 min read', 'Guide',    false],
-            ['Admin Panel Customization',            'How to add new pages, nav items, and data tables to the admin dashboard.',                                                                             'Dec 20, 2024', '5 min read', 'Tutorial', false],
-            ['v1.0 Release Notes',                   'What\'s new in the first stable release of the starter kit. Bug fixes, UI improvements, and new features.',                                           'Dec 15, 2024', '3 min read', 'Release',  false],
+            ['PHP MVC from Scratch — Before You Touch Laravel',  'A complete walkthrough of how routing, controllers, models, and views work in plain PHP — so Laravel\'s magic finally makes sense.',                                    'Jan 12, 2025', '5 min read', 'Tutorial',    true],
+            ['How Laravel\'s Router Actually Works',               'We build a mini router in vanilla PHP so you understand exactly what Route::get() is doing under the hood.',                                                         'Jan 8, 2025',  '8 min read', 'Laravel Prep', false],
+            ['Tailwind CSS for PHP Beginners',                     'Practical utility-first patterns that work great in PHP template files. No build step, no Node.js — just drop in the CDN and go.',                                   'Jan 3, 2025',  '4 min read', 'Tips',         false],
+            ['Session Auth Deep Dive',                             'How login, logout, and password hashing work in raw PHP — and how that maps to Laravel\'s Auth facade.',                                                            'Dec 28, 2024', '6 min read', 'Guide',        false],
+            ['Building an Admin Panel Without a Framework',        'How to structure a real admin dashboard with sidebar, topbar, and data tables using only PHP and Tailwind.',                                                          'Dec 20, 2024', '5 min read', 'Tutorial',    false],
+            ['From This Starter Kit to Laravel — Your Roadmap',   'You\'ve learned MVC, routing, and auth from scratch. Here\'s exactly what to learn next to make the jump to Laravel confidently.',                                 'Dec 15, 2024', '3 min read', 'Laravel Prep', false],
         ];
         $featured = $posts[0];
         ?>
@@ -67,8 +67,8 @@
         <!-- Newsletter -->
         <div class="mt-14 bg-zinc-950 rounded-2xl p-8 sm:p-10 text-center fade-in">
             <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-3">Newsletter</p>
-            <h3 class="text-xl font-bold text-white mb-2">Stay up to date</h3>
-            <p class="text-sm text-zinc-400 mb-6">Get new articles and releases delivered to your inbox.</p>
+            <h3 class="text-xl font-bold text-white mb-2">Level up your PHP before Laravel</h3>
+            <p class="text-sm text-zinc-400 mb-6">Get new tutorials on PHP MVC, beginner patterns, and Laravel prep delivered to your inbox.</p>
             <div class="flex flex-col sm:flex-row gap-2 max-w-sm mx-auto">
                 <input type="email" placeholder="you@example.com"
                     class="flex-1 h-10 px-4 text-sm bg-zinc-900 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500 transition-colors">

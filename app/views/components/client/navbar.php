@@ -8,14 +8,7 @@ $currentPath = $currentPath ?: '/';
 
 $githubRepo = 'rodrigomarcelo643/php-vanilla-mvc-starterkit';
 $githubUrl  = 'https://github.com/' . $githubRepo;
-$navStars   = '—';
-$ctx = stream_context_create(['http' => ['timeout' => 3, 'header' => "User-Agent: PHP\r\n"]]);
-$json = @file_get_contents('https://api.github.com/repos/' . $githubRepo, false, $ctx);
-if ($json) {
-    $d = json_decode($json, true);
-    $c = $d['stargazers_count'] ?? 0;
-    $navStars = $c >= 1000 ? round($c / 1000, 1) . 'k' : $c;
-}
+$navStars   = github_stars($githubRepo);
 
 $navLinks = [
     ['href' => '/',      'label' => 'Home'],
@@ -24,7 +17,8 @@ $navLinks = [
     ['href' => '/blog',  'label' => 'Blog'],
 ];
 
-$u = Auth::check() ? Session::get('user') : null;
+$u        = Auth::check() ? Session::get('user') : null;
+$dashUrl  = ($u && ($u['role'] ?? '') === 'admin') ? BASE_URL . '/dashboard' : BASE_URL . '/app/home';
 ?>
 
 <!-- Navbar -->
@@ -130,7 +124,7 @@ $u = Auth::check() ? Session::get('user') : null;
                         </div>
 
                         <div class="py-1">
-                            <a href="<?= BASE_URL ?>/app/home"
+                            <a href="<?= $dashUrl ?>"
                                class="flex items-center gap-2.5 px-3 py-1.5 text-sm text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
                                 <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
@@ -244,7 +238,7 @@ $u = Auth::check() ? Session::get('user') : null;
                         <p class="text-xs text-zinc-400 truncate" data-user-email><?= htmlspecialchars($u['email'] ?? '') ?></p>
                     </div>
                 </div>
-                <a href="<?= BASE_URL ?>/app/home"
+                <a href="<?= $dashUrl ?>"
                    class="flex items-center px-3 py-2 text-sm rounded-md transition-colors text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100">
                     Dashboard
                 </a>
@@ -285,24 +279,3 @@ $u = Auth::check() ? Session::get('user') : null;
     </div>
 </nav>
 
-<script>
-const Theme = {
-    toggle() {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        this.updateIcons(isDark);
-    },
-    updateIcons(isDark) {
-        document.getElementById('theme-icon-dark')?.classList.toggle('hidden', !isDark);
-        document.getElementById('theme-icon-light')?.classList.toggle('hidden', isDark);
-        document.getElementById('theme-icon-dark-mobile')?.classList.toggle('hidden', !isDark);
-        document.getElementById('theme-icon-light-mobile')?.classList.toggle('hidden', isDark);
-        const lbl = document.getElementById('theme-label-mobile');
-        if (lbl) lbl.textContent = isDark ? 'Light mode' : 'Dark mode';
-    },
-    init() {
-        this.updateIcons(document.documentElement.classList.contains('dark'));
-    }
-};
-document.addEventListener('DOMContentLoaded', () => Theme.init());
-</script>

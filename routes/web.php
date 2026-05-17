@@ -13,10 +13,21 @@ require_once 'app/core/Controller.php';
 require_once 'app/core/Mailer.php';
 
 // ── Route Files ───────────────────────────────────────────────
-require_once 'routes/web/client.php';
-require_once 'routes/web/admin.php';
-require_once 'routes/web/app.php';
-require_once 'routes/web/ajax.php';
+
+// Auth
+require_once 'routes/web/auth/pages.php';
+require_once 'routes/web/auth/ajax.php';
+
+// Client / Public
+require_once 'routes/web/client/pages.php';
+
+// Admin
+require_once 'routes/web/admin/pages.php';
+require_once 'routes/web/admin/ajax.php';
+
+// App / Authenticated User
+require_once 'routes/web/app/pages.php';
+require_once 'routes/web/app/ajax.php';
 
 // ── Dispatch ──────────────────────────────────────────────────
 Router::dispatch();

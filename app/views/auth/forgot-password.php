@@ -21,7 +21,7 @@
                     <div class="w-8 h-8 rounded-full bg-zinc-700 flex items-center justify-center text-white text-xs font-bold">S</div>
                     <div>
                         <p class="text-sm font-medium text-white"><?= APP_NAME ?></p>
-                        <p class="text-xs text-zinc-500">PHP MVC Framework</p>
+                        <p class="text-xs text-zinc-500">PHP MVC Starter Kit</p>
                     </div>
                 </div>
             </blockquote>

@@ -106,7 +106,7 @@ class AuthController extends Controller
             'role'  => 'user',
         ]);
 
-        Router::json(['success' => true, 'redirect' => BASE_URL . '/']);
+        Router::json(['success' => true, 'redirect' => BASE_URL . '/app/home']);
     }
 
     public function ajaxLogout()
