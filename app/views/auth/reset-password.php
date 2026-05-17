@@ -82,7 +82,7 @@
                             <input type="password" name="password" id="rp-password"
                                 class="w-full h-10 px-3.5 pr-10 text-sm border border-zinc-300 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400
                                        focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-400 focus:border-transparent transition"
-                                placeholder="Min. 8 characters" required>
+                                placeholder="Create a strong password" required>
                             <button type="button" onclick="Auth.togglePassword('rp-password', this)"
                                 class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -91,6 +91,14 @@
                                 </svg>
                             </button>
                         </div>
+                        <!-- Strength meter -->
+                        <div class="flex gap-1 mt-2">
+                            <div id="str-1" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
+                            <div id="str-2" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
+                            <div id="str-3" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
+                            <div id="str-4" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
+                        </div>
+                        <p id="str-label" class="text-xs mt-1"></p>
                     </div>
 
                     <div class="space-y-1.5">
@@ -108,17 +116,8 @@
                                 </svg>
                             </button>
                         </div>
-                    </div>
-
-                    <!-- Password strength indicator -->
-                    <div>
-                        <div class="flex gap-1 mb-1">
-                            <div id="str-1" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
-                            <div id="str-2" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
-                            <div id="str-3" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
-                            <div id="str-4" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
-                        </div>
-                        <p id="str-label" class="text-xs text-zinc-400 dark:text-zinc-500"></p>
+                        <!-- Match indicator -->
+                        <p id="rp-confirm-hint" class="hidden text-xs mt-1"></p>
                     </div>
 
                     <button type="submit" id="rp-btn"

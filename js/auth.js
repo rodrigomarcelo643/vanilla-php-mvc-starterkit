@@ -141,43 +141,66 @@ if (fpForm) {
 // ── Reset Password ────────────────────────────────────────────
 const rpForm = document.getElementById('rp-form');
 if (rpForm) {
-    // Password strength meter
     const rpPassword = document.getElementById('rp-password');
+    const rpConfirm  = document.getElementById('rp-confirm');
+    const rpHint     = document.getElementById('rp-confirm-hint');
+
+    const rpColors = ['bg-zinc-200', 'bg-red-400', 'bg-amber-400', 'bg-blue-400', 'bg-green-500'];
+    const rpLabels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+    const rpClass  = ['text-zinc-400', 'text-red-500', 'text-amber-500', 'text-blue-500', 'text-green-600'];
+
+    function rpCalcStrength(val) {
+        let score = 0;
+        if (val.length >= 8)                          score++;
+        if (val.length >= 12)                         score++;
+        if (/[A-Z]/.test(val) && /[a-z]/.test(val))  score++;
+        if (/[0-9]/.test(val))                        score++;
+        if (/[^A-Za-z0-9]/.test(val))                 score++;
+        return Math.min(4, score);
+    }
+
+    function rpUpdateStrength(val) {
+        const level = rpCalcStrength(val);
+        [1, 2, 3, 4].forEach((n, i) => {
+            const el = document.getElementById('str-' + n);
+            if (el) el.className = 'h-1 flex-1 rounded-full transition-colors duration-300 ' + (i < level ? rpColors[level] : 'bg-zinc-200 dark:bg-zinc-700');
+        });
+        const lbl = document.getElementById('str-label');
+        if (lbl) { lbl.textContent = rpLabels[level]; lbl.className = 'text-xs transition-colors ' + rpClass[level]; }
+    }
+
+    function rpUpdateConfirmMatch() {
+        if (!rpConfirm || !rpPassword) return;
+        if (!rpConfirm.value) { if (rpHint) rpHint.classList.add('hidden'); return; }
+        const match = rpConfirm.value === rpPassword.value;
+        if (rpHint) {
+            rpHint.classList.remove('hidden');
+            rpHint.textContent = match ? '✓ Passwords match' : '✗ Passwords do not match';
+            rpHint.className   = 'text-xs mt-1 ' + (match ? 'text-green-600' : 'text-red-500');
+        }
+    }
+
     if (rpPassword) {
         rpPassword.addEventListener('input', () => {
-            const val = rpPassword.value;
-            const bars  = [1,2,3,4].map(i => document.getElementById('str-' + i));
-            const label = document.getElementById('str-label');
-            const levels = [
-                { min: 0,  color: 'bg-zinc-200', text: '' },
-                { min: 1,  color: 'bg-red-400',  text: 'Weak' },
-                { min: 6,  color: 'bg-amber-400', text: 'Fair' },
-                { min: 10, color: 'bg-blue-400',  text: 'Good' },
-                { min: 14, color: 'bg-green-500', text: 'Strong' },
-            ];
-            let score = 0;
-            if (val.length >= 8)  score++;
-            if (val.length >= 12) score++;
-            if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
-            if (/[0-9]/.test(val)) score++;
-            if (/[^A-Za-z0-9]/.test(val)) score++;
-            const level = Math.min(4, score);
-            const colors = ['bg-zinc-200','bg-red-400','bg-amber-400','bg-blue-400','bg-green-500'];
-            const labels = ['','Weak','Fair','Good','Strong'];
-            bars.forEach((b, i) => {
-                b.className = 'h-1 flex-1 rounded-full transition-colors duration-300 ' + (i < level ? colors[level] : 'bg-zinc-200');
-            });
-            label.textContent = labels[level];
-            label.className = 'text-xs transition-colors ' + ['text-zinc-400','text-red-500','text-amber-500','text-blue-500','text-green-600'][level];
+            rpUpdateStrength(rpPassword.value);
+            rpUpdateConfirmMatch();
         });
+    }
+
+    if (rpConfirm) {
+        rpConfirm.addEventListener('input', () => rpUpdateConfirmMatch());
     }
 
     rpForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const password = document.getElementById('rp-password').value;
-        const confirm  = document.getElementById('rp-confirm').value;
+        const password = rpPassword.value;
+        const confirm  = rpConfirm.value;
         if (password !== confirm) {
             App.alert('rp-alert', 'Passwords do not match.', 'error');
+            return;
+        }
+        if (rpCalcStrength(password) < 2) {
+            App.alert('rp-alert', 'Password is too weak. Add uppercase, numbers, or symbols.', 'error');
             return;
         }
         App.setLoading('rp-btn', 'rp-spinner', true);
