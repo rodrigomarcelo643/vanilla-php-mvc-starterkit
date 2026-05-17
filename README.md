@@ -43,7 +43,7 @@ Backed by PHPUnit with 77 tests across unit and feature suites, GitHub Actions w
 
 ---
 
-## Starter Kit Modules Visual
+## 🖼️ UI Visuals
 
 <div align="center">
 
@@ -51,14 +51,23 @@ Backed by PHPUnit with 77 tests across unit and feature suites, GitHub Actions w
 ![Home](public/starter_home.png)
 
 **Sign In**
-![Login](public/starter_login.png)
+![Sign In](public/starter_login.png)
 
 **Sign Up**
 ![Sign Up](public/starter_signup.png)
 
+**Forgot Password**
+![Forgot Password](public/starter_forgot_password.png)
+
+**Admin Dashboard**
+![Admin Dashboard](public/starter_admin.png)
+
+**User Panel**
+![User Panel](public/starter_user.png)
+
 </div>
 
-> See all screenshots in [SCREENSHOTS.md](SCREENSHOTS.md)
+> See the full visual walkthrough in [VISUALS.md](VISUALS.md)
 
 ---
 
@@ -73,16 +82,27 @@ starterkit/
 │   ├── helpers/        # Global helper functions
 │   ├── models/         # Data models
 │   └── views/          # Layouts, components & pages (admin/app/client/auth)
-├── assets/             # CSS, JS
+├── assets/             # CSS & fonts
 ├── database/
 │   └── starter.sql     # Database schema + seed data
+├── js/
+│   ├── admin/          # Admin-specific JS (admin.js, users.js)
+│   ├── ajax.js         # Fetch wrapper (Ajax.post / Ajax.get)
+│   ├── app.js          # Global utilities (toast, alert, setLoading)
+│   ├── auth.js         # Auth form handlers + strength meter
+│   ├── avatar.js       # Avatar upload with drag & drop + XHR progress
+│   ├── logout.js       # Logout confirmation modal
+│   ├── profile.js      # Profile edit + change password handlers
+│   ├── settings.js     # Settings page theme sync
+│   ├── sidebar.js      # Sidebar keyboard shortcut (Ctrl+B)
+│   └── theme.js        # Dark/light mode toggle
 ├── routes/
 │   ├── web.php         # Entry point — loads all route files
 │   └── web/
-│       ├── admin.php   # Admin panel routes
-│       ├── app.php     # Authenticated user routes
-│       ├── client.php  # Public/client routes
-│       └── ajax.php    # Auth pages + AJAX endpoints
+│       ├── admin/      # Admin page + AJAX routes
+│       ├── app/        # Authenticated user page + AJAX routes
+│       ├── auth/       # Auth page + AJAX routes
+│       └── client/     # Public/client page routes
 ├── storage/            # Uploads
 ├── tests/              # PHPUnit unit & feature suites
 ├── .agent/             # AI coding assistant context & prompt templates
