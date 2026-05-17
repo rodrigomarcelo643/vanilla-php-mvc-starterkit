@@ -9,27 +9,13 @@
 <?php include 'app/views/components/shared/logout-modal.php'; ?>
 
 <script>const BASE_URL = '<?= BASE_URL ?>';</script>
-<script>
-const Theme = {
-    toggle() {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        this.updateIcons(isDark);
-    },
-    updateIcons(isDark) {
-        document.getElementById('theme-icon-dark')?.classList.toggle('hidden', !isDark);
-        document.getElementById('theme-icon-light')?.classList.toggle('hidden', isDark);
-    },
-    init() { this.updateIcons(document.documentElement.classList.contains('dark')); }
-};
-document.addEventListener('DOMContentLoaded', () => Theme.init());
-</script>
-<script src="<?= BASE_URL ?>/assets/js/ajax.js"></script>
-<script src="<?= BASE_URL ?>/assets/js/app.js"></script>
-<script src="<?= BASE_URL ?>/assets/js/logout.js"></script>
-<script src="<?= BASE_URL ?>/assets/js/sidebar.js"></script>
-<script src="<?= BASE_URL ?>/assets/js/avatar.js"></script>
-<script src="<?= BASE_URL ?>/assets/js/profile.js"></script>
+<script src="<?= BASE_URL ?>/js/theme.js"></script>
+<script src="<?= BASE_URL ?>/js/ajax.js"></script>
+<script src="<?= BASE_URL ?>/js/app.js"></script>
+<script src="<?= BASE_URL ?>/js/logout.js"></script>
+<script src="<?= BASE_URL ?>/js/sidebar.js"></script>
+<script src="<?= BASE_URL ?>/js/avatar.js"></script>
+<script src="<?= BASE_URL ?>/js/profile.js"></script>
 
 </body>
 </html>
