@@ -11,7 +11,6 @@ require_once 'app/core/Session.php';
 require_once 'app/core/Auth.php';
 require_once 'app/core/Controller.php';
 require_once 'app/core/Mailer.php';
-require_once 'app/controllers/UserController.php';
 
 // ── Route Files ───────────────────────────────────────────────
 require_once 'routes/web/client.php';

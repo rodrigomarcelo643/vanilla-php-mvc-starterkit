@@ -99,15 +99,22 @@ class Router
 
     private static function call(string $controller, string $action): void
     {
-        $file = "app/controllers/{$controller}.php";
+        $candidates = [
+            "app/controllers/{$controller}.php",
+            "app/controllers/admin/{$controller}.php",
+            "app/controllers/client/{$controller}.php",
+            "app/controllers/auth/{$controller}.php",
+        ];
 
-        if (!file_exists($file)) {
-            require_once 'app/controllers/ErrorController.php';
-            (new ErrorController())->notFound();
-            return;
+        foreach ($candidates as $file) {
+            if (file_exists($file)) {
+                require_once $file;
+                (new $controller())->$action();
+                return;
+            }
         }
 
-        require_once $file;
-        (new $controller())->$action();
+        require_once 'app/controllers/ErrorController.php';
+        (new ErrorController())->notFound();
     }
 }
