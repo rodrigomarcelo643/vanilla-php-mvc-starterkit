@@ -211,6 +211,101 @@
     </div>
 </section>
 
+<!-- ── JS / AJAX / Alpine.js ────────────────────────────────── -->
+<section class="bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 py-16 sm:py-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+        <div class="max-w-xl mb-12 fade-in">
+            <p class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-3">Frontend Layer</p>
+            <h2 class="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100 leading-tight">AJAX, Alpine.js &amp; JS interactions — all wired up.</h2>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed">No build pipeline. No bundler. Just clean, readable JavaScript files that show you exactly how the frontend talks to the backend.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-200 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden mb-10">
+            <?php
+            $jsFeatures = [
+                [
+                    'title' => 'Ajax.js — Fetch Wrapper',
+                    'desc'  => 'A tiny <code>Ajax.post()</code> and <code>Ajax.get()</code> wrapper around the Fetch API. Every form submission — login, register, profile update — goes through it.',
+                    'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>',
+                    'file'  => 'js/ajax.js',
+                ],
+                [
+                    'title' => 'App.js — Global Utilities',
+                    'desc'  => 'Shared helpers used everywhere: <code>App.toast()</code> for notifications, <code>App.alert()</code> for inline errors, <code>App.setLoading()</code> for button spinners.',
+                    'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/>',
+                    'file'  => 'js/app.js',
+                ],
+                [
+                    'title' => 'Auth.js — Form Handlers',
+                    'desc'  => 'Handles login, register, forgot password, and reset password form submissions via AJAX — including a live password strength meter on the reset form.',
+                    'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>',
+                    'file'  => 'js/auth.js',
+                ],
+                [
+                    'title' => 'Avatar.js — Upload & Preview',
+                    'desc'  => 'Drag-and-drop or click-to-upload avatar with instant local preview, XHR upload progress bar, and live DOM update across topbar, sidebar, and profile card.',
+                    'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>',
+                    'file'  => 'js/avatar.js',
+                ],
+                [
+                    'title' => 'Alpine.js — Reactive UI',
+                    'desc'  => 'Used for the admin sidebar toggle, user modal (create/edit/delete), dark mode state, and global search — all via <code>x-data</code>, <code>x-show</code>, and <code>Alpine.store()</code>.',
+                    'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>',
+                    'file'  => 'Alpine.js via CDN',
+                ],
+                [
+                    'title' => 'Theme.js + Sidebar.js',
+                    'desc'  => 'Dark/light mode toggle persisted to <code>localStorage</code>. Sidebar open/close bound to Alpine state with a <kbd>Ctrl+B</kbd> keyboard shortcut.',
+                    'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>',
+                    'file'  => 'js/theme.js · js/sidebar.js',
+                ],
+            ];
+            foreach ($jsFeatures as $f): ?>
+            <div class="bg-white dark:bg-zinc-900 p-6 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors fade-in">
+                <div class="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center mb-4">
+                    <svg class="w-4 h-4 text-zinc-700 dark:text-zinc-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <?= $f['icon'] ?>
+                    </svg>
+                </div>
+                <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-1.5"><?= $f['title'] ?></h3>
+                <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3"><?= $f['desc'] ?></p>
+                <span class="inline-block font-mono text-[10px] text-zinc-400 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded"><?= $f['file'] ?></span>
+            </div>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- AJAX flow diagram -->
+        <div class="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 sm:p-8 fade-in">
+            <p class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-6">How an AJAX request flows</p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-0">
+                <?php
+                $flow = [
+                    ['User Action',      'Form submit or button click',         'bg-zinc-100 dark:bg-zinc-800'],
+                    ['Ajax.post()',      'Fetch POST with FormData + XHR header','bg-zinc-100 dark:bg-zinc-800'],
+                    ['PHP Route',        'ajax/* route → Controller method',    'bg-zinc-100 dark:bg-zinc-800'],
+                    ['JSON Response',    '{ success, message, data }',          'bg-zinc-100 dark:bg-zinc-800'],
+                    ['App.toast()',      'UI update — no page reload',          'bg-zinc-100 dark:bg-zinc-800'],
+                ];
+                foreach ($flow as $i => $step): ?>
+                <div class="flex sm:flex-col items-center gap-2 sm:gap-1 flex-1 min-w-0">
+                    <div class="<?= $step[2] ?> rounded-lg px-3 py-2.5 text-center w-full">
+                        <p class="text-xs font-semibold text-zinc-900 dark:text-zinc-100"><?= $step[0] ?></p>
+                        <p class="text-[10px] text-zinc-500 dark:text-zinc-400 mt-0.5 leading-snug"><?= $step[1] ?></p>
+                    </div>
+                    <?php if ($i < count($flow) - 1): ?>
+                    <svg class="w-4 h-4 text-zinc-300 dark:text-zinc-700 flex-shrink-0 rotate-90 sm:rotate-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                    </svg>
+                    <?php endif; ?>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+    </div>
+</section>
+
 <!-- ── CTA ───────────────────────────────────────────────────── -->
 <section class="bg-zinc-950 py-16 sm:py-20">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center fade-in">
