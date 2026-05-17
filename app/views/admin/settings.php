@@ -14,15 +14,10 @@
                 <p class="text-sm font-medium text-zinc-900 dark:text-zinc-100">Dark mode</p>
                 <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Switch between light and dark theme</p>
             </div>
-            <button onclick="Theme.toggle()" class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium border border-zinc-200 dark:border-zinc-700 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 transition-colors">
-                <svg id="admin-settings-theme-icon-dark" class="w-3.5 h-3.5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
-                </svg>
-                <svg id="admin-settings-theme-icon-light" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-                </svg>
-                <span id="admin-settings-theme-label">Dark mode</span>
-            </button>
+            <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="admin-settings-theme-toggle" class="sr-only peer" onchange="Theme.toggle()">
+                <div class="w-11 h-6 bg-zinc-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-indigo-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+            </label>
         </div>
     </div>
 
@@ -79,20 +74,13 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const isDark = document.documentElement.classList.contains('dark');
-    document.getElementById('admin-settings-theme-icon-dark')?.classList.toggle('hidden', !isDark);
-    document.getElementById('admin-settings-theme-icon-light')?.classList.toggle('hidden', isDark);
-    const lbl = document.getElementById('admin-settings-theme-label');
-    if (lbl) lbl.textContent = isDark ? 'Light mode' : 'Dark mode';
+    const toggle = document.getElementById('admin-settings-theme-toggle');
+    if (toggle) toggle.checked = document.documentElement.classList.contains('dark');
 
     const _toggle = Theme.toggle.bind(Theme);
     Theme.toggle = function() {
         _toggle();
-        const dark = document.documentElement.classList.contains('dark');
-        document.getElementById('admin-settings-theme-icon-dark')?.classList.toggle('hidden', !dark);
-        document.getElementById('admin-settings-theme-icon-light')?.classList.toggle('hidden', dark);
-        const l = document.getElementById('admin-settings-theme-label');
-        if (l) l.textContent = dark ? 'Light mode' : 'Dark mode';
+        if (toggle) toggle.checked = document.documentElement.classList.contains('dark');
     };
 });
 </script>
