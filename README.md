@@ -43,6 +43,25 @@ Backed by PHPUnit with 77 tests across unit and feature suites, GitHub Actions w
 
 ---
 
+## 🖼️ Screenshots
+
+<div align="center">
+
+**Home**
+![Home](public/starter_home.png)
+
+**Login**
+![Login](public/starter_login.png)
+
+**Sign Up**
+![Sign Up](public/starter_signup.png)
+
+</div>
+
+> See all screenshots in [SCREENSHOTS.md](SCREENSHOTS.md)
+
+---
+
 ## 📁 Project Structure
 
 ```
