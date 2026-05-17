@@ -56,7 +56,7 @@
                                 <input type="password" name="password" id="register-password"
                                     class="w-full h-10 px-3.5 pr-10 text-sm border border-zinc-300 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400
                                            focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-400 focus:border-transparent transition"
-                                    placeholder="Min. 6 characters" required>
+                                    placeholder="Create a strong password" required>
                                 <button type="button" onclick="Auth.togglePassword('register-password', this)"
                                     class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -65,6 +65,37 @@
                                     </svg>
                                 </button>
                             </div>
+                            <!-- Strength meter -->
+                            <div class="space-y-1.5 pt-1">
+                                <div class="flex gap-1">
+                                    <div id="reg-str-1" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
+                                    <div id="reg-str-2" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
+                                    <div id="reg-str-3" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
+                                    <div id="reg-str-4" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span id="reg-str-label" class="text-xs text-zinc-400"></span>
+                                    <span id="reg-str-hint" class="text-[10px] text-zinc-400 dark:text-zinc-500">Use 8+ chars, uppercase, numbers &amp; symbols</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Confirm password</label>
+                            <div class="relative">
+                                <input type="password" name="password_confirm" id="register-confirm"
+                                    class="w-full h-10 px-3.5 pr-10 text-sm border border-zinc-300 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400
+                                           focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-400 focus:border-transparent transition"
+                                    placeholder="Re-enter your password" required>
+                                <button type="button" onclick="Auth.togglePassword('register-confirm', this)"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <p id="reg-confirm-hint" class="hidden text-xs text-red-500 mt-1">Passwords do not match.</p>
                         </div>
                     </div>
 
