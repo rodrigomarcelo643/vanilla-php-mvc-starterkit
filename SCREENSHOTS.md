@@ -1,4 +1,4 @@
-# Screenshots
+# Starter Kit Modules Visual
 
 A full visual tour of the PHP Vanilla MVC Starter Kit.
 
@@ -13,7 +13,7 @@ A full visual tour of the PHP Vanilla MVC Starter Kit.
 
 ## Authentication
 
-**Login**
+**Sign In**
 ![Login](public/starter_login.png)
 
 **Sign Up**
