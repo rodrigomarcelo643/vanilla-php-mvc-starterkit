@@ -6,20 +6,12 @@
             <?php
             $githubRepo = 'rodrigomarcelo643/php-vanilla-mvc-starterkit';
             $githubUrl  = 'https://github.com/' . $githubRepo;
-            $apiUrl     = 'https://api.github.com/repos/' . $githubRepo;
-            $stars      = '—';
-            $ctx = stream_context_create(['http' => ['timeout' => 3, 'header' => "User-Agent: PHP\r\n"]]);
-            $json = @file_get_contents($apiUrl, false, $ctx);
-            if ($json) {
-                $data  = json_decode($json, true);
-                $count = $data['stargazers_count'] ?? 0;
-                $stars = $count >= 1000 ? round($count / 1000, 1) . 'k' : $count;
-            }
+            $stars      = github_stars($githubRepo);
             ?>
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-700 text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-7">
                 <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                v1.0 &mdash; Open source & free
+                v1.0 &mdash; Free for beginners
                 <span class="w-px h-3 bg-zinc-300"></span>
                 <a href="<?= $githubUrl ?>" target="_blank" class="inline-flex items-center gap-1 text-zinc-900 dark:text-zinc-100 hover:underline underline-offset-2">
                     <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
@@ -33,13 +25,12 @@
             </div>
 
             <h1 class="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold text-zinc-900 dark:text-zinc-100 leading-[1.15] tracking-tight mb-5">
-                The PHP starter kit<br>
-                <span class="text-zinc-400 dark:text-zinc-500">built for developers.</span>
+                Learn PHP the right way —<br>
+                <span class="text-zinc-400 dark:text-zinc-500">before you touch Laravel.</span>
             </h1>
 
             <p class="text-base sm:text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed mb-8 max-w-xl mx-auto">
-                A clean MVC foundation with Tailwind CSS, AJAX, session auth, and a full admin panel.
-                Start building in minutes, not hours.
+                A beginner-friendly PHP MVC starter kit that teaches you how routing, controllers, models, and views actually work — so Laravel feels natural when you get there.
             </p>
 
             <div class="flex flex-wrap items-center justify-center gap-3">
@@ -61,7 +52,7 @@
 
             <!-- Social proof -->
             <div class="flex flex-wrap items-center justify-center gap-5 mt-10 pt-8 border-t border-zinc-100 dark:border-zinc-800">
-                <?php foreach ([[$stars,'GitHub Stars'],['PHP 8+','Required'],['Composer','Powered']] as $s): ?>
+                <?php foreach ([[$stars,'GitHub Stars'],['Laravel-ready','MVC Patterns'],['Zero Frameworks','Pure PHP 8+']] as $s): ?>
                 <div>
                     <p class="text-sm font-semibold text-zinc-900 dark:text-zinc-100"><?= $s[0] ?></p>
                     <p class="text-xs text-zinc-400"><?= $s[1] ?></p>
@@ -76,7 +67,7 @@
 <div class="border-y border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900" style="overflow:hidden;padding:10px 0">
     <div class="marquee-track" style="display:flex;flex-direction:row;align-items:center;gap:2.5rem;width:max-content;white-space:nowrap">
         <?php
-        $marqueeItems = ['PHP MVC Starter Kit v1.0', 'Tailwind CSS + Alpine.js', 'Session Auth built-in', 'Full Admin Panel', 'AJAX Ready', 'Fully Responsive', 'Open Source & Free', 'Composer Ready', 'PHP 8+'];
+        $marqueeItems = ['Beginner Friendly', 'PHP MVC Starter Kit v1.0', 'Laravel Preparation', 'Tailwind CSS + Alpine.js', 'Session Auth built-in', 'Full Admin Panel', 'AJAX Ready', 'Fully Responsive', 'Open Source & Free', 'Composer Ready', 'PHP 8+', 'Understand MVC First'];
         $all = array_merge($marqueeItems, $marqueeItems);
         foreach ($all as $mi): ?>
         <span style="display:inline-flex;align-items:center;gap:8px;color:#a1a1aa;font-size:12px;font-weight:500;flex-shrink:0">
@@ -93,8 +84,8 @@
 
         <div class="max-w-xl mb-12 fade-in">
             <p class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-3">Features</p>
-            <h2 class="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100 leading-tight">Everything included,<br>nothing unnecessary.</h2>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed">A carefully selected set of tools and patterns to get you productive immediately.</p>
+            <h2 class="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100 leading-tight">Everything a beginner needs,<br>nothing to overwhelm you.</h2>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed">Learn the patterns Laravel uses — routing, MVC, auth, env config — without the magic hiding how it works.</p>
         </div>
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-200 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden">
@@ -102,37 +93,37 @@
             $features = [
                 [
                     'title' => 'MVC Architecture',
-                    'desc'  => 'Controllers, Models, Views — clean separation of concerns out of the box.',
+                    'desc'  => 'Understand Controllers, Models, and Views hands-on — the same pattern Laravel is built on.',
                     'svg'   => '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
                     'fill'  => true,
                 ],
                 [
                     'title' => 'Session Auth',
-                    'desc'  => 'Login, register, and logout with secure PHP sessions and bcrypt passwords.',
+                    'desc'  => 'Build login, register, and logout from scratch — so you know what Laravel Auth does under the hood.',
                     'svg'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 11h14l1 9H4l1-9z"/>',
                     'fill'  => false,
                 ],
                 [
                     'title' => 'Admin Dashboard',
-                    'desc'  => 'Full admin panel with collapsible sidebar, topbar, and data tables.',
+                    'desc'  => 'A real-world admin panel with sidebar, topbar, and data tables — not just a tutorial toy.',
                     'svg'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 6h18M3 14h12M3 18h8"/>',
                     'fill'  => false,
                 ],
                 [
-                    'title' => 'AJAX Helpers',
-                    'desc'  => 'Lightweight fetch wrappers for POST/GET with JSON responses built in.',
+                    'title' => 'Routing from Scratch',
+                    'desc'  => 'See exactly how URL routing works before Laravel\'s Route::get() abstracts it away.',
                     'svg'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>',
                     'fill'  => false,
                 ],
                 [
                     'title' => 'Tailwind CSS',
-                    'desc'  => 'Utility-first styling via CDN — no build step required.',
+                    'desc'  => 'Utility-first styling via CDN — no build step, so you focus on PHP not tooling.',
                     'svg'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6C9.6 6 8.1 7.2 7.5 9.6c.9-1.2 1.95-1.65 3.15-1.35.685.171 1.174.668 1.715 1.219C13.24 10.39 14.205 11.4 16.5 11.4c2.4 0 3.9-1.2 4.5-3.6-.9 1.2-1.95 1.65-3.15 1.35-.685-.171-1.174-.668-1.715-1.219C15.26 7.011 14.295 6 12 6zm-4.5 5.4C5.1 11.4 3.6 12.6 3 15c.9-1.2 1.95-1.65 3.15-1.35.685.171 1.174.668 1.715 1.219C8.74 15.79 9.705 16.8 12 16.8c2.4 0 3.9-1.2 4.5-3.6-.9 1.2-1.95 1.65-3.15 1.35-.685-.171-1.174-.668-1.715-1.219C10.76 12.411 9.795 11.4 7.5 11.4z"/>',
                     'fill'  => false,
                 ],
                 [
-                    'title' => 'Composer Ready',
-                    'desc'  => 'PHPMailer, PHPUnit, and more — managed via Composer with a clean composer.json.',
+                    'title' => 'Laravel-Ready Patterns',
+                    'desc'  => 'Every pattern here — models, controllers, env config — maps directly to how Laravel works.',
                     'svg'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>',
                     'fill'  => false,
                 ],
@@ -157,14 +148,14 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
         <div class="max-w-xl mb-12 fade-in">
             <p class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-3">How it works</p>
-            <h2 class="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100">Up and running in 3 steps.</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100">From zero to Laravel-ready in 3 steps.</h2>
         </div>
         <div class="grid sm:grid-cols-3 gap-6">
             <?php
             $steps = [
-                ['01', 'Clone the repo',   'Download or clone the project into your htdocs folder.',    '<path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>'],
-                ['02', 'Import the DB',    'Run the SQL file in phpMyAdmin to set up your database.',   '<ellipse cx="12" cy="5" rx="9" ry="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 5v14c0 1.657 4.03 3 9 3s9-1.343 9-3V5M3 12c0 1.657 4.03 3 9 3s9-1.343 9-3"/>'],
-                ['03', 'Start building',   'Visit localhost and start customizing for your project.',   '<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>'],
+                ['01', 'Clone & install',     'Drop it in your htdocs, run composer install, import the SQL — done.',              '<path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>'],
+                ['02', 'Read the code',        'Every file is readable and commented. No magic, no black boxes — just PHP.',         '<ellipse cx="12" cy="5" rx="9" ry="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 5v14c0 1.657 4.03 3 9 3s9-1.343 9-3V5M3 12c0 1.657 4.03 3 9 3s9-1.343 9-3"/>'],
+                ['03', 'Graduate to Laravel',  'Once you understand MVC from scratch, Laravel\'s conventions will click immediately.', '<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>'],
             ];
             foreach ($steps as $s): ?>
             <div class="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 fade-in">
@@ -223,10 +214,10 @@
 <!-- ── CTA ───────────────────────────────────────────────────── -->
 <section class="bg-zinc-950 py-16 sm:py-20">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center fade-in">
-        <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-4">Get started today</p>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to build something great?</h2>
+        <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-4">Start learning today</p>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Understand PHP before the framework does it for you.</h2>
         <p class="text-sm text-zinc-400 mb-8 leading-relaxed">
-            Create your free account and start building. No credit card required.
+            Most beginners jump straight into Laravel without knowing what's happening underneath. Start here — build real features in vanilla PHP, then Laravel will make complete sense.
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
             <a href="<?= BASE_URL ?>/register"
