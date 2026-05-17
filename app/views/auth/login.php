@@ -27,7 +27,7 @@
                     <div class="w-8 h-8 rounded-full bg-zinc-700 flex items-center justify-center text-white text-xs font-bold">S</div>
                     <div>
                         <p class="text-sm font-medium text-white">Starter Kit</p>
-                        <p class="text-xs text-zinc-500">PHP MVC Framework</p>
+                        <p class="text-xs text-zinc-500">PHP MVC Starter Kit</p>
                     </div>
                 </div>
             </blockquote>
@@ -35,14 +35,7 @@
 
         <!-- Bottom stats -->
         <?php
-        $loginStars = '—';
-        $ctx = stream_context_create(['http' => ['timeout' => 3, 'header' => "User-Agent: PHP\r\n"]]);
-        $json = @file_get_contents('https://api.github.com/repos/rodrigomarcelo643/php-vanilla-mvc-starterkit', false, $ctx);
-        if ($json) {
-            $d = json_decode($json, true);
-            $c = $d['stargazers_count'] ?? 0;
-            $loginStars = $c >= 1000 ? round($c / 1000, 1) . 'k' : $c;
-        }
+        $loginStars = github_stars('rodrigomarcelo643/php-vanilla-mvc-starterkit');
         ?>
         <div class="flex items-center gap-8 relative z-10">
             <?php foreach ([[$loginStars,'GitHub Stars'],['PHP 8+','Required']] as $s): ?>
