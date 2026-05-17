@@ -35,8 +35,57 @@ if (loginForm) {
 // ── Register ──────────────────────────────────────────────────
 const registerForm = document.getElementById('register-form');
 if (registerForm) {
+    const regPassword = document.getElementById('register-password');
+    const regConfirm  = document.getElementById('register-confirm');
+    const regHint     = document.getElementById('reg-confirm-hint');
+
+    const strColors = ['bg-zinc-200', 'bg-red-400', 'bg-amber-400', 'bg-blue-400', 'bg-green-500'];
+    const strLabels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+    const strClass  = ['text-zinc-400', 'text-red-500', 'text-amber-500', 'text-blue-500', 'text-green-600'];
+
+    function calcStrength(val) {
+        let score = 0;
+        if (val.length >= 8)                          score++;
+        if (val.length >= 12)                         score++;
+        if (/[A-Z]/.test(val) && /[a-z]/.test(val))  score++;
+        if (/[0-9]/.test(val))                        score++;
+        if (/[^A-Za-z0-9]/.test(val))                 score++;
+        return Math.min(4, score);
+    }
+
+    if (regPassword) {
+        regPassword.addEventListener('input', () => {
+            const level = calcStrength(regPassword.value);
+            [1, 2, 3, 4].forEach((n, i) => {
+                document.getElementById('reg-str-' + n).className =
+                    'h-1 flex-1 rounded-full transition-colors duration-300 ' +
+                    (i < level ? strColors[level] : 'bg-zinc-200 dark:bg-zinc-700');
+            });
+            const lbl = document.getElementById('reg-str-label');
+            lbl.textContent = strLabels[level];
+            lbl.className   = 'text-xs transition-colors ' + strClass[level];
+        });
+    }
+
+    if (regConfirm) {
+        regConfirm.addEventListener('input', () => {
+            const mismatch = regConfirm.value && regConfirm.value !== regPassword.value;
+            regHint.classList.toggle('hidden', !mismatch);
+        });
+    }
+
     registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        if (regPassword.value !== regConfirm.value) {
+            App.alert('register-alert', 'Passwords do not match.', 'error');
+            return;
+        }
+        if (calcStrength(regPassword.value) < 2) {
+            App.alert('register-alert', 'Password is too weak. Add uppercase, numbers, or symbols.', 'error');
+            return;
+        }
+
         App.setLoading('register-btn', 'register-spinner', true);
         try {
             const res = await Ajax.post(BASE_URL + '/ajax/register', new FormData(registerForm));
