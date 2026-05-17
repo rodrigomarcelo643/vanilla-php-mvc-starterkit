@@ -69,8 +69,11 @@ if (registerForm) {
 
     if (regConfirm) {
         regConfirm.addEventListener('input', () => {
-            const mismatch = regConfirm.value && regConfirm.value !== regPassword.value;
-            regHint.classList.toggle('hidden', !mismatch);
+            if (!regConfirm.value) { regHint.classList.add('hidden'); return; }
+            const match = regConfirm.value === regPassword.value;
+            regHint.classList.remove('hidden');
+            regHint.textContent = match ? '✓ Passwords match' : '✗ Passwords do not match';
+            regHint.className   = 'text-xs mt-1 ' + (match ? 'text-green-600' : 'text-red-500');
         });
     }
 

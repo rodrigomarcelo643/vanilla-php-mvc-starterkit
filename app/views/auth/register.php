@@ -66,18 +66,13 @@
                                 </button>
                             </div>
                             <!-- Strength meter -->
-                            <div class="space-y-1.5 pt-1">
-                                <div class="flex gap-1">
-                                    <div id="reg-str-1" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
-                                    <div id="reg-str-2" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
-                                    <div id="reg-str-3" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
-                                    <div id="reg-str-4" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <span id="reg-str-label" class="text-xs text-zinc-400"></span>
-                                    <span id="reg-str-hint" class="text-[10px] text-zinc-400 dark:text-zinc-500">Use 8+ chars, uppercase, numbers &amp; symbols</span>
-                                </div>
+                            <div class="flex gap-1 mt-2">
+                                <div id="reg-str-1" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
+                                <div id="reg-str-2" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
+                                <div id="reg-str-3" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
+                                <div id="reg-str-4" class="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-700 transition-colors duration-300"></div>
                             </div>
+                            <p id="reg-str-label" class="text-xs text-zinc-400 dark:text-zinc-500 mt-1"></p>
                         </div>
 
                         <div class="space-y-1.5">
@@ -95,7 +90,8 @@
                                     </svg>
                                 </button>
                             </div>
-                            <p id="reg-confirm-hint" class="hidden text-xs text-red-500 mt-1">Passwords do not match.</p>
+                            <!-- Match indicator -->
+                            <p id="reg-confirm-hint" class="hidden text-xs mt-1"></p>
                         </div>
                     </div>
 
