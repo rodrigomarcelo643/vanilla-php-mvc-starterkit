@@ -10,13 +10,22 @@ class DashboardController extends Controller
         }
         require_once 'app/models/User.php';
         $userModel   = new User();
-        $totalUsers  = $userModel->count();
-        $recentUsers = array_slice($userModel->getAll(), 0, 5);
+        $allUsers    = $userModel->getAll();
+        $totalUsers  = count($allUsers);
+        $activeUsers = count(array_filter($allUsers, fn($u) => $u['status'] === 'active'));
+        $inactiveUsers = $totalUsers - $activeUsers;
+        $newThisMonth  = count(array_filter($allUsers, fn($u) =>
+            date('Y-m', strtotime($u['created_at'])) === date('Y-m')
+        ));
+        $recentUsers = array_slice($allUsers, 0, 5);
 
         $this->admin('admin/dashboard', [
-            'title'       => 'Dashboard',
-            'totalUsers'  => $totalUsers,
-            'recentUsers' => $recentUsers,
+            'title'        => 'Dashboard',
+            'totalUsers'   => $totalUsers,
+            'activeUsers'  => $activeUsers,
+            'inactiveUsers'=> $inactiveUsers,
+            'newThisMonth' => $newThisMonth,
+            'recentUsers'  => $recentUsers,
         ]);
     }
 
