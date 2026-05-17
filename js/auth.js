@@ -53,28 +53,36 @@ if (registerForm) {
         return Math.min(4, score);
     }
 
+    function updateStrength(val) {
+        const level = calcStrength(val);
+        [1, 2, 3, 4].forEach((n, i) => {
+            const el = document.getElementById('reg-str-' + n);
+            if (el) el.className = 'h-1 flex-1 rounded-full transition-colors duration-300 ' + (i < level ? strColors[level] : 'bg-zinc-200 dark:bg-zinc-700');
+        });
+        const lbl = document.getElementById('reg-str-label');
+        if (lbl) { lbl.textContent = strLabels[level]; lbl.className = 'text-xs transition-colors ' + strClass[level]; }
+    }
+
+    function updateConfirmMatch() {
+        if (!regConfirm || !regPassword) return;
+        if (!regConfirm.value) { if (regHint) regHint.classList.add('hidden'); return; }
+        const match = regConfirm.value === regPassword.value;
+        if (regHint) {
+            regHint.classList.remove('hidden');
+            regHint.textContent = match ? '✓ Passwords match' : '✗ Passwords do not match';
+            regHint.className   = 'text-xs mt-1 ' + (match ? 'text-green-600' : 'text-red-500');
+        }
+    }
+
     if (regPassword) {
         regPassword.addEventListener('input', () => {
-            const level = calcStrength(regPassword.value);
-            [1, 2, 3, 4].forEach((n, i) => {
-                document.getElementById('reg-str-' + n).className =
-                    'h-1 flex-1 rounded-full transition-colors duration-300 ' +
-                    (i < level ? strColors[level] : 'bg-zinc-200 dark:bg-zinc-700');
-            });
-            const lbl = document.getElementById('reg-str-label');
-            lbl.textContent = strLabels[level];
-            lbl.className   = 'text-xs transition-colors ' + strClass[level];
+            updateStrength(regPassword.value);
+            updateConfirmMatch();
         });
     }
 
     if (regConfirm) {
-        regConfirm.addEventListener('input', () => {
-            if (!regConfirm.value) { regHint.classList.add('hidden'); return; }
-            const match = regConfirm.value === regPassword.value;
-            regHint.classList.remove('hidden');
-            regHint.textContent = match ? '✓ Passwords match' : '✗ Passwords do not match';
-            regHint.className   = 'text-xs mt-1 ' + (match ? 'text-green-600' : 'text-red-500');
-        });
+        regConfirm.addEventListener('input', () => updateConfirmMatch());
     }
 
     registerForm.addEventListener('submit', async (e) => {
