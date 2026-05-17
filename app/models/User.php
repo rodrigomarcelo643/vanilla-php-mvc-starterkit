@@ -4,7 +4,7 @@ class User extends Model
 {
     public function getAll()
     {
-        return $this->db->query("SELECT id, name, email, role, status, created_at FROM users ORDER BY created_at DESC")
+        return $this->db->query("SELECT id, name, email, role, status, avatar, created_at FROM users ORDER BY created_at DESC")
                         ->fetchAll(PDO::FETCH_ASSOC);
     }
 
