@@ -32,7 +32,7 @@
                         <li>
                             <a href="#<?= $id ?>"
                                @click="active = '<?= $id ?>'"
-                               :class="active === '<?= $id ?>' ? 'bg-zinc-100 text-zinc-900 font-medium' : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'"
+                               :class="active === '<?= $id ?>' ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-medium' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-800'"
                                class="block px-2 py-1.5 text-sm rounded-md transition-colors">
                                 <?= $item ?>
                             </a>
@@ -48,18 +48,18 @@
         <div class="flex-1 min-w-0 max-w-2xl">
 
             <!-- Page header -->
-            <div id="introduction" class="mb-10 pb-8 border-b border-zinc-200">
+            <div id="introduction" class="mb-10 pb-8 border-b border-zinc-200 dark:border-zinc-800">
                 <p class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-2">Documentation</p>
-                <h1 class="text-3xl font-bold text-zinc-900 mb-3">Introduction</h1>
-                <p class="text-base text-zinc-500 leading-relaxed">
+                <h1 class="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Introduction</h1>
+                <p class="text-base text-zinc-500 dark:text-zinc-400 leading-relaxed">
                     Welcome to the <?= APP_NAME ?> documentation. This guide covers everything you need to get up and running.
                 </p>
             </div>
 
             <!-- Section: Installation -->
-            <div id="installation" class="mb-10 pb-10 border-b border-zinc-100">
-                <h2 class="text-xl font-bold text-zinc-900 mb-4">Installation</h2>
-                <p class="text-sm text-zinc-500 leading-relaxed mb-5">
+            <div id="installation" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-5">
                     Get up and running in minutes. You'll need PHP 8.0+, MySQL 5.7+, Apache with mod_rewrite, and Composer.
                 </p>
 
@@ -67,7 +67,7 @@
                 <div class="mb-6">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">1</span>
-                        <h3 class="text-sm font-semibold text-zinc-900">Clone the repository</h3>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Clone the repository</h3>
                     </div>
                     <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
                         <p><span class="text-zinc-500"># Place inside your web root</span></p>
@@ -79,32 +79,32 @@
                 <div class="mb-6">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">2</span>
-                        <h3 class="text-sm font-semibold text-zinc-900">Install dependencies</h3>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Install dependencies</h3>
                     </div>
                     <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
                         <p>composer install</p>
                     </div>
-                    <p class="text-xs text-zinc-400 mt-2">This installs PHPMailer, PHPUnit, and other packages defined in <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 font-mono">composer.json</code>.</p>
+                    <p class="text-xs text-zinc-400 mt-2">This installs PHPMailer, PHPUnit, and other packages defined in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">composer.json</code>.</p>
                 </div>
 
                 <!-- Step 3 -->
                 <div class="mb-6">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">3</span>
-                        <h3 class="text-sm font-semibold text-zinc-900">Import the database</h3>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Import the database</h3>
                     </div>
                     <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
                         <p><span class="text-zinc-500"># Open phpMyAdmin</span></p>
                         <p>Import → database/starter.sql</p>
                     </div>
-                    <p class="text-xs text-zinc-400 mt-2">Creates the <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 font-mono">starter</code> database with all tables and seed data including default admin and user accounts.</p>
+                    <p class="text-xs text-zinc-400 mt-2">Creates the <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">starter</code> database with all tables and seed data including default admin and user accounts.</p>
                 </div>
 
                 <!-- Step 4 -->
                 <div class="mb-6">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">4</span>
-                        <h3 class="text-sm font-semibold text-zinc-900">Configure environment</h3>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Configure environment</h3>
                     </div>
                     <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
                         <p><span class="text-zinc-500"># Copy the example file</span></p>
@@ -123,7 +123,7 @@
                 <div class="mb-4">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">5</span>
-                        <h3 class="text-sm font-semibold text-zinc-900">Visit the app</h3>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Visit the app</h3>
                     </div>
                     <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
                         <p>http://localhost/your-folder-path</p>
@@ -131,27 +131,27 @@
                 </div>
 
                 <!-- Default credentials -->
-                <div class="mt-5 bg-zinc-50 border border-zinc-200 rounded-xl p-4">
-                    <p class="text-xs font-semibold text-zinc-700 mb-3">Default credentials</p>
+                <div class="mt-5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4">
+                    <p class="text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-3">Default credentials</p>
                     <div class="grid grid-cols-3 gap-2 text-xs">
                         <span class="font-medium text-zinc-500">Role</span>
                         <span class="font-medium text-zinc-500">Email</span>
                         <span class="font-medium text-zinc-500">Password</span>
-                        <span class="text-zinc-900">Admin</span>
-                        <span class="text-zinc-700 font-mono">admin@starter.com</span>
-                        <span class="text-zinc-700 font-mono">password</span>
-                        <span class="text-zinc-900">User</span>
-                        <span class="text-zinc-700 font-mono">alice@example.com</span>
-                        <span class="text-zinc-700 font-mono">password</span>
+                        <span class="text-zinc-900 dark:text-zinc-100">Admin</span>
+                        <span class="text-zinc-700 dark:text-zinc-300 font-mono">admin@starter.com</span>
+                        <span class="text-zinc-700 dark:text-zinc-300 font-mono">password</span>
+                        <span class="text-zinc-900 dark:text-zinc-100">User</span>
+                        <span class="text-zinc-700 dark:text-zinc-300 font-mono">alice@example.com</span>
+                        <span class="text-zinc-700 dark:text-zinc-300 font-mono">password</span>
                     </div>
                 </div>
             </div>
 
             <!-- Section: Configuration -->
-            <div id="configuration" class="mb-10 pb-10 border-b border-zinc-100">
-                <h2 class="text-xl font-bold text-zinc-900 mb-4">Configuration</h2>
-                <p class="text-sm text-zinc-500 leading-relaxed mb-5">
-                    All configuration is driven by the <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">.env</code> file. Never hardcode credentials — always use <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">$_ENV['KEY']</code>.
+            <div id="configuration" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Configuration</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-5">
+                    All configuration is driven by the <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">.env</code> file. Never hardcode credentials — always use <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">$_ENV['KEY']</code>.
                 </p>
 
                 <div class="space-y-4">
@@ -162,8 +162,8 @@
                         ['app/config/mail.php',     'MAIL_HOST, MAIL_USER, MAIL_PASS — SMTP for password reset'],
                     ];
                     foreach ($configs as $c): ?>
-                    <div class="flex items-start gap-3 p-3 bg-zinc-50 border border-zinc-200 rounded-lg">
-                        <code class="text-xs font-mono text-zinc-700 shrink-0"><?= $c[0] ?></code>
+                    <div class="flex items-start gap-3 p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                        <code class="text-xs font-mono text-zinc-700 dark:text-zinc-300 shrink-0"><?= $c[0] ?></code>
                         <span class="text-xs text-zinc-400"><?= $c[1] ?></span>
                     </div>
                     <?php endforeach; ?>
@@ -178,10 +178,10 @@
             </div>
 
             <!-- Section: Routing -->
-            <div id="routing" class="mb-10 pb-10 border-b border-zinc-100">
-                <h2 class="text-xl font-bold text-zinc-900 mb-4">Routing</h2>
-                <p class="text-sm text-zinc-500 leading-relaxed mb-4">
-                    Routes are split across four files inside <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">routes/web/</code> and loaded by <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">routes/web.php</code>.
+            <div id="routing" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Routing</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+                    Routes are split across four files inside <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">routes/web/</code> and loaded by <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">routes/web.php</code>.
                 </p>
 
                 <div class="grid grid-cols-2 gap-2 mb-5">
@@ -191,8 +191,8 @@
                         ['app.php',    'app/',    'Authenticated users'],
                         ['ajax.php',   'ajax/',   'AJAX endpoints'],
                     ] as $r): ?>
-                    <div class="p-3 bg-zinc-50 border border-zinc-200 rounded-lg">
-                        <code class="text-xs font-mono text-zinc-700"><?= $r[0] ?></code>
+                    <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                        <code class="text-xs font-mono text-zinc-700 dark:text-zinc-300"><?= $r[0] ?></code>
                         <p class="text-xs text-zinc-400 mt-0.5"><span class="font-mono"><?= $r[1] ?></span> — <?= $r[2] ?></p>
                     </div>
                     <?php endforeach; ?>
@@ -213,10 +213,10 @@
             </div>
 
             <!-- Section: Controllers -->
-            <div id="controllers" class="mb-10 pb-10 border-b border-zinc-100">
-                <h2 class="text-xl font-bold text-zinc-900 mb-4">Controllers</h2>
-                <p class="text-sm text-zinc-500 leading-relaxed mb-4">
-                    Controllers live in <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">app/controllers/</code>, extend the base <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">Controller</code> class, and use panel render helpers to load views.
+            <div id="controllers" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Controllers</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+                    Controllers live in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">app/controllers/</code>, extend the base <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">Controller</code> class, and use panel render helpers to load views.
                 </p>
 
                 <div class="grid grid-cols-2 gap-2 mb-5">
@@ -226,8 +226,8 @@
                         ['$this->admin()',  'Renders an admin panel view'],
                         ['$this->auth()',   'Renders a login/register view'],
                     ] as $m): ?>
-                    <div class="p-3 bg-zinc-50 border border-zinc-200 rounded-lg">
-                        <code class="text-xs font-mono text-zinc-700"><?= $m[0] ?></code>
+                    <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                        <code class="text-xs font-mono text-zinc-700 dark:text-zinc-300"><?= $m[0] ?></code>
                         <p class="text-xs text-zinc-400 mt-0.5"><?= $m[1] ?></p>
                     </div>
                     <?php endforeach; ?>
@@ -243,14 +243,14 @@
                     <p class="pl-4">}</p>
                     <p>}</p>
                 </div>
-                <p class="text-xs text-zinc-400 mt-3">File naming convention: <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 font-mono">PascalCaseController.php</code></p>
+                <p class="text-xs text-zinc-400 mt-3">File naming convention: <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">PascalCaseController.php</code></p>
             </div>
 
             <!-- Section: Models -->
-            <div id="models" class="mb-10 pb-10 border-b border-zinc-100">
-                <h2 class="text-xl font-bold text-zinc-900 mb-4">Models</h2>
-                <p class="text-sm text-zinc-500 leading-relaxed mb-4">
-                    Models live in <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">app/models/</code> and extend the base <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">Model</code> class which provides PDO access.
+            <div id="models" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Models</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+                    Models live in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">app/models/</code> and extend the base <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">Model</code> class which provides PDO access.
                 </p>
                 <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
                     <p><span class="text-blue-400">class</span> <span class="text-green-400">Post</span> <span class="text-blue-400">extends</span> Model {</p>
@@ -269,10 +269,10 @@
             </div>
 
             <!-- Section: Views -->
-            <div id="views" class="mb-10 pb-10 border-b border-zinc-100">
-                <h2 class="text-xl font-bold text-zinc-900 mb-4">Views</h2>
-                <p class="text-sm text-zinc-500 leading-relaxed mb-4">
-                    Views are plain PHP files in <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">app/views/</code>, organized by panel. Each panel has its own layout (header + footer) and components.
+            <div id="views" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Views</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+                    Views are plain PHP files in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">app/views/</code>, organized by panel. Each panel has its own layout (header + footer) and components.
                 </p>
                 <div class="grid grid-cols-2 gap-2 mb-5">
                     <?php foreach ([
@@ -283,20 +283,20 @@
                         ['app/views/layouts/',    'Header & footer per panel'],
                         ['app/views/components/', 'Shared UI components'],
                     ] as $v): ?>
-                    <div class="p-3 bg-zinc-50 border border-zinc-200 rounded-lg">
-                        <code class="text-xs font-mono text-zinc-700"><?= $v[0] ?></code>
+                    <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                        <code class="text-xs font-mono text-zinc-700 dark:text-zinc-300"><?= $v[0] ?></code>
                         <p class="text-xs text-zinc-400 mt-0.5"><?= $v[1] ?></p>
                     </div>
                     <?php endforeach; ?>
                 </div>
-                <p class="text-xs text-zinc-400">Always sanitize output with <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 font-mono">htmlspecialchars()</code>. File naming: <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 font-mono">snake_case.php</code>.</p>
+                <p class="text-xs text-zinc-400">Always sanitize output with <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">htmlspecialchars()</code>. File naming: <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">snake_case.php</code>.</p>
             </div>
 
             <!-- Section: Authentication -->
-            <div id="authentication" class="mb-10 pb-10 border-b border-zinc-100">
-                <h2 class="text-xl font-bold text-zinc-900 mb-4">Authentication</h2>
-                <p class="text-sm text-zinc-500 leading-relaxed mb-4">
-                    Auth is session-based via <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">app/core/Auth.php</code>. Passwords are hashed with bcrypt.
+            <div id="authentication" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Authentication</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+                    Auth is session-based via <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">app/core/Auth.php</code>. Passwords are hashed with bcrypt.
                 </p>
                 <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1 mb-4">
                     <p><span class="text-zinc-500">// Check if logged in</span></p>
@@ -313,8 +313,8 @@
                         ['Forgot password', '/forgot-password'],
                         ['Reset password',  '/reset-password'],
                     ] as $a): ?>
-                    <div class="flex items-center justify-between p-3 bg-zinc-50 border border-zinc-200 rounded-lg">
-                        <span class="text-xs text-zinc-700"><?= $a[0] ?></span>
+                    <div class="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                        <span class="text-xs text-zinc-700 dark:text-zinc-300"><?= $a[0] ?></span>
                         <code class="text-xs font-mono text-zinc-400"><?= $a[1] ?></code>
                     </div>
                     <?php endforeach; ?>
@@ -322,10 +322,10 @@
             </div>
 
             <!-- Section: Admin Panel -->
-            <div id="admin-panel" class="mb-10 pb-10 border-b border-zinc-100">
-                <h2 class="text-xl font-bold text-zinc-900 mb-4">Admin Panel</h2>
-                <p class="text-sm text-zinc-500 leading-relaxed mb-4">
-                    The admin panel is accessible at <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">/admin/dashboard</code> and requires an admin session. It includes a collapsible sidebar, topbar with user menu, and data tables.
+            <div id="admin-panel" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Admin Panel</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+                    The admin panel is accessible at <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">/admin/dashboard</code> and requires an admin session. It includes a collapsible sidebar, topbar with user menu, and data tables.
                 </p>
                 <div class="grid grid-cols-2 gap-2">
                     <?php foreach ([
@@ -334,8 +334,8 @@
                         ['Profile',    '/admin/profile'],
                         ['Settings',   '/admin/settings'],
                     ] as $a): ?>
-                    <div class="flex items-center justify-between p-3 bg-zinc-50 border border-zinc-200 rounded-lg">
-                        <span class="text-xs text-zinc-700"><?= $a[0] ?></span>
+                    <div class="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                        <span class="text-xs text-zinc-700 dark:text-zinc-300"><?= $a[0] ?></span>
                         <code class="text-xs font-mono text-zinc-400"><?= $a[1] ?></code>
                     </div>
                     <?php endforeach; ?>
@@ -343,10 +343,10 @@
             </div>
 
             <!-- Section: AJAX -->
-            <div id="ajax" class="mb-10 pb-10 border-b border-zinc-100">
-                <h2 class="text-xl font-bold text-zinc-900 mb-4">AJAX</h2>
-                <p class="text-sm text-zinc-500 leading-relaxed mb-4">
-                    AJAX endpoints live under the <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">ajax/</code> prefix in <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">routes/web/ajax.php</code>. All responses use <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">Router::json()</code>. No jQuery — use the built-in fetch helpers in <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">assets/js/ajax.js</code>.
+            <div id="ajax" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">AJAX</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+                    AJAX endpoints live under the <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">ajax/</code> prefix in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">routes/web/ajax.php</code>. All responses use <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">Router::json()</code>. No jQuery — use the built-in fetch helpers in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">assets/js/ajax.js</code>.
                 </p>
                 <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1 mb-4">
                     <p><span class="text-zinc-500">// PHP — return JSON from a controller</span></p>
@@ -360,10 +360,10 @@
             </div>
 
             <!-- Section: Database -->
-            <div id="database" class="mb-10 pb-10 border-b border-zinc-100">
-                <h2 class="text-xl font-bold text-zinc-900 mb-4">Database</h2>
-                <p class="text-sm text-zinc-500 leading-relaxed mb-4">
-                    Database access goes through <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">app/core/Database.php</code> — a PDO singleton. Use it inside models via <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">$this->db</code>.
+            <div id="database" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Database</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+                    Database access goes through <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">app/core/Database.php</code> — a PDO singleton. Use it inside models via <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">$this->db</code>.
                 </p>
                 <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1 mb-4">
                     <p><span class="text-zinc-500">// Fetch single row</span></p>
@@ -375,18 +375,18 @@
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <?php foreach (['users','admins','sessions','password_resets','activity_logs'] as $t): ?>
-                    <div class="p-3 bg-zinc-50 border border-zinc-200 rounded-lg">
-                        <code class="text-xs font-mono text-zinc-700"><?= $t ?></code>
+                    <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                        <code class="text-xs font-mono text-zinc-700 dark:text-zinc-300"><?= $t ?></code>
                     </div>
                     <?php endforeach; ?>
                 </div>
             </div>
 
             <!-- Section: Custom Routes -->
-            <div id="custom-routes" class="mb-10 pb-10 border-b border-zinc-100">
-                <h2 class="text-xl font-bold text-zinc-900 mb-4">Custom Routes</h2>
-                <p class="text-sm text-zinc-500 leading-relaxed mb-4">
-                    Add new routes to the appropriate file in <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">routes/web/</code> based on who can access them.
+            <div id="custom-routes" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Custom Routes</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+                    Add new routes to the appropriate file in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">routes/web/</code> based on who can access them.
                 </p>
                 <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
                     <p><span class="text-zinc-500">// routes/web/client.php — public</span></p>
@@ -399,10 +399,10 @@
             </div>
 
             <!-- Section: Deployment -->
-            <div id="deployment" class="mb-10 pb-10 border-b border-zinc-100">
-                <h2 class="text-xl font-bold text-zinc-900 mb-4">Deployment</h2>
-                <p class="text-sm text-zinc-500 leading-relaxed mb-4">
-                    The project ships with a <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 text-xs font-mono">deploy.yml</code> GitHub Actions workflow that rsyncs to a remote server over SSH.
+            <div id="deployment" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Deployment</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+                    The project ships with a <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">deploy.yml</code> GitHub Actions workflow that rsyncs to a remote server over SSH.
                 </p>
                 <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1 mb-4">
                     <p><span class="text-zinc-500"># Required GitHub secrets</span></p>
@@ -411,12 +411,12 @@
                     <p>SSH_PRIVATE_KEY=<span class="text-yellow-300">contents-of-id_rsa</span></p>
                     <p>DEPLOY_PATH=<span class="text-yellow-300">/var/www/html/project</span></p>
                 </div>
-                <p class="text-xs text-zinc-400">Uncomment the <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 font-mono">push</code> trigger in <code class="px-1 py-0.5 bg-zinc-100 rounded text-zinc-700 font-mono">.github/workflows/deploy.yml</code> to activate on every push to main.</p>
+                <p class="text-xs text-zinc-400">Uncomment the <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">push</code> trigger in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">.github/workflows/deploy.yml</code> to activate on every push to main.</p>
             </div>
 
             <!-- Bottom CTA -->
-            <div class="bg-zinc-50 border border-zinc-200 rounded-xl p-6 text-center">
-                <p class="text-sm font-medium text-zinc-900 mb-1">Something missing?</p>
+            <div class="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 text-center">
+                <p class="text-sm font-medium text-zinc-900 dark:text-zinc-100 mb-1">Something missing?</p>
                 <p class="text-xs text-zinc-500 mb-3">Open an issue or contribute on GitHub.</p>
                 <a href="https://github.com/rodrigomarcelo643/php-vanilla-mvc-starterkit" target="_blank"
                    class="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 hover:bg-zinc-700 text-white text-xs font-medium rounded-lg transition-colors">

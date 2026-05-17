@@ -1,23 +1,23 @@
 <!-- Header -->
-<section class="bg-white border-b border-zinc-200 py-14 sm:py-20">
+<section class="bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 py-14 sm:py-20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 fade-in">
         <p class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-3">Blog</p>
-        <h1 class="text-3xl sm:text-4xl font-bold text-zinc-900 mb-3">Articles & Guides</h1>
-        <p class="text-base text-zinc-500 max-w-lg leading-relaxed">
+        <h1 class="text-3xl sm:text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">Articles & Guides</h1>
+        <p class="text-base text-zinc-500 dark:text-zinc-400 max-w-lg leading-relaxed">
             Tutorials, tips, and deep dives on PHP development, MVC patterns, and building with <?= APP_NAME ?>.
         </p>
     </div>
 </section>
 
 <!-- Posts -->
-<section class="bg-white py-12 sm:py-16">
+<section class="bg-white dark:bg-zinc-950 py-12 sm:py-16">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
         <!-- Category filter -->
         <div class="flex flex-wrap gap-2 mb-10 fade-in">
             <?php foreach (['All', 'Tutorial', 'Guide', 'Tips', 'Release'] as $i => $cat): ?>
             <button class="px-3 py-1.5 text-xs font-medium rounded-full border transition-colors
-                           <?= $i === 0 ? 'bg-zinc-900 text-white border-zinc-900' : 'border-zinc-200 text-zinc-600 hover:border-zinc-400 hover:text-zinc-900' ?>">
+                           <?= $i === 0 ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 border-zinc-900 dark:border-zinc-100' : 'border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-zinc-400 dark:hover:border-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100' ?>">
                 <?= $cat ?>
             </button>
             <?php endforeach; ?>
@@ -36,25 +36,25 @@
         $featured = $posts[0];
         ?>
 
-        <a href="#" class="group block bg-zinc-50 border border-zinc-200 rounded-xl p-6 sm:p-8 mb-6 hover:border-zinc-300 transition-colors fade-in">
-            <span class="inline-block px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide bg-zinc-200 text-zinc-700 rounded mb-3"><?= $featured[4] ?></span>
-            <h2 class="text-xl sm:text-2xl font-bold text-zinc-900 group-hover:text-zinc-600 transition-colors mb-2 leading-snug"><?= $featured[0] ?></h2>
-            <p class="text-sm text-zinc-500 leading-relaxed mb-4 max-w-2xl"><?= $featured[1] ?></p>
+        <a href="#" class="group block bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 sm:p-8 mb-6 hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors fade-in">
+            <span class="inline-block px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded mb-3"><?= $featured[4] ?></span>
+            <h2 class="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors mb-2 leading-snug"><?= $featured[0] ?></h2>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4 max-w-2xl"><?= $featured[1] ?></p>
             <div class="flex items-center gap-3 text-xs text-zinc-400">
                 <span><?= $featured[2] ?></span>
                 <span>·</span>
                 <span><?= $featured[3] ?></span>
-                <span class="ml-auto text-zinc-900 font-medium group-hover:underline underline-offset-4">Read article →</span>
+                <span class="ml-auto text-zinc-900 dark:text-zinc-100 font-medium group-hover:underline underline-offset-4">Read article →</span>
             </div>
         </a>
 
         <!-- Post grid -->
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <?php foreach (array_slice($posts, 1) as $p): ?>
-            <a href="#" class="group block bg-white border border-zinc-200 rounded-xl p-5 hover:border-zinc-300 transition-colors fade-in">
-                <span class="inline-block px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide bg-zinc-100 text-zinc-600 rounded mb-3"><?= $p[4] ?></span>
-                <h3 class="text-sm font-semibold text-zinc-900 group-hover:text-zinc-600 transition-colors leading-snug mb-2"><?= $p[0] ?></h3>
-                <p class="text-xs text-zinc-500 leading-relaxed mb-4 line-clamp-2"><?= $p[1] ?></p>
+            <a href="#" class="group block bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors fade-in">
+                <span class="inline-block px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded mb-3"><?= $p[4] ?></span>
+                <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors leading-snug mb-2"><?= $p[0] ?></h3>
+                <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4 line-clamp-2"><?= $p[1] ?></p>
                 <div class="flex items-center gap-2 text-xs text-zinc-400">
                     <span><?= $p[2] ?></span>
                     <span>·</span>
