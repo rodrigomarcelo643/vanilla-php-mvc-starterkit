@@ -28,7 +28,7 @@ $u = Auth::check() ? Session::get('user') : null;
 ?>
 
 <!-- Navbar -->
-<nav class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-zinc-200"
+<nav class="sticky top-0 z-40 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-sm border-b border-zinc-200 dark:border-zinc-800"
      x-data="{ open: false, drop: false }">
 
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
@@ -41,7 +41,7 @@ $u = Auth::check() ? Session::get('user') : null;
                         <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                     </svg>
                 </div>
-                <span class="text-sm font-semibold text-zinc-900 tracking-tight"><?= APP_NAME ?></span>
+                <span class="text-sm font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight"><?= APP_NAME ?></span>
             </a>
 
             <div class="hidden md:block w-px h-4 bg-zinc-200 shrink-0"></div>
@@ -53,7 +53,7 @@ $u = Auth::check() ? Session::get('user') : null;
                     $active = ($currentPath === $path);
                 ?>
                 <a href="<?= BASE_URL . $link['href'] ?>"
-                   class="px-3 py-1.5 text-sm rounded-md transition-colors <?= $active ? 'text-zinc-900 font-medium bg-zinc-100' : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50' ?>">
+                   class="px-3 py-1.5 text-sm rounded-md transition-colors <?= $active ? 'text-zinc-900 dark:text-zinc-100 font-medium bg-zinc-100 dark:bg-zinc-800' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-800' ?>">
                     <?= $link['label'] ?>
                 </a>
                 <?php endforeach; ?>
@@ -92,7 +92,7 @@ $u = Auth::check() ? Session::get('user') : null;
                     <span class="px-1.5 py-0.5 text-[10px] bg-zinc-100 text-zinc-500 rounded font-mono"><?= $navStars ?></span>
                 </a>
 
-                <div class="w-px h-4 bg-zinc-200"></div>
+                <div class="w-px h-4 bg-zinc-200 dark:bg-zinc-700"></div>
 
                 <?php if ($u): ?>
                 <!-- User dropdown — relative wrapper fixes absolute positioning -->
@@ -198,7 +198,7 @@ $u = Auth::check() ? Session::get('user') : null;
          x-transition:leave="transition ease-in duration-100"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="md:hidden border-t border-zinc-100 bg-white px-4 py-3"
+         class="md:hidden border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 py-3"
          style="display:none">
 
         <div class="space-y-0.5 mb-3">
@@ -207,7 +207,7 @@ $u = Auth::check() ? Session::get('user') : null;
                 $active = ($currentPath === $path);
             ?>
             <a href="<?= BASE_URL . $link['href'] ?>"
-               class="flex items-center px-3 py-2 text-sm rounded-md transition-colors <?= $active ? 'text-zinc-900 font-medium bg-zinc-100' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900' ?>">
+               class="flex items-center px-3 py-2 text-sm rounded-md transition-colors <?= $active ? 'text-zinc-900 dark:text-zinc-100 font-medium bg-zinc-100 dark:bg-zinc-800' : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100' ?>">
                 <?= $link['label'] ?>
             </a>
             <?php endforeach; ?>
@@ -229,7 +229,7 @@ $u = Auth::check() ? Session::get('user') : null;
             <span class="ml-auto text-xs text-zinc-400 font-mono"><?= $navStars ?></span>
         </a>
 
-        <div class="border-t border-zinc-100 pt-3 space-y-1.5">
+        <div class="border-t border-zinc-100 dark:border-zinc-800 pt-3 space-y-1.5">
             <?php if ($u): ?>
                 <div class="flex items-center gap-2.5 px-3 py-2 mb-1">
                     <div class="w-7 h-7 rounded-full bg-zinc-900 flex items-center justify-center text-white shrink-0 overflow-hidden" style="font-size:10px;font-weight:700">
