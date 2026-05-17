@@ -69,9 +69,17 @@
                         <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">1</span>
                         <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Clone the repository</h3>
                     </div>
-                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
-                        <p><span class="text-zinc-500"># Place inside your web root</span></p>
-                        <p>git clone https://github.com/rodrigomarcelo643/php-vanilla-mvc-starterkit.git</p>
+                    <div class="relative">
+                        <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
+                            <p><span class="text-zinc-500"># Place inside your web root</span></p>
+                            <p>git clone https://github.com/rodrigomarcelo643/php-vanilla-mvc-starterkit.git</p>
+                        </div>
+                        <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                            <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span class="label-copy">Copy</span>
+                            <span class="label-check hidden text-green-400">Copied!</span>
+                        </button>
                     </div>
                 </div>
 
@@ -81,8 +89,16 @@
                         <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">2</span>
                         <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Install dependencies</h3>
                     </div>
-                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
-                        <p>composer install</p>
+                    <div class="relative">
+                        <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
+                            <p>composer install</p>
+                        </div>
+                        <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                            <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span class="label-copy">Copy</span>
+                            <span class="label-check hidden text-green-400">Copied!</span>
+                        </button>
                     </div>
                     <p class="text-xs text-zinc-400 mt-2">This installs PHPMailer, PHPUnit, and other packages defined in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">composer.json</code>.</p>
                 </div>
@@ -93,9 +109,17 @@
                         <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">3</span>
                         <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Import the database</h3>
                     </div>
-                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
-                        <p><span class="text-zinc-500"># Open phpMyAdmin</span></p>
-                        <p>Import → database/starter.sql</p>
+                    <div class="relative">
+                        <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
+                            <p><span class="text-zinc-500"># Open phpMyAdmin</span></p>
+                            <p>Import &rarr; database/starter.sql</p>
+                        </div>
+                        <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                            <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span class="label-copy">Copy</span>
+                            <span class="label-check hidden text-green-400">Copied!</span>
+                        </button>
                     </div>
                     <p class="text-xs text-zinc-400 mt-2">Creates the <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">starter</code> database with all tables and seed data including default admin and user accounts.</p>
                 </div>
@@ -106,16 +130,24 @@
                         <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">4</span>
                         <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Configure environment</h3>
                     </div>
-                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
-                        <p><span class="text-zinc-500"># Copy the example file</span></p>
-                        <p>cp .env.example .env</p>
-                        <p class="mt-3"><span class="text-zinc-500"># Edit .env with your values</span></p>
-                        <p>APP_NAME=<span class="text-yellow-300">"Starter Kit"</span></p>
-                        <p>BASE_URL=<span class="text-yellow-300">"/your-folder-path"</span></p>
-                        <p class="mt-1">DB_HOST=<span class="text-yellow-300">localhost</span></p>
-                        <p>DB_NAME=<span class="text-yellow-300">starter</span></p>
-                        <p>DB_USER=<span class="text-yellow-300">root</span></p>
-                        <p>DB_PASS=<span class="text-yellow-300"></span></p>
+                    <div class="relative">
+                        <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
+                            <p><span class="text-zinc-500"># Copy the example file</span></p>
+                            <p>cp .env.example .env</p>
+                            <p class="mt-3"><span class="text-zinc-500"># Edit .env with your values</span></p>
+                            <p>APP_NAME=<span class="text-yellow-300">"Starter Kit"</span></p>
+                            <p>BASE_URL=<span class="text-yellow-300">"/your-folder-path"</span></p>
+                            <p class="mt-1">DB_HOST=<span class="text-yellow-300">localhost</span></p>
+                            <p>DB_NAME=<span class="text-yellow-300">starter</span></p>
+                            <p>DB_USER=<span class="text-yellow-300">root</span></p>
+                            <p>DB_PASS=<span class="text-yellow-300"></span></p>
+                        </div>
+                        <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                            <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span class="label-copy">Copy</span>
+                            <span class="label-check hidden text-green-400">Copied!</span>
+                        </button>
                     </div>
                 </div>
 
@@ -125,8 +157,16 @@
                         <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">5</span>
                         <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Visit the app</h3>
                     </div>
-                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
-                        <p>http://localhost/your-folder-path</p>
+                    <div class="relative">
+                        <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
+                            <p>http://localhost/your-folder-path</p>
+                        </div>
+                        <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                            <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span class="label-copy">Copy</span>
+                            <span class="label-check hidden text-green-400">Copied!</span>
+                        </button>
                     </div>
                 </div>
 
@@ -169,11 +209,19 @@
                     <?php endforeach; ?>
                 </div>
 
-                <div class="mt-5 bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
-                    <p><span class="text-zinc-500"># Reading config values in PHP</span></p>
-                    <p>$_ENV[<span class="text-yellow-300">'APP_NAME'</span>]</p>
-                    <p>$_ENV[<span class="text-yellow-300">'DB_HOST'</span>]</p>
-                    <p>$_ENV[<span class="text-yellow-300">'MAIL_HOST'</span>]</p>
+                <div class="mt-5 relative">
+                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
+                        <p><span class="text-zinc-500"># Reading config values in PHP</span></p>
+                        <p>$_ENV[<span class="text-yellow-300">'APP_NAME'</span>]</p>
+                        <p>$_ENV[<span class="text-yellow-300">'DB_HOST'</span>]</p>
+                        <p>$_ENV[<span class="text-yellow-300">'MAIL_HOST'</span>]</p>
+                    </div>
+                    <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                        <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        <span class="label-copy">Copy</span>
+                        <span class="label-check hidden text-green-400">Copied!</span>
+                    </button>
                 </div>
             </div>
 
@@ -198,17 +246,25 @@
                     <?php endforeach; ?>
                 </div>
 
-                <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
-                    <p><span class="text-green-400">// GET route</span></p>
-                    <p>Router::<span class="text-blue-400">get</span>(<span class="text-yellow-300">'about'</span>, [<span class="text-yellow-300">'HomeController'</span>, <span class="text-yellow-300">'about'</span>]);</p>
-                    <p class="mt-2"><span class="text-green-400">// POST route (AJAX)</span></p>
-                    <p>Router::<span class="text-blue-400">post</span>(<span class="text-yellow-300">'ajax/login'</span>, [<span class="text-yellow-300">'AuthController'</span>, <span class="text-yellow-300">'ajaxLogin'</span>]);</p>
-                    <p class="mt-2"><span class="text-green-400">// GET or POST</span></p>
-                    <p>Router::<span class="text-blue-400">any</span>(<span class="text-yellow-300">'contact'</span>, [<span class="text-yellow-300">'HomeController'</span>, <span class="text-yellow-300">'contact'</span>]);</p>
-                    <p class="mt-2"><span class="text-green-400">// JSON response</span></p>
-                    <p>Router::<span class="text-blue-400">json</span>([<span class="text-yellow-300">'success'</span> => <span class="text-blue-400">true</span>]);</p>
-                    <p class="mt-2"><span class="text-green-400">// Redirect</span></p>
-                    <p>Router::<span class="text-blue-400">redirect</span>(<span class="text-yellow-300">'login'</span>);</p>
+                <div class="relative">
+                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
+                        <p><span class="text-green-400">// GET route</span></p>
+                        <p>Router::<span class="text-blue-400">get</span>(<span class="text-yellow-300">'about'</span>, [<span class="text-yellow-300">'HomeController'</span>, <span class="text-yellow-300">'about'</span>]);</p>
+                        <p class="mt-2"><span class="text-green-400">// POST route (AJAX)</span></p>
+                        <p>Router::<span class="text-blue-400">post</span>(<span class="text-yellow-300">'ajax/login'</span>, [<span class="text-yellow-300">'AuthController'</span>, <span class="text-yellow-300">'ajaxLogin'</span>]);</p>
+                        <p class="mt-2"><span class="text-green-400">// GET or POST</span></p>
+                        <p>Router::<span class="text-blue-400">any</span>(<span class="text-yellow-300">'contact'</span>, [<span class="text-yellow-300">'HomeController'</span>, <span class="text-yellow-300">'contact'</span>]);</p>
+                        <p class="mt-2"><span class="text-green-400">// JSON response</span></p>
+                        <p>Router::<span class="text-blue-400">json</span>([<span class="text-yellow-300">'success'</span> => <span class="text-blue-400">true</span>]);</p>
+                        <p class="mt-2"><span class="text-green-400">// Redirect</span></p>
+                        <p>Router::<span class="text-blue-400">redirect</span>(<span class="text-yellow-300">'login'</span>);</p>
+                    </div>
+                    <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                        <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        <span class="label-copy">Copy</span>
+                        <span class="label-check hidden text-green-400">Copied!</span>
+                    </button>
                 </div>
             </div>
 
@@ -233,15 +289,23 @@
                     <?php endforeach; ?>
                 </div>
 
-                <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
-                    <p><span class="text-blue-400">class</span> <span class="text-green-400">PageController</span> <span class="text-blue-400">extends</span> Controller {</p>
-                    <p class="pl-4 mt-1"><span class="text-blue-400">public function</span> <span class="text-yellow-300">index</span>() {</p>
-                    <p class="pl-8"><span class="text-zinc-500">// pass data to view</span></p>
-                    <p class="pl-8">$this-><span class="text-yellow-300">client</span>(<span class="text-yellow-300">'client/page'</span>, [</p>
-                    <p class="pl-12"><span class="text-yellow-300">'title'</span> => <span class="text-yellow-300">'Page Title'</span>,</p>
-                    <p class="pl-8">]);</p>
-                    <p class="pl-4">}</p>
-                    <p>}</p>
+                <div class="relative">
+                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
+                        <p><span class="text-blue-400">class</span> <span class="text-green-400">PageController</span> <span class="text-blue-400">extends</span> Controller {</p>
+                        <p class="pl-4 mt-1"><span class="text-blue-400">public function</span> <span class="text-yellow-300">index</span>() {</p>
+                        <p class="pl-8"><span class="text-zinc-500">// pass data to view</span></p>
+                        <p class="pl-8">$this-><span class="text-yellow-300">client</span>(<span class="text-yellow-300">'client/page'</span>, [</p>
+                        <p class="pl-12"><span class="text-yellow-300">'title'</span> => <span class="text-yellow-300">'Page Title'</span>,</p>
+                        <p class="pl-8">]);</p>
+                        <p class="pl-4">}</p>
+                        <p>}</p>
+                    </div>
+                    <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                        <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        <span class="label-copy">Copy</span>
+                        <span class="label-check hidden text-green-400">Copied!</span>
+                    </button>
                 </div>
                 <p class="text-xs text-zinc-400 mt-3">File naming convention: <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">PascalCaseController.php</code></p>
             </div>
@@ -252,18 +316,26 @@
                 <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
                     Models live in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">app/models/</code> and extend the base <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">Model</code> class which provides PDO access.
                 </p>
-                <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
-                    <p><span class="text-blue-400">class</span> <span class="text-green-400">Post</span> <span class="text-blue-400">extends</span> Model {</p>
-                    <p class="pl-4 mt-1"><span class="text-blue-400">public function</span> <span class="text-yellow-300">getAll</span>() {</p>
-                    <p class="pl-8"><span class="text-blue-400">return</span> $this->db-><span class="text-yellow-300">fetchAll</span>(<span class="text-yellow-300">"SELECT * FROM posts"</span>);</p>
-                    <p class="pl-4">}</p>
-                    <p class="pl-4 mt-1"><span class="text-blue-400">public function</span> <span class="text-yellow-300">create</span>(<span class="text-blue-400">array</span> $data) {</p>
-                    <p class="pl-8"><span class="text-blue-400">return</span> $this->db-><span class="text-yellow-300">execute</span>(</p>
-                    <p class="pl-12"><span class="text-yellow-300">"INSERT INTO posts (title, body) VALUES (?, ?)"</span>,</p>
-                    <p class="pl-12">[$data[<span class="text-yellow-300">'title'</span>], $data[<span class="text-yellow-300">'body'</span>]]</p>
-                    <p class="pl-8">);</p>
-                    <p class="pl-4">}</p>
-                    <p>}</p>
+                <div class="relative">
+                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
+                        <p><span class="text-blue-400">class</span> <span class="text-green-400">Post</span> <span class="text-blue-400">extends</span> Model {</p>
+                        <p class="pl-4 mt-1"><span class="text-blue-400">public function</span> <span class="text-yellow-300">getAll</span>() {</p>
+                        <p class="pl-8"><span class="text-blue-400">return</span> $this->db-><span class="text-yellow-300">fetchAll</span>(<span class="text-yellow-300">"SELECT * FROM posts"</span>);</p>
+                        <p class="pl-4">}</p>
+                        <p class="pl-4 mt-1"><span class="text-blue-400">public function</span> <span class="text-yellow-300">create</span>(<span class="text-blue-400">array</span> $data) {</p>
+                        <p class="pl-8"><span class="text-blue-400">return</span> $this->db-><span class="text-yellow-300">execute</span>(</p>
+                        <p class="pl-12"><span class="text-yellow-300">"INSERT INTO posts (title, body) VALUES (?, ?)"</span>,</p>
+                        <p class="pl-12">[$data[<span class="text-yellow-300">'title'</span>], $data[<span class="text-yellow-300">'body'</span>]]</p>
+                        <p class="pl-8">);</p>
+                        <p class="pl-4">}</p>
+                        <p>}</p>
+                    </div>
+                    <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                        <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        <span class="label-copy">Copy</span>
+                        <span class="label-check hidden text-green-400">Copied!</span>
+                    </button>
                 </div>
                 <p class="text-xs text-zinc-400 mt-3">DB logic stays in models — keep controllers thin.</p>
             </div>
@@ -298,13 +370,21 @@
                 <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
                     Auth is session-based via <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">app/core/Auth.php</code>. Passwords are hashed with bcrypt.
                 </p>
-                <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1 mb-4">
-                    <p><span class="text-zinc-500">// Check if logged in</span></p>
-                    <p>Auth::<span class="text-yellow-300">check</span>();  <span class="text-zinc-500">// returns bool</span></p>
-                    <p class="mt-2"><span class="text-zinc-500">// Get session user</span></p>
-                    <p>Session::<span class="text-yellow-300">get</span>(<span class="text-yellow-300">'user'</span>);</p>
-                    <p class="mt-2"><span class="text-zinc-500">// Destroy session (logout)</span></p>
-                    <p>Session::<span class="text-yellow-300">destroy</span>();</p>
+                <div class="relative mb-4">
+                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
+                        <p><span class="text-zinc-500">// Check if logged in</span></p>
+                        <p>Auth::<span class="text-yellow-300">check</span>();  <span class="text-zinc-500">// returns bool</span></p>
+                        <p class="mt-2"><span class="text-zinc-500">// Get session user</span></p>
+                        <p>Session::<span class="text-yellow-300">get</span>(<span class="text-yellow-300">'user'</span>);</p>
+                        <p class="mt-2"><span class="text-zinc-500">// Destroy session (logout)</span></p>
+                        <p>Session::<span class="text-yellow-300">destroy</span>();</p>
+                    </div>
+                    <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                        <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        <span class="label-copy">Copy</span>
+                        <span class="label-check hidden text-green-400">Copied!</span>
+                    </button>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <?php foreach ([
@@ -348,14 +428,30 @@
                 <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
                     AJAX endpoints live under the <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">ajax/</code> prefix in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">routes/web/ajax.php</code>. All responses use <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">Router::json()</code>. No jQuery — use the built-in fetch helpers in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">assets/js/ajax.js</code>.
                 </p>
-                <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1 mb-4">
-                    <p><span class="text-zinc-500">// PHP — return JSON from a controller</span></p>
-                    <p>Router::<span class="text-yellow-300">json</span>([<span class="text-yellow-300">'success'</span> => <span class="text-blue-400">true</span>, <span class="text-yellow-300">'message'</span> => <span class="text-yellow-300">'Done'</span>]);</p>
+                <div class="relative mb-4">
+                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
+                        <p><span class="text-zinc-500">// PHP — return JSON from a controller</span></p>
+                        <p>Router::<span class="text-yellow-300">json</span>([<span class="text-yellow-300">'success'</span> => <span class="text-blue-400">true</span>, <span class="text-yellow-300">'message'</span> => <span class="text-yellow-300">'Done'</span>]);</p>
+                    </div>
+                    <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                        <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        <span class="label-copy">Copy</span>
+                        <span class="label-check hidden text-green-400">Copied!</span>
+                    </button>
                 </div>
-                <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
-                    <p><span class="text-zinc-500">// JS — POST with fetch helper</span></p>
-                    <p><span class="text-blue-400">Ajax</span>.<span class="text-yellow-300">post</span>(<span class="text-yellow-300">'/ajax/my-endpoint'</span>, { key: <span class="text-yellow-300">'value'</span> })</p>
-                    <p class="pl-4">.<span class="text-yellow-300">then</span>(res => console.<span class="text-yellow-300">log</span>(res));</p>
+                <div class="relative">
+                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
+                        <p><span class="text-zinc-500">// JS — POST with fetch helper</span></p>
+                        <p><span class="text-blue-400">Ajax</span>.<span class="text-yellow-300">post</span>(<span class="text-yellow-300">'/ajax/my-endpoint'</span>, { key: <span class="text-yellow-300">'value'</span> })</p>
+                        <p class="pl-4">.<span class="text-yellow-300">then</span>(res => console.<span class="text-yellow-300">log</span>(res));</p>
+                    </div>
+                    <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                        <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        <span class="label-copy">Copy</span>
+                        <span class="label-check hidden text-green-400">Copied!</span>
+                    </button>
                 </div>
             </div>
 
@@ -365,13 +461,21 @@
                 <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
                     Database access goes through <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">app/core/Database.php</code> — a PDO singleton. Use it inside models via <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">$this->db</code>.
                 </p>
-                <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1 mb-4">
-                    <p><span class="text-zinc-500">// Fetch single row</span></p>
-                    <p>$this->db-><span class="text-yellow-300">fetch</span>(<span class="text-yellow-300">"SELECT * FROM users WHERE id = ?"</span>, [$id]);</p>
-                    <p class="mt-2"><span class="text-zinc-500">// Fetch all rows</span></p>
-                    <p>$this->db-><span class="text-yellow-300">fetchAll</span>(<span class="text-yellow-300">"SELECT * FROM users"</span>);</p>
-                    <p class="mt-2"><span class="text-zinc-500">// Insert / Update / Delete</span></p>
-                    <p>$this->db-><span class="text-yellow-300">execute</span>(<span class="text-yellow-300">"INSERT INTO users (name) VALUES (?)"</span>, [$name]);</p>
+                <div class="relative mb-4">
+                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
+                        <p><span class="text-zinc-500">// Fetch single row</span></p>
+                        <p>$this->db-><span class="text-yellow-300">fetch</span>(<span class="text-yellow-300">"SELECT * FROM users WHERE id = ?"</span>, [$id]);</p>
+                        <p class="mt-2"><span class="text-zinc-500">// Fetch all rows</span></p>
+                        <p>$this->db-><span class="text-yellow-300">fetchAll</span>(<span class="text-yellow-300">"SELECT * FROM users"</span>);</p>
+                        <p class="mt-2"><span class="text-zinc-500">// Insert / Update / Delete</span></p>
+                        <p>$this->db-><span class="text-yellow-300">execute</span>(<span class="text-yellow-300">"INSERT INTO users (name) VALUES (?)"</span>, [$name]);</p>
+                    </div>
+                    <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                        <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        <span class="label-copy">Copy</span>
+                        <span class="label-check hidden text-green-400">Copied!</span>
+                    </button>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <?php foreach (['users','admins','sessions','password_resets','activity_logs'] as $t): ?>
@@ -388,13 +492,21 @@
                 <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
                     Add new routes to the appropriate file in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">routes/web/</code> based on who can access them.
                 </p>
-                <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
-                    <p><span class="text-zinc-500">// routes/web/client.php — public</span></p>
-                    <p>Router::<span class="text-blue-400">get</span>(<span class="text-yellow-300">'contact'</span>, [<span class="text-yellow-300">'HomeController'</span>, <span class="text-yellow-300">'contact'</span>]);</p>
-                    <p class="mt-2"><span class="text-zinc-500">// routes/web/app.php — auth required</span></p>
-                    <p>Router::<span class="text-blue-400">get</span>(<span class="text-yellow-300">'app/dashboard'</span>, [<span class="text-yellow-300">'AppController'</span>, <span class="text-yellow-300">'dashboard'</span>]);</p>
-                    <p class="mt-2"><span class="text-zinc-500">// routes/web/ajax.php — AJAX POST</span></p>
-                    <p>Router::<span class="text-blue-400">post</span>(<span class="text-yellow-300">'ajax/save'</span>, [<span class="text-yellow-300">'MyController'</span>, <span class="text-yellow-300">'save'</span>]);</p>
+                <div class="relative">
+                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
+                        <p><span class="text-zinc-500">// routes/web/client.php — public</span></p>
+                        <p>Router::<span class="text-blue-400">get</span>(<span class="text-yellow-300">'contact'</span>, [<span class="text-yellow-300">'HomeController'</span>, <span class="text-yellow-300">'contact'</span>]);</p>
+                        <p class="mt-2"><span class="text-zinc-500">// routes/web/app.php — auth required</span></p>
+                        <p>Router::<span class="text-blue-400">get</span>(<span class="text-yellow-300">'app/dashboard'</span>, [<span class="text-yellow-300">'AppController'</span>, <span class="text-yellow-300">'dashboard'</span>]);</p>
+                        <p class="mt-2"><span class="text-zinc-500">// routes/web/ajax.php — AJAX POST</span></p>
+                        <p>Router::<span class="text-blue-400">post</span>(<span class="text-yellow-300">'ajax/save'</span>, [<span class="text-yellow-300">'MyController'</span>, <span class="text-yellow-300">'save'</span>]);</p>
+                    </div>
+                    <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                        <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        <span class="label-copy">Copy</span>
+                        <span class="label-check hidden text-green-400">Copied!</span>
+                    </button>
                 </div>
             </div>
 
@@ -404,12 +516,20 @@
                 <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
                     The project ships with a <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">deploy.yml</code> GitHub Actions workflow that rsyncs to a remote server over SSH.
                 </p>
-                <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1 mb-4">
-                    <p><span class="text-zinc-500"># Required GitHub secrets</span></p>
-                    <p>SSH_HOST=<span class="text-yellow-300">your-server-ip</span></p>
-                    <p>SSH_USER=<span class="text-yellow-300">your-ssh-user</span></p>
-                    <p>SSH_PRIVATE_KEY=<span class="text-yellow-300">contents-of-id_rsa</span></p>
-                    <p>DEPLOY_PATH=<span class="text-yellow-300">/var/www/html/project</span></p>
+                <div class="relative mb-4">
+                    <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
+                        <p><span class="text-zinc-500"># Required GitHub secrets</span></p>
+                        <p>SSH_HOST=<span class="text-yellow-300">your-server-ip</span></p>
+                        <p>SSH_USER=<span class="text-yellow-300">your-ssh-user</span></p>
+                        <p>SSH_PRIVATE_KEY=<span class="text-yellow-300">contents-of-id_rsa</span></p>
+                        <p>DEPLOY_PATH=<span class="text-yellow-300">/var/www/html/project</span></p>
+                    </div>
+                    <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                        <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        <span class="label-copy">Copy</span>
+                        <span class="label-check hidden text-green-400">Copied!</span>
+                    </button>
                 </div>
                 <p class="text-xs text-zinc-400">Uncomment the <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">push</code> trigger in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">.github/workflows/deploy.yml</code> to activate on every push to main.</p>
             </div>
@@ -429,3 +549,25 @@
         </div>
     </div>
 </div>
+
+<script>
+function copyCode(btn) {
+    const block = btn.closest('.relative').querySelector('.bg-zinc-950');
+    const lines = block.innerText.trim().split('\n');
+    const code = lines
+        .filter(l => { const t = l.trim(); return t && !t.startsWith('#') && !t.startsWith('//'); })
+        .join('\n');
+    navigator.clipboard.writeText(code).then(() => {
+        btn.querySelector('.icon-copy').classList.add('hidden');
+        btn.querySelector('.icon-check').classList.remove('hidden');
+        btn.querySelector('.label-copy').classList.add('hidden');
+        btn.querySelector('.label-check').classList.remove('hidden');
+        setTimeout(() => {
+            btn.querySelector('.icon-copy').classList.remove('hidden');
+            btn.querySelector('.icon-check').classList.add('hidden');
+            btn.querySelector('.label-copy').classList.remove('hidden');
+            btn.querySelector('.label-check').classList.add('hidden');
+        }, 2000);
+    });
+}
+</script>
