@@ -18,7 +18,7 @@
             </div>
             <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" id="settings-theme-toggle" class="sr-only peer" onchange="Theme.toggle()">
-                <div class="w-9 h-5 bg-zinc-200 rounded-full peer peer-checked:bg-zinc-900 dark:bg-zinc-700 dark:peer-checked:bg-zinc-100 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
+                <div class="w-11 h-6 bg-zinc-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-indigo-600 dark:peer-checked:bg-indigo-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
             </label>
         </div>
     </div>
@@ -39,7 +39,7 @@
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" class="sr-only peer" <?= $t[2] ? 'checked' : '' ?>>
-                    <div class="w-9 h-5 bg-zinc-200 rounded-full peer peer-checked:bg-zinc-900 peer-focus:ring-2 peer-focus:ring-zinc-900 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
+                    <div class="w-11 h-6 bg-zinc-200 dark:bg-zinc-700 rounded-full peer peer-checked:bg-indigo-600 dark:peer-checked:bg-indigo-500 peer-focus:ring-2 peer-focus:ring-indigo-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
                 </label>
             </div>
             <?php endforeach; ?>
@@ -54,15 +54,4 @@
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const toggle = document.getElementById('settings-theme-toggle');
-    if (toggle) toggle.checked = document.documentElement.classList.contains('dark');
-
-    const _toggle = Theme.toggle.bind(Theme);
-    Theme.toggle = function() {
-        _toggle();
-        if (toggle) toggle.checked = document.documentElement.classList.contains('dark');
-    };
-});
-</script>
+<script src="<?= BASE_URL ?>/js/settings.js"></script>
