@@ -132,10 +132,24 @@ $pageLabel = $pageLabels[$currentUri] ?? 'Dashboard';
         <!-- Divider -->
         <div class="w-px h-5 bg-zinc-200 dark:bg-zinc-700 mx-1"></div>
 
+        <!-- Theme toggle -->
+        <button onclick="Theme.toggle()"
+            class="inline-flex items-center justify-center w-8 h-8 rounded-md text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+            <svg id="theme-icon-dark" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+            </svg>
+            <svg id="theme-icon-light" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+        </button>
+
+        <!-- Divider -->
+        <div class="w-px h-5 bg-zinc-200 dark:bg-zinc-700 mx-1"></div>
+
         <!-- Avatar dropdown -->
         <div class="relative">
             <button @click="dropOpen = !dropOpen"
-                class="flex items-center gap-2 h-8 pl-1 pr-2 rounded-md hover:bg-zinc-100 transition-colors focus:outline-none">
+                class="flex items-center gap-2 h-8 pl-1 pr-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none">
                 <!-- Avatar -->
                 <div class="w-6 h-6 rounded-full bg-zinc-900 flex items-center justify-center text-white font-semibold shrink-0 overflow-hidden" style="font-size:10px">
                     <?php if (!empty($u['avatar'])): ?>
@@ -144,7 +158,7 @@ $pageLabel = $pageLabels[$currentUri] ?? 'Dashboard';
                         <span data-avatar-initials><?= strtoupper(substr($u['name'] ?? 'A', 0, 1)) ?></span>
                     <?php endif; ?>
                 </div>
-                <span class="hidden sm:block text-sm font-medium text-zinc-700 whitespace-nowrap" data-user-name>
+                <span class="hidden sm:block text-sm font-medium text-zinc-700 dark:text-zinc-300 whitespace-nowrap" data-user-name>
                     <?= htmlspecialchars($u['name'] ?? 'Admin') ?>
                 </span>
                 <svg class="w-3 h-3 text-zinc-400 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -173,7 +173,7 @@ $navGroups = [
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"
                  class="flex-1 min-w-0" style="display:none">
-                <p class="text-sm font-medium text-zinc-900 truncate whitespace-nowrap leading-tight" data-user-name><?= htmlspecialchars($u['name'] ?? 'Admin') ?></p>
+                <p class="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate whitespace-nowrap leading-tight" data-user-name><?= htmlspecialchars($u['name'] ?? 'Admin') ?></p>
                 <p class="text-xs text-zinc-400 truncate whitespace-nowrap leading-tight" data-user-email><?= htmlspecialchars($u['email'] ?? '') ?></p>
             </div>
 
