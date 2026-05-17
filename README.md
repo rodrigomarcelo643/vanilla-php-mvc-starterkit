@@ -43,14 +43,14 @@ Backed by PHPUnit with 77 tests across unit and feature suites, GitHub Actions w
 
 ---
 
-## 🖼️ Screenshots
+## Starter Kit Modules Visual
 
 <div align="center">
 
 **Home**
 ![Home](public/starter_home.png)
 
-**Login**
+**Sign In**
 ![Login](public/starter_login.png)
 
 **Sign Up**
