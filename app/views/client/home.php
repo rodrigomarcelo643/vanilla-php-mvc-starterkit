@@ -276,32 +276,7 @@
         </div>
 
         <!-- AJAX flow diagram -->
-        <div class="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 sm:p-8 fade-in">
-            <p class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-6">How an AJAX request flows</p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-0">
-                <?php
-                $flow = [
-                    ['User Action',      'Form submit or button click',         'bg-zinc-100 dark:bg-zinc-800'],
-                    ['Ajax.post()',      'Fetch POST with FormData + XHR header','bg-zinc-100 dark:bg-zinc-800'],
-                    ['PHP Route',        'ajax/* route → Controller method',    'bg-zinc-100 dark:bg-zinc-800'],
-                    ['JSON Response',    '{ success, message, data }',          'bg-zinc-100 dark:bg-zinc-800'],
-                    ['App.toast()',      'UI update — no page reload',          'bg-zinc-100 dark:bg-zinc-800'],
-                ];
-                foreach ($flow as $i => $step): ?>
-                <div class="flex sm:flex-col items-center gap-2 sm:gap-1 flex-1 min-w-0">
-                    <div class="<?= $step[2] ?> rounded-lg px-3 py-2.5 text-center w-full">
-                        <p class="text-xs font-semibold text-zinc-900 dark:text-zinc-100"><?= $step[0] ?></p>
-                        <p class="text-[10px] text-zinc-500 dark:text-zinc-400 mt-0.5 leading-snug"><?= $step[1] ?></p>
-                    </div>
-                    <?php if ($i < count($flow) - 1): ?>
-                    <svg class="w-4 h-4 text-zinc-300 dark:text-zinc-700 flex-shrink-0 rotate-90 sm:rotate-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-                    </svg>
-                    <?php endif; ?>
-                </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
+        <?php include __DIR__ . '/../components/shared/ajax-flow.php'; ?>
 
     </div>
 </section>
