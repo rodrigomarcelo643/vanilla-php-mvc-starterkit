@@ -6,7 +6,12 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             $role = Session::get('user')['role'] ?? 'user';
-            header('Location: ' . BASE_URL . ($role === 'admin' ? '/dashboard' : '/app/home'));
+            $redirect = match($role) {
+                'admin'      => BASE_URL . '/admin/dashboard',
+                'superadmin' => BASE_URL . '/superadmin/dashboard',
+                default      => BASE_URL . '/app/home',
+            };
+            header('Location: ' . $redirect);
             exit;
         }
         $this->auth('auth/login', ['title' => 'Sign in']);
@@ -16,7 +21,12 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             $role = Session::get('user')['role'] ?? 'user';
-            header('Location: ' . BASE_URL . ($role === 'admin' ? '/dashboard' : '/app/home'));
+            $redirect = match($role) {
+                'admin'      => BASE_URL . '/admin/dashboard',
+                'superadmin' => BASE_URL . '/superadmin/dashboard',
+                default      => BASE_URL . '/app/home',
+            };
+            header('Location: ' . $redirect);
             exit;
         }
         $this->auth('auth/register', ['title' => 'Create account']);
@@ -41,11 +51,15 @@ class AuthController extends Controller
 
         require_once 'app/models/User.php';
         require_once 'app/models/Admin.php';
+        require_once 'app/models/SuperAdmin.php';
 
-        // Check users table first, then admins table
+        // Check users, then admins, then super_admins
         $user = (new User())->findByEmail($email);
         if (!$user) {
             $user = (new Admin())->findByEmail($email);
+        }
+        if (!$user) {
+            $user = (new SuperAdmin())->findByEmail($email);
         }
 
         if (!$user || !password_verify($password, $user['password'])) {
@@ -64,7 +78,11 @@ class AuthController extends Controller
             'avatar' => $user['avatar'] ?? null,
         ]);
 
-        $redirect = BASE_URL . ($user['role'] === 'admin' ? '/admin/dashboard' : '/app/home');
+        $redirect = match($user['role']) {
+            'admin'      => BASE_URL . '/admin/dashboard',
+            'superadmin' => BASE_URL . '/superadmin/dashboard',
+            default      => BASE_URL . '/app/home',
+        };
         Router::json(['success' => true, 'redirect' => $redirect]);
     }
 

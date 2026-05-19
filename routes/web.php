@@ -21,6 +21,10 @@ require_once 'routes/web/auth/ajax.php';
 // Client / Public
 require_once 'routes/web/client/pages.php';
 
+// Super Admin
+require_once 'routes/web/superadmin/pages.php';
+require_once 'routes/web/superadmin/ajax.php';
+
 // Admin
 require_once 'routes/web/admin/pages.php';
 require_once 'routes/web/admin/ajax.php';

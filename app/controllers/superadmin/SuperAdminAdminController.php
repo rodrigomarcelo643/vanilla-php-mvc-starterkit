@@ -1,11 +1,10 @@
 <?php
 
-class UserController extends Controller
+class SuperAdminAdminController extends Controller
 {
     private function guard(): void
     {
-        $role = Session::get('user')['role'] ?? '';
-        if (!Auth::check() || !in_array($role, ['admin', 'superadmin'])) {
+        if (!Auth::check() || (Session::get('user')['role'] ?? '') !== 'superadmin') {
             Router::json(['success' => false, 'message' => 'Unauthorized.'], 401);
         }
     }
@@ -13,12 +12,11 @@ class UserController extends Controller
     public function ajaxCreate(): void
     {
         $this->guard();
-        require_once 'app/models/User.php';
+        require_once 'app/models/Admin.php';
 
         $name     = trim($_POST['name']     ?? '');
         $email    = trim($_POST['email']    ?? '');
         $password = trim($_POST['password'] ?? '');
-        $role     = trim($_POST['role']     ?? 'user');
         $status   = trim($_POST['status']   ?? 'active');
 
         if (!$name || !$email || !$password) {
@@ -31,23 +29,22 @@ class UserController extends Controller
             Router::json(['success' => false, 'message' => 'Password must be at least 6 characters.']);
         }
 
-        $id = (new User())->adminCreate($name, $email, $password, $role, $status);
+        $id = (new Admin())->adminCreate($name, $email, $password, $status);
         if ($id === false) {
             Router::json(['success' => false, 'message' => 'Email is already registered.']);
         }
 
-        Router::json(['success' => true, 'message' => 'User created.', 'id' => $id]);
+        Router::json(['success' => true, 'message' => 'Admin created.', 'id' => $id]);
     }
 
     public function ajaxUpdate(): void
     {
         $this->guard();
-        require_once 'app/models/User.php';
+        require_once 'app/models/Admin.php';
 
         $id     = (int) ($_POST['id']     ?? 0);
         $name   = trim($_POST['name']     ?? '');
         $email  = trim($_POST['email']    ?? '');
-        $role   = trim($_POST['role']     ?? 'user');
         $status = trim($_POST['status']   ?? 'active');
 
         if (!$id || !$name || !$email) {
@@ -57,25 +54,25 @@ class UserController extends Controller
             Router::json(['success' => false, 'message' => 'Invalid email address.']);
         }
 
-        $ok = (new User())->update($id, $name, $email, $role, $status);
+        $ok = (new Admin())->update($id, $name, $email, $status);
         if (!$ok) {
             Router::json(['success' => false, 'message' => 'Email is already taken.']);
         }
 
-        Router::json(['success' => true, 'message' => 'User updated.']);
+        Router::json(['success' => true, 'message' => 'Admin updated.']);
     }
 
     public function ajaxDelete(): void
     {
         $this->guard();
-        require_once 'app/models/User.php';
+        require_once 'app/models/Admin.php';
 
         $id = (int) ($_POST['id'] ?? 0);
         if (!$id) {
-            Router::json(['success' => false, 'message' => 'Invalid user.']);
+            Router::json(['success' => false, 'message' => 'Invalid admin.']);
         }
 
-        (new User())->delete($id);
-        Router::json(['success' => true, 'message' => 'User deleted.']);
+        (new Admin())->delete($id);
+        Router::json(['success' => true, 'message' => 'Admin deleted.']);
     }
 }

@@ -68,6 +68,29 @@ INSERT INTO `admins` (`name`, `email`, `password`, `status`) VALUES
 ('Super Admin', 'admin@starter.com', '$2y$10$UwBbtw7SU2RR5YPq5Moj2eZuHJUfYXP3Fd5QcoYIW65TIveFKIzAC', 'active');
 
 -- ============================================================
+--  TABLE: super_admins
+--  Highest privilege — can manage admins and all users
+-- ============================================================
+DROP TABLE IF EXISTS `super_admins`;
+
+CREATE TABLE `super_admins` (
+    `id`         INT(11)      UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name`       VARCHAR(100) NOT NULL,
+    `email`      VARCHAR(150) NOT NULL,
+    `password`   VARCHAR(255) NOT NULL,
+    `avatar`     VARCHAR(255)                     DEFAULT NULL,
+    `status`     ENUM('active','inactive')    NOT NULL DEFAULT 'active',
+    `created_at` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uq_super_admins_email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- plain password: password
+INSERT INTO `super_admins` (`name`, `email`, `password`, `status`) VALUES
+('Super Admin', 'superadmin@starter.com', '$2y$10$UwBbtw7SU2RR5YPq5Moj2eZuHJUfYXP3Fd5QcoYIW65TIveFKIzAC', 'active');
+
+-- ============================================================
 --  TABLE: sessions
 -- ============================================================
 DROP TABLE IF EXISTS `sessions`;

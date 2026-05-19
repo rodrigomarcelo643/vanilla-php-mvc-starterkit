@@ -49,4 +49,29 @@ class Admin extends Model
         $row  = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row && password_verify($password, $row['password']);
     }
+
+    public function update(int $id, string $name, string $email, string $status): bool
+    {
+        $stmt = $this->db->prepare('SELECT id FROM admins WHERE email = ? AND id != ? LIMIT 1');
+        $stmt->execute([$email, $id]);
+        if ($stmt->fetch()) return false;
+        $this->db->prepare('UPDATE admins SET name = ?, email = ?, status = ? WHERE id = ?')
+                 ->execute([$name, $email, $status, $id]);
+        return true;
+    }
+
+    public function delete(int $id): void
+    {
+        $this->db->prepare('DELETE FROM admins WHERE id = ?')->execute([$id]);
+    }
+
+    public function adminCreate(string $name, string $email, string $password, string $status): int|false
+    {
+        $stmt = $this->db->prepare('SELECT id FROM admins WHERE email = ? LIMIT 1');
+        $stmt->execute([$email]);
+        if ($stmt->fetch()) return false;
+        $stmt = $this->db->prepare('INSERT INTO admins (name, email, password, status) VALUES (?, ?, ?, ?)');
+        $stmt->execute([$name, $email, password_hash($password, PASSWORD_BCRYPT), $status]);
+        return (int) $this->db->lastInsertId();
+    }
 }

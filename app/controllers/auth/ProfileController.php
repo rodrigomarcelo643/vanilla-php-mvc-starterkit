@@ -12,10 +12,9 @@ class ProfileController extends Controller
         $role = $user['role'] ?? 'user';
         $data = ['title' => 'Profile', 'user' => $user];
 
-        // editors get the admin layout but their record is in users table
-        if ($role === 'admin') {
-            $this->admin('admin/profile', $data);
-        } elseif ($role === 'editor') {
+        if ($role === 'superadmin') {
+            $this->superadmin('superadmin/profile', $data);
+        } elseif ($role === 'admin' || $role === 'editor') {
             $this->admin('admin/profile', $data);
         } else {
             $this->client('client/profile', $data);
@@ -72,7 +71,10 @@ class ProfileController extends Controller
         // ── Update DB ─────────────────────────────────────────
         $role = $session['role'] ?? 'user';
 
-        if ($role === 'admin') {
+        if ($role === 'superadmin') {
+            require_once 'app/models/SuperAdmin.php';
+            (new SuperAdmin())->updateAvatar((int) $session['id'], $avatarUrl);
+        } elseif ($role === 'admin') {
             require_once 'app/models/Admin.php';
             (new Admin())->updateAvatar((int) $session['id'], $avatarUrl);
         } else {
@@ -158,8 +160,12 @@ class ProfileController extends Controller
 
     // ── Helpers ───────────────────────────────────────────────
 
-    private function resolveModel(string $role): User|Admin
+    private function resolveModel(string $role): User|Admin|SuperAdmin
     {
+        if ($role === 'superadmin') {
+            require_once 'app/models/SuperAdmin.php';
+            return new SuperAdmin();
+        }
         if ($role === 'admin') {
             require_once 'app/models/Admin.php';
             return new Admin();
