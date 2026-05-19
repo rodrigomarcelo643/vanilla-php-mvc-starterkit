@@ -1,6 +1,6 @@
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.0-4F46E5?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-1.1.0-4F46E5?style=for-the-badge)
 ![PHP](https://img.shields.io/badge/PHP-8.0+-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-5.7+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
@@ -10,7 +10,7 @@
 
 # 🚀 PHP Vanilla MVC Starter Kit
 
-### A clean PHP 8+ MVC boilerplate with a structured `js/` layer, split route files, admin panel, session auth with live password strength validation, role-based routing, AJAX fetch helpers, Alpine.js reactive UI, Tailwind CSS, and PHPUnit — zero frameworks, zero fluff.
+### A clean PHP 8+ MVC boilerplate with a structured `js/` layer, split route files, super admin + admin panels, session auth with live password strength validation, role-based routing, AJAX fetch helpers, Alpine.js reactive UI, Tailwind CSS, and PHPUnit — zero frameworks, zero fluff.
 
 [⭐ Star on GitHub](https://github.com/rodrigomarcelo643/php-vanilla-mvc-starterkit) · [📖 Docs](#️-installation) · [🧪 Tests](#-testing)
 
@@ -22,7 +22,7 @@
 
 **PHP Vanilla MVC Starter Kit** is a lightweight, zero-framework boilerplate for developers who want a clean starting point without the overhead of Laravel or Symfony. Built on pure PHP 8+, it ships with a hand-rolled MVC architecture, session-based authentication, role-based routing, and a full admin panel — all wired up and ready to go.
 
-The frontend uses Tailwind CSS and Alpine.js via CDN, so there's no build pipeline to configure. AJAX helpers, avatar uploads, password reset flow, and a responsive multi-panel layout (admin, app, client) are included out of the box.
+The frontend uses Tailwind CSS and Alpine.js via CDN, so there's no build pipeline to configure. AJAX helpers, avatar uploads, password reset flow, and a responsive multi-panel layout (super admin, admin, app, client) are included out of the box.
 
 Backed by PHPUnit with 77 tests across unit and feature suites, GitHub Actions workflows for linting, quality checks, and deployment, and a single SQL file to get your database running in minutes.
 
@@ -30,9 +30,10 @@ Backed by PHPUnit with 77 tests across unit and feature suites, GitHub Actions w
 
 ### What's included
 
-- **Multi-panel layout** — Admin, App (authenticated users), and Client (public) views
+- **Multi-panel layout** — Super Admin, Admin, App (authenticated users), and Client (public) views
 - **Session authentication** — Login, registration, logout, and password reset out of the box
-- **Role-based routing** — Segregated routes for admin, app, client, and AJAX calls
+- **Role-based routing** — Segregated routes for super admin, admin, app, client, and AJAX calls
+- **Super admin panel** — Highest-privilege panel with admin management, full user CRUD, purple-accented UI
 - **Full admin panel** — Collapsible sidebar, topbar, user management, and data tables
 - **AJAX helpers** — Lightweight fetch wrappers for POST/GET with JSON responses
 - **Avatar uploads** — Image preview, crop, and AJAX upload built in
@@ -78,10 +79,11 @@ starterkit/
 ├── app/
 │   ├── config/         # App, database & mail config (reads from .env)
 │   ├── controllers/    # MVC controllers
+│   │   └── superadmin/ # SuperAdminDashboardController, SuperAdminAdminController
 │   ├── core/           # Router, Model, Auth, Session, Database, Mailer
 │   ├── helpers/        # Global helper functions
-│   ├── models/         # Data models
-│   └── views/          # Layouts, components & pages (admin/app/client/auth)
+│   ├── models/         # Data models (User, Admin, SuperAdmin, PasswordReset)
+│   └── views/          # Layouts, components & pages (superadmin/admin/app/client/auth)
 ├── assets/             # CSS & fonts
 ├── database/
 │   └── starter.sql     # Database schema + seed data
@@ -99,6 +101,7 @@ starterkit/
 ├── routes/
 │   ├── web.php         # Entry point — loads all route files
 │   └── web/
+│       ├── superadmin/ # Super admin page + AJAX routes
 │       ├── admin/      # Admin page + AJAX routes
 │       ├── app/        # Authenticated user page + AJAX routes
 │       ├── auth/       # Auth page + AJAX routes
@@ -173,21 +176,89 @@ http://localhost/your-folder-path
 
 ### Default Credentials
 
-| Role  | Email             | Password |
-| ----- | ----------------- | -------- |
-| Admin | admin@starter.com | password |
-| User  | alice@example.com | password |
+| Role        | Email                    | Password |
+| ----------- | ------------------------ | -------- |
+| Super Admin | superadmin@starter.com   | password |
+| Admin       | admin@starter.com        | password |
+| User        | alice@example.com        | password |
 
 ---
 
 ## 🗺️ Routes Overview
 
-| File         | Prefix   | Description                       |
-| ------------ | -------- | --------------------------------- |
-| `client.php` | `/`      | Public pages (home, about, blog…) |
-| `admin.php`  | `admin/` | Admin dashboard, users, settings  |
-| `app.php`    | `app/`   | Authenticated user pages          |
-| `ajax.php`   | `ajax/`  | Login, register + AJAX endpoints  |
+| File              | Prefix          | Description                            |
+| ----------------- | --------------- | -------------------------------------- |
+| `client.php`      | `/`             | Public pages (home, about, blog…)      |
+| `superadmin/pages.php` | `superadmin/` | Super admin dashboard, admins, users |
+| `superadmin/ajax.php`  | `ajax/admins/` | Admin CRUD AJAX endpoints            |
+| `admin.php`       | `admin/`        | Admin dashboard, users, settings       |
+| `app.php`         | `app/`          | Authenticated user pages               |
+| `ajax.php`        | `ajax/`         | Login, register + AJAX endpoints       |
+
+---
+
+## 👑 Super Admin Panel
+
+The super admin is the highest-privilege role in the system. It has its own dedicated panel at `/superadmin/dashboard` with a purple-accented UI to distinguish it from the regular admin panel.
+
+### What super admin can do
+
+- **Dashboard** — Overview stats: total users, active/inactive users, total admins, new this month
+- **Manage Admins** — Full CRUD: create, edit, delete admin accounts (`super_admins` table)
+- **Manage Users** — Full CRUD on all user accounts (same as admin panel)
+- **Profile** — Update name, email, avatar, and password
+- **Settings** — Appearance and notification preferences
+
+### Database table
+
+Super admins are stored in a dedicated `super_admins` table, separate from both `users` and `admins`.
+
+```sql
+CREATE TABLE `super_admins` (
+    `id`         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name`       VARCHAR(100) NOT NULL,
+    `email`      VARCHAR(150) NOT NULL,
+    `password`   VARCHAR(255) NOT NULL,
+    `avatar`     VARCHAR(255) DEFAULT NULL,
+    `status`     ENUM('active','inactive') NOT NULL DEFAULT 'active',
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uq_super_admins_email` (`email`)
+);
+```
+
+### New files added
+
+```
+app/models/SuperAdmin.php
+app/controllers/superadmin/SuperAdminDashboardController.php
+app/controllers/superadmin/SuperAdminAdminController.php
+app/views/layouts/superadmin/header.php
+app/views/layouts/superadmin/footer.php
+app/views/components/superadmin/sidebar.php
+app/views/components/superadmin/topbar.php
+app/views/superadmin/dashboard.php
+app/views/superadmin/admins.php
+app/views/superadmin/users.php
+app/views/superadmin/profile.php
+app/views/superadmin/settings.php
+routes/web/superadmin/pages.php
+routes/web/superadmin/ajax.php
+```
+
+### Modified files
+
+| File | Change |
+|---|---|
+| `app/core/Controller.php` | Added `superadmin()` layout method |
+| `app/core/Router.php` | Added `app/controllers/superadmin/` to auto-discovery |
+| `app/models/Admin.php` | Added `update()`, `delete()`, `adminCreate()` methods |
+| `app/controllers/auth/AuthController.php` | Login checks `super_admins` table, redirects to `/superadmin/dashboard` |
+| `app/controllers/auth/ProfileController.php` | Avatar upload, profile update, and password change support `superadmin` role |
+| `app/controllers/admin/UserController.php` | Guard allows both `admin` and `superadmin` roles |
+| `routes/web.php` | Loads super admin page + AJAX route files |
+| `database/starter.sql` | Added `super_admins` table + seed account |
 
 ---
 
