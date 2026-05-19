@@ -8,7 +8,7 @@
 ![PHPUnit](https://img.shields.io/badge/PHPUnit-11.x-3F9142?style=for-the-badge&logo=php&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-77%20passing-22C55E?style=for-the-badge)
 
-# 🚀 PHP Vanilla MVC Starter Kit
+# 🚀 Vanilla PHP MVC Starter Kit
 
 ### A clean PHP 8+ MVC boilerplate with a structured `js/` layer, split route files, super admin + admin panels, session auth with live password strength validation, role-based routing, AJAX fetch helpers, Alpine.js reactive UI, Tailwind CSS, and PHPUnit — zero frameworks, zero fluff.
 
@@ -20,7 +20,7 @@
 
 ## 📌 About
 
-**PHP Vanilla MVC Starter Kit** is a lightweight, zero-framework boilerplate for developers who want a clean starting point without the overhead of Laravel or Symfony. Built on pure PHP 8+, it ships with a hand-rolled MVC architecture, session-based authentication, role-based routing, and a full admin panel — all wired up and ready to go.
+**Vanilla PHP MVC Starter Kit** is a lightweight, zero-framework boilerplate for developers who want a clean starting point without the overhead of Laravel or Symfony. Built on pure PHP 8+, it ships with a hand-rolled MVC architecture, session-based authentication, role-based routing, and a full admin panel — all wired up and ready to go.
 
 The frontend uses Tailwind CSS and Alpine.js via CDN, so there's no build pipeline to configure. AJAX helpers, avatar uploads, password reset flow, and a responsive multi-panel layout (super admin, admin, app, client) are included out of the box.
 
