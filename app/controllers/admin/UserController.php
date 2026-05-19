@@ -4,7 +4,8 @@ class UserController extends Controller
 {
     private function guard(): void
     {
-        if (!Auth::check() || (Session::get('user')['role'] ?? '') !== 'admin') {
+        $role = Session::get('user')['role'] ?? '';
+        if (!Auth::check() || !in_array($role, ['admin', 'superadmin'])) {
             Router::json(['success' => false, 'message' => 'Unauthorized.'], 401);
         }
     }
