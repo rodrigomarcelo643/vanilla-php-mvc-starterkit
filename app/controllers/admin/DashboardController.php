@@ -44,6 +44,16 @@ class DashboardController extends Controller
         ]);
     }
 
+    public function profile()
+    {
+        if (!Auth::check()) {
+            header('Location: ' . BASE_URL . '/login');
+            exit;
+        }
+        $user = Session::get('user');
+        $this->admin('admin/profile', ['title' => 'Profile', 'user' => $user]);
+    }
+
     public function settings()
     {
         if (!Auth::check()) {
