@@ -17,7 +17,7 @@ class Database
             );
             return $pdo;
         } catch (PDOException $e) {
-            die(json_encode(['success' => false, 'message' => 'Database connection failed.']));
+            die(json_encode(['success' => false, 'message' => 'Database connection failed.'. $e]));
         }
     }
 }
