@@ -102,6 +102,7 @@ class Router
         $candidates = [
             "app/controllers/{$controller}.php",
             "app/controllers/admin/{$controller}.php",
+            "app/controllers/superadmin/{$controller}.php",
             "app/controllers/client/{$controller}.php",
             "app/controllers/auth/{$controller}.php",
         ];
