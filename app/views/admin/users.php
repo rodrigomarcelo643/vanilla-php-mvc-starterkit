@@ -130,20 +130,45 @@ $total    = count($userList);
 
         <!-- Pagination -->
         <div class="flex items-center justify-between px-4 py-3 border-t border-zinc-100 dark:border-zinc-800" x-show="totalPages > 1">
-            <p class="text-xs text-zinc-400 dark:text-zinc-500">Page <span x-text="page"></span> of <span x-text="totalPages"></span></p>
+            <p class="text-xs text-zinc-400 dark:text-zinc-500">
+                Showing <span class="font-medium text-zinc-700 dark:text-zinc-300" x-text="(page - 1) * perPage + 1"></span>–<span class="font-medium text-zinc-700 dark:text-zinc-300" x-text="Math.min(page * perPage, filtered.length)"></span> of <span class="font-medium text-zinc-700 dark:text-zinc-300" x-text="filtered.length"></span>
+            </p>
             <div class="flex items-center gap-1">
-                <button @click="page = 1" :disabled="page === 1" class="h-7 w-7 flex items-center justify-center rounded-md text-xs border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">«</button>
-                <button @click="page--" :disabled="page === 1" class="h-7 w-7 flex items-center justify-center rounded-md text-xs border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">‹</button>
+
+                <!-- First -->
+                <button @click="page = 1" :disabled="page === 1" x-show="page > 2"
+                    class="h-7 w-7 flex items-center justify-center rounded-md border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/></svg>
+                </button>
+
+                <!-- Prev -->
+                <button @click="page--" :disabled="page === 1"
+                    class="h-7 w-7 flex items-center justify-center rounded-md border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+
+                <!-- Page numbers -->
                 <template x-for="p in pageRange" :key="p">
                     <button x-text="p === '...' ? '…' : p"
                         @click="p !== '...' && (page = p)"
-                        :class="p === page ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 border-zinc-900 dark:border-zinc-100' : 'border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800'"
+                        :class="p === page ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 border-zinc-900 dark:border-zinc-100 font-semibold' : 'border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800'"
                         :disabled="p === '...'"
-                        class="h-7 min-w-[28px] px-1 flex items-center justify-center rounded-md text-xs border transition-colors disabled:cursor-default">
+                        class="h-7 min-w-[28px] px-1.5 flex items-center justify-center rounded-md text-xs border transition-colors disabled:cursor-default">
                     </button>
                 </template>
-                <button @click="page++" :disabled="page === totalPages" class="h-7 w-7 flex items-center justify-center rounded-md text-xs border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">›</button>
-                <button @click="page = totalPages" :disabled="page === totalPages" class="h-7 w-7 flex items-center justify-center rounded-md text-xs border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">»</button>
+
+                <!-- Next -->
+                <button @click="page++" :disabled="page === totalPages"
+                    class="h-7 w-7 flex items-center justify-center rounded-md border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <!-- Last -->
+                <button @click="page = totalPages" :disabled="page === totalPages" x-show="page < totalPages - 1"
+                    class="h-7 w-7 flex items-center justify-center rounded-md border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M6 5l7 7-7 7"/></svg>
+                </button>
+
             </div>
         </div>
     </div>
