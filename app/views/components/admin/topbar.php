@@ -9,7 +9,7 @@ $pageLabels = [
     'dashboard'      => 'Dashboard',
     'admin/users'    => 'Users',
     'admin/settings' => 'Settings',
-    'profile'        => 'Profile',
+    'admin/profile'  => 'Profile',
 ];
 $pageLabel = $pageLabels[$currentUri] ?? 'Dashboard';
 ?>
@@ -183,7 +183,7 @@ $pageLabel = $pageLabels[$currentUri] ?? 'Dashboard';
                     <p class="text-xs text-zinc-400 truncate" data-user-email><?= htmlspecialchars($u['email'] ?? '') ?></p>
                 </div>
 
-                <a href="<?= BASE_URL ?>/profile"
+                <a href="<?= BASE_URL ?>/admin/profile"
                    class="flex items-center gap-2.5 px-3 py-1.5 text-sm text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
                     <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
