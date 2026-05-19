@@ -64,7 +64,7 @@ class AuthController extends Controller
             'avatar' => $user['avatar'] ?? null,
         ]);
 
-        $redirect = BASE_URL . ($user['role'] === 'admin' ? '/dashboard' : '/app/home');
+        $redirect = BASE_URL . ($user['role'] === 'admin' ? '/admin/dashboard' : '/app/home');
         Router::json(['success' => true, 'redirect' => $redirect]);
     }
 
