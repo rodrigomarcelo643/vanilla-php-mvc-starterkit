@@ -33,4 +33,12 @@ class Controller
         include "app/views/$view.php";
         include 'app/views/layouts/auth/footer.php';
     }
+
+    public function superadmin($view, $data = [])
+    {
+        extract($data);
+        include 'app/views/layouts/superadmin/header.php';
+        include "app/views/$view.php";
+        include 'app/views/layouts/superadmin/footer.php';
+    }
 }
