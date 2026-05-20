@@ -130,6 +130,6 @@ class AuthController extends Controller
     public function ajaxLogout()
     {
         Session::destroy();
-        Router::json(['success' => true, 'redirect' => BASE_URL . '/']);
+        Router::json(['success' => true, 'redirect' => BASE_URL . '/login']);
     }
 }

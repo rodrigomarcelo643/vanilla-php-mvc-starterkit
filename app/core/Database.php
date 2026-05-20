@@ -2,6 +2,7 @@
 
 class Database
 {
+    // Database Connection
     public function connect(): PDO
     {
         try {
