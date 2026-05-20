@@ -5,7 +5,45 @@
         <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">Manage your super admin account</p>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-5">
+    <!-- Skeleton -->
+    <div id="profile-skeleton" class="grid md:grid-cols-3 gap-5">
+        <!-- avatar card -->
+        <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 flex flex-col items-center gap-3 shadow-sm">
+            <div class="skeleton-base w-24 h-24 rounded-full"></div>
+            <div class="skeleton-base h-3.5 w-28 rounded"></div>
+            <div class="skeleton-base h-3 w-36 rounded"></div>
+            <div class="skeleton-base h-5 w-24 rounded-full"></div>
+        </div>
+        <!-- info + password cards -->
+        <div class="md:col-span-2 flex flex-col gap-5">
+            <!-- account info card -->
+            <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm overflow-hidden">
+                <div class="flex items-center justify-between px-5 py-4 border-b border-zinc-100 dark:border-zinc-800">
+                    <div class="skeleton-base h-3.5 w-36 rounded"></div>
+                    <div class="skeleton-base h-7 w-14 rounded-md"></div>
+                </div>
+                <?php foreach (['w-32','w-44','w-16','w-16'] as $w): ?>
+                <div class="flex items-center px-5 py-3.5 gap-4 border-b border-zinc-100 dark:border-zinc-800 last:border-0">
+                    <div class="skeleton-base h-3 w-28 rounded shrink-0"></div>
+                    <div class="skeleton-base h-3 <?= $w ?> rounded"></div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            <!-- change password card -->
+            <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm overflow-hidden">
+                <div class="flex items-center justify-between px-5 py-4 border-b border-zinc-100 dark:border-zinc-800">
+                    <div class="skeleton-base h-3.5 w-32 rounded"></div>
+                    <div class="skeleton-base h-7 w-20 rounded-md"></div>
+                </div>
+                <div class="px-5 py-3.5">
+                    <div class="skeleton-base h-3 w-24 rounded"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Real content -->
+    <div id="profile-content" style="display:none" class="grid md:grid-cols-3 gap-5">
 
         <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 flex flex-col items-center text-center shadow-sm gap-3">
             <?php include 'app/views/components/shared/avatar-uploader.php'; ?>
@@ -23,5 +61,15 @@
             <?php include 'app/views/components/shared/profile-form.php'; ?>
         </div>
 
-    </div>
+    </div><!-- end profile-content -->
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const sk = document.getElementById('profile-skeleton');
+    const ct = document.getElementById('profile-content');
+    if (sk && ct) {
+        setTimeout(() => { sk.style.display = 'none'; ct.style.display = 'grid'; }, 500);
+    }
+});
+</script>
