@@ -23,6 +23,66 @@ $total    = count($userList);
     <!-- Table card -->
     <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm overflow-hidden">
 
+        <!-- Skeleton overlay -->
+        <div id="users-skeleton" class="overflow-hidden">
+            <!-- toolbar -->
+            <div class="flex items-center justify-between gap-3 px-4 py-3 border-b border-zinc-100 dark:border-zinc-800">
+                <div class="skeleton-base h-8 w-56 rounded-md"></div>
+                <div class="flex items-center gap-2">
+                    <div class="skeleton-base h-8 w-24 rounded-md"></div>
+                    <div class="skeleton-base h-8 w-24 rounded-md"></div>
+                    <div class="skeleton-base h-4 w-12 rounded"></div>
+                </div>
+            </div>
+            <!-- table -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="border-b border-zinc-100 dark:border-zinc-800">
+                        <tr>
+                            <?php foreach (['w-6','w-28','w-40','w-16','w-20','w-24','w-20'] as $w): ?>
+                            <th class="px-4 py-3 text-left"><div class="skeleton-base h-3 <?= $w ?> rounded"></div></th>
+                            <?php endforeach; ?>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-50 dark:divide-zinc-800">
+                        <?php
+                        $nameWidths  = ['w-24','w-32','w-20','w-28','w-36','w-24','w-30','w-28'];
+                        $emailWidths = ['w-36','w-44','w-32','w-40','w-48','w-36','w-40','w-44'];
+                        for ($i = 0; $i < 8; $i++): ?>
+                        <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+                            <td class="px-4 py-3"><div class="skeleton-base h-3 w-6 rounded"></div></td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="skeleton-base w-7 h-7 rounded-full shrink-0"></div>
+                                    <div class="skeleton-base h-3 <?= $nameWidths[$i] ?> rounded"></div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3"><div class="skeleton-base h-3 <?= $emailWidths[$i] ?> rounded"></div></td>
+                            <td class="px-4 py-3"><div class="skeleton-base h-5 w-14 rounded-md"></div></td>
+                            <td class="px-4 py-3"><div class="skeleton-base h-5 w-16 rounded-md"></div></td>
+                            <td class="px-4 py-3"><div class="skeleton-base h-3 w-20 rounded"></div></td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center gap-1">
+                                    <div class="skeleton-base h-7 w-14 rounded-md"></div>
+                                    <div class="skeleton-base h-7 w-16 rounded-md"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php endfor; ?>
+                    </tbody>
+                </table>
+            </div>
+            <!-- pagination -->
+            <div class="flex items-center justify-between px-4 py-3 border-t border-zinc-100 dark:border-zinc-800">
+                <div class="skeleton-base h-3 w-32 rounded"></div>
+                <div class="flex items-center gap-1">
+                    <?php for($i=0;$i<5;$i++): ?><div class="skeleton-base h-7 w-7 rounded-md"></div><?php endfor; ?>
+                </div>
+            </div>
+        </div>
+
+        <div id="users-content" style="display:none">
+
         <!-- Toolbar -->
         <div class="flex items-center justify-between gap-3 px-4 py-3 border-b border-zinc-100 dark:border-zinc-800">
             <div class="relative">
@@ -33,13 +93,13 @@ $total    = count($userList);
                     class="h-8 pl-8 pr-3 w-56 text-sm bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md placeholder-zinc-400 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:bg-white dark:focus:bg-zinc-800 transition">
             </div>
             <div class="flex items-center gap-2">
-                <select x-model="filterRole"
+                <select id="users-filter-role" x-model="filterRole"
                     class="h-8 px-2 text-sm bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md text-zinc-700 dark:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-zinc-900 transition">
                     <option value="">All roles</option>
                     <option value="user">User</option>
                     <option value="editor">Editor</option>
                 </select>
-                <select x-model="filterStatus"
+                <select id="users-filter-status" x-model="filterStatus"
                     class="h-8 px-2 text-sm bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md text-zinc-700 dark:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-zinc-900 transition">
                     <option value="">All status</option>
                     <option value="active">Active</option>
@@ -78,7 +138,7 @@ $total    = count($userList);
                         <th class="px-4 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wide">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-zinc-50 dark:divide-zinc-800">
+                <tbody id="users-tbody" class="divide-y divide-zinc-50 dark:divide-zinc-800">
                     <template x-for="u in paginated" :key="u.id">
                         <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                             <td class="px-4 py-3 text-xs text-zinc-400 dark:text-zinc-500 font-mono" x-text="u.id"></td>
@@ -129,7 +189,7 @@ $total    = count($userList);
         </div>
 
         <!-- Pagination -->
-        <div class="flex items-center justify-between px-4 py-3 border-t border-zinc-100 dark:border-zinc-800" x-show="totalPages > 1">
+        <div id="users-pagination" class="flex items-center justify-between px-4 py-3 border-t border-zinc-100 dark:border-zinc-800" x-show="totalPages > 1">
             <p class="text-xs text-zinc-400 dark:text-zinc-500">
                 Showing <span class="font-medium text-zinc-700 dark:text-zinc-300" x-text="(page - 1) * perPage + 1"></span>–<span class="font-medium text-zinc-700 dark:text-zinc-300" x-text="Math.min(page * perPage, filtered.length)"></span> of <span class="font-medium text-zinc-700 dark:text-zinc-300" x-text="filtered.length"></span>
             </p>
@@ -171,7 +231,18 @@ $total    = count($userList);
 
             </div>
         </div>
-    </div>
+        </div><!-- end users-content -->
+
+    </div><!-- end table card -->
 
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const sk = document.getElementById('users-skeleton');
+    const ct = document.getElementById('users-content');
+    if (sk && ct) {
+        setTimeout(() => { sk.style.display = 'none'; ct.style.display = ''; }, 500);
+    }
+});
+</script>
