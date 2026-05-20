@@ -13,9 +13,79 @@ $pageLabels = [
     'superadmin/profile'   => 'Profile',
 ];
 $pageLabel = $pageLabels[$currentUri] ?? 'Dashboard';
+$labelPx   = max(40, strlen($pageLabel) * 8); // approx px width for skeleton
 ?>
 
-<header class="h-14 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center px-4 shrink-0 z-20 gap-4">
+<!-- Topbar skeleton — mirrors real header structure exactly -->
+<div id="topbar-skeleton" style="height:56px;background:#fff;border-bottom:1px solid #e4e4e7;display:flex;align-items:center;padding:0 16px;gap:16px;flex-shrink:0">
+<script>(function(){
+    var dk = localStorage.getItem('theme')==='dark';
+    var s  = document.getElementById('topbar-skeleton');
+    if(dk){
+        s.style.background        = '#18181b';
+        s.style.borderBottomColor = '#27272a';
+    }
+    // badge bg
+    var badge = s.querySelector('.sk-badge');
+    if(badge) badge.style.background = dk ? 'rgba(124,58,237,.15)' : '#f5f3ff';
+    // divider
+    var div = s.querySelector('.sk-divider');
+    if(div) div.style.background = dk ? '#3f3f46' : '#e4e4e7';
+})();</script>
+
+    <!-- LEFT mirrors: flex items-center gap-3 shrink-0 -->
+    <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+
+        <!-- hamburger: inline-flex w-8 h-8 rounded-md -->
+        <div style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px;flex-shrink:0">
+            <div class="skeleton-base" style="width:16px;height:16px;border-radius:3px"></div>
+        </div>
+
+        <!-- Super Admin badge: rounded-full px-2 py-0.5 text-xs gap-1.5 -->
+        <div class="sk-badge" style="display:flex;align-items:center;gap:6px;padding:2px 8px;border-radius:9999px">
+            <div class="skeleton-base" style="width:12px;height:12px;border-radius:50%"></div>
+            <div class="skeleton-base" style="width:60px;height:11px;border-radius:3px"></div>
+        </div>
+
+        <!-- breadcrumb nav: flex items-center gap-1.5 -->
+        <div style="display:flex;align-items:center;gap:6px">
+            <?php if ($currentUri !== 'superadmin/dashboard'): ?>
+            <div class="skeleton-base" style="width:54px;height:13px;border-radius:3px"></div>
+            <div class="skeleton-base" style="width:14px;height:14px;border-radius:3px"></div>
+            <?php endif; ?>
+            <div class="skeleton-base" style="width:<?= $labelPx ?>px;height:14px;border-radius:3px"></div>
+        </div>
+    </div>
+
+    <!-- CENTER mirrors: flex-1 flex justify-center px-4 -->
+    <div style="flex:1;display:flex;justify-content:center;padding:0 16px">
+        <div class="skeleton-base" style="width:100%;max-width:448px;height:36px;border-radius:8px"></div>
+    </div>
+
+    <!-- RIGHT mirrors: flex items-center gap-1 shrink-0 -->
+    <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
+
+        <!-- theme btn: inline-flex w-8 h-8 rounded-md -->
+        <div style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px">
+            <div class="skeleton-base" style="width:16px;height:16px;border-radius:3px"></div>
+        </div>
+
+        <!-- divider: w-px h-5 mx-1 -->
+        <div class="sk-divider" style="width:1px;height:20px;margin:0 4px;flex-shrink:0"></div>
+
+        <!-- avatar btn: flex items-center gap-2 h-8 pl-1 pr-2 -->
+        <div style="display:flex;align-items:center;gap:8px;height:32px;padding:0 8px 0 4px;border-radius:6px">
+            <div class="skeleton-base" style="width:24px;height:24px;border-radius:9999px;flex-shrink:0"></div>
+            <div class="skeleton-base" style="width:72px;height:13px;border-radius:3px"></div>
+            <div class="skeleton-base" style="width:12px;height:12px;border-radius:3px"></div>
+        </div>
+    </div>
+
+</div>
+
+<header class="h-14 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center px-4 shrink-0 z-20 gap-4"
+        style="display:none"
+        x-init="document.getElementById('topbar-skeleton')?.remove(); $el.style.display='flex'">
 
     <!-- Left: hamburger + breadcrumb -->
     <div class="flex items-center gap-3 shrink-0">
