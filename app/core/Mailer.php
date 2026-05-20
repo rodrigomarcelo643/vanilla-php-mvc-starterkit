@@ -8,6 +8,7 @@ class Mailer
 {
     private PHPMailer $mail;
 
+    // Mailer Main Function
     public function __construct()
     {
         $this->mail = new PHPMailer(true);

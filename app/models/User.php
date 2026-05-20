@@ -2,12 +2,13 @@
 
 class User extends Model
 {
+    // Get All Users
     public function getAll()
     {
         return $this->db->query("SELECT id, name, email, role, status, avatar, created_at FROM users ORDER BY created_at DESC")
                         ->fetchAll(PDO::FETCH_ASSOC);
     }
-
+    // Find Users By Email
     public function findByEmail(string $email): array|false
     {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
@@ -15,13 +16,14 @@ class User extends Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Find Users By Id
     public function findById(int $id): array|false
     {
         $stmt = $this->db->prepare("SELECT id, name, email, role, status, created_at FROM users WHERE id = ? LIMIT 1");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
+    // Create User Account
     public function create(string $name, string $email, string $password): int
     {
         $stmt = $this->db->prepare(
@@ -30,26 +32,26 @@ class User extends Model
         $stmt->execute([$name, $email, password_hash($password, PASSWORD_BCRYPT)]);
         return (int) $this->db->lastInsertId();
     }
-
+    // Validation if Email Already Exists
     public function emailExists(string $email): bool
     {
         $stmt = $this->db->prepare("SELECT id FROM users WHERE email = ? LIMIT 1");
         $stmt->execute([$email]);
         return (bool) $stmt->fetch();
     }
-
+    // Update Password
     public function updatePassword(int $id, string $password): void
     {
         $stmt = $this->db->prepare('UPDATE users SET password = ? WHERE id = ?');
         $stmt->execute([password_hash($password, PASSWORD_BCRYPT), $id]);
     }
-
+    // Update Avatar
     public function updateAvatar(int $id, string $avatarUrl): void
     {
         $stmt = $this->db->prepare('UPDATE users SET avatar = ? WHERE id = ?');
         $stmt->execute([$avatarUrl, $id]);
     }
-
+    // Update Profile
     public function updateProfile(int $id, string $name, string $email): bool
     {
         // Check email not taken by another user
@@ -61,7 +63,7 @@ class User extends Model
                  ->execute([$name, $email, $id]);
         return true;
     }
-
+    // Verify Password
     public function verifyPassword(int $id, string $password): bool
     {
         $stmt = $this->db->prepare('SELECT password FROM users WHERE id = ? LIMIT 1');
@@ -69,7 +71,7 @@ class User extends Model
         $row  = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row && password_verify($password, $row['password']);
     }
-
+    // Update User Details
     public function update(int $id, string $name, string $email, string $role, string $status): bool
     {
         $stmt = $this->db->prepare('SELECT id FROM users WHERE email = ? AND id != ? LIMIT 1');
@@ -79,12 +81,12 @@ class User extends Model
                  ->execute([$name, $email, $role, $status, $id]);
         return true;
     }
-
+    // Delete Users
     public function delete(int $id): void
     {
         $this->db->prepare('DELETE FROM users WHERE id = ?')->execute([$id]);
     }
-
+    // Admin Create User
     public function adminCreate(string $name, string $email, string $password, string $role, string $status): int|false
     {
         $stmt = $this->db->prepare('SELECT id FROM users WHERE email = ? LIMIT 1');
@@ -94,7 +96,7 @@ class User extends Model
         $stmt->execute([$name, $email, password_hash($password, PASSWORD_BCRYPT), $role, $status]);
         return (int) $this->db->lastInsertId();
     }
-
+    // Count function of Users
     public function count(): int
     {
         return (int) $this->db->query("SELECT COUNT(*) FROM users")->fetchColumn();

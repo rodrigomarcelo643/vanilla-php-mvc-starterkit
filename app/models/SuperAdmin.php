@@ -2,6 +2,7 @@
 
 class SuperAdmin extends Model
 {
+    // Find By Email
     public function findByEmail(string $email): array|false
     {
         $stmt = $this->db->prepare("SELECT * FROM super_admins WHERE email = ? LIMIT 1");
@@ -12,25 +13,25 @@ class SuperAdmin extends Model
         }
         return $row;
     }
-
+    // Get All Super Admins
     public function getAll(): array
     {
         return $this->db->query("SELECT id, name, email, status, created_at FROM super_admins ORDER BY created_at DESC")
                         ->fetchAll(PDO::FETCH_ASSOC);
     }
-
+    // Update Password
     public function updatePassword(int $id, string $password): void
     {
         $this->db->prepare('UPDATE super_admins SET password = ? WHERE id = ?')
                  ->execute([password_hash($password, PASSWORD_BCRYPT), $id]);
     }
-
+    // Update Avatar
     public function updateAvatar(int $id, string $avatarUrl): void
     {
         $this->db->prepare('UPDATE super_admins SET avatar = ? WHERE id = ?')
                  ->execute([$avatarUrl, $id]);
     }
-
+    // Update Profile
     public function updateProfile(int $id, string $name, string $email): bool
     {
         $stmt = $this->db->prepare('SELECT id FROM super_admins WHERE email = ? AND id != ? LIMIT 1');
@@ -41,7 +42,7 @@ class SuperAdmin extends Model
                  ->execute([$name, $email, $id]);
         return true;
     }
-
+    // Verify Password
     public function verifyPassword(int $id, string $password): bool
     {
         $stmt = $this->db->prepare('SELECT password FROM super_admins WHERE id = ? LIMIT 1');

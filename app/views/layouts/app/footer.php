@@ -12,6 +12,7 @@
 <script src="<?= BASE_URL ?>/js/theme.js"></script>
 <script src="<?= BASE_URL ?>/js/ajax.js"></script>
 <script src="<?= BASE_URL ?>/js/app.js"></script>
+<script src="<?= BASE_URL ?>/js/skeleton.js"></script>
 <script src="<?= BASE_URL ?>/js/logout.js"></script>
 <script src="<?= BASE_URL ?>/js/sidebar.js"></script>
 <script src="<?= BASE_URL ?>/js/avatar.js"></script>

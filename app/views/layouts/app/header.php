@@ -9,6 +9,7 @@
     <script>tailwind.config={darkMode:'class'}</script>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/skeleton.css">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased"

@@ -1,0 +1,49 @@
+/* ── Skeleton shimmer ── */
+@keyframes shimmer {
+    0%   { background-position: -600px 0; }
+    100% { background-position:  600px 0; }
+}
+
+.skeleton-base {
+    background: linear-gradient(90deg, #e4e4e7 25%, #f4f4f5 50%, #e4e4e7 75%);
+    background-size: 600px 100%;
+    animation: shimmer 1.4s infinite linear;
+    border-radius: 0.5rem;
+}
+
+.dark .skeleton-base {
+    background: linear-gradient(90deg, #27272a 25%, #3f3f46 50%, #27272a 75%);
+    background-size: 600px 100%;
+}
+
+/* ── Card ── */
+.sk-card {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    padding: 1.25rem;
+    border-radius: 1rem;
+    background: white;
+    border: 1px solid #e4e4e7;
+}
+.dark .sk-card { background: #18181b; border-color: #27272a; }
+.sk-card .sk-icon  { width: 2.5rem; height: 2.5rem; border-radius: .75rem; flex-shrink: 0; }
+.sk-card .sk-title { height: 1rem;   width: 55%; }
+.sk-card .sk-value { height: 1.75rem; width: 45%; }
+.sk-card .sk-line  { height: .75rem; }
+.sk-card .sk-line.short  { width: 40%; }
+.sk-card .sk-line.medium { width: 65%; }
+.sk-card .sk-line.full   { width: 100%; }
+
+/* ── Table ── */
+.sk-table { width: 100%; border-collapse: collapse; }
+.sk-table .sk-row td { padding: .75rem 1rem; }
+.sk-table .sk-row td .sk-cell { height: .75rem; border-radius: .375rem; }
+
+/* ── Pagination ── */
+.sk-pagination { display: flex; gap: .5rem; align-items: center; }
+.sk-pagination .sk-btn  { width: 2.25rem; height: 2.25rem; border-radius: .5rem; }
+.sk-pagination .sk-text { height: .75rem; width: 5rem; border-radius: .375rem; }
+
+/* ── Select ── */
+.sk-select { height: 2.5rem; width: 100%; border-radius: .75rem; }

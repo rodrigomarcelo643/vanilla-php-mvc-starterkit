@@ -2,6 +2,7 @@
 
 class PasswordReset extends Model
 {
+    // Create Token
     public function createToken(string $email): string
     {
         $token     = bin2hex(random_bytes(32));
@@ -17,7 +18,7 @@ class PasswordReset extends Model
 
         return $token;
     }
-
+    // Find By Token
     public function findByToken(string $token): array|false
     {
         $stmt = $this->db->prepare(
@@ -26,12 +27,12 @@ class PasswordReset extends Model
         $stmt->execute([$token]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
+    // Delete By Email
     public function deleteByEmail(string $email): void
     {
         $this->db->prepare('DELETE FROM password_resets WHERE email = ?')->execute([$email]);
     }
-
+    // Delete By Token
     public function deleteByToken(string $token): void
     {
         $this->db->prepare('DELETE FROM password_resets WHERE token = ?')->execute([$token]);

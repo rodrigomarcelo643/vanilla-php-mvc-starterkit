@@ -2,6 +2,8 @@
  * App — global utilities
  */
 const App = {
+
+    // App Toast
     toast(message, type = 'info') {
         const colors = { success: 'bg-green-600', error: 'bg-red-600', info: 'bg-indigo-600' };
         const toast = document.createElement('div');
@@ -16,7 +18,7 @@ const App = {
             setTimeout(() => toast.remove(), 4000);
         }
     },
-
+    // Error Alert
     alert(id, message, type = 'error') {
         const el = document.getElementById(id);
         if (!el) return;
@@ -33,13 +35,14 @@ const App = {
         if (spinner) spinner.classList.toggle('hidden', !loading);
     },
 
+    // Logout Redirection
     logout() {
         if (typeof LogoutModal !== 'undefined') {
             LogoutModal.show();
         } else {
             Ajax.post(BASE_URL + '/ajax/logout', {}).then(res => {
-                window.location.href = res.redirect ?? BASE_URL + '/';
-            }).catch(() => { window.location.href = BASE_URL + '/'; });
+                window.location.href = res.redirect ?? BASE_URL + '/login';
+            }).catch(() => { window.location.href = BASE_URL + '/login'; });
         }
     },
 };
