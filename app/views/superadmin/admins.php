@@ -24,6 +24,64 @@ $total     = count($adminList);
     <!-- Table card -->
     <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm overflow-hidden">
 
+        <!-- Skeleton overlay -->
+        <div id="admins-skeleton" class="overflow-hidden">
+            <!-- toolbar -->
+            <div class="flex items-center justify-between gap-3 px-4 py-3 border-b border-zinc-100 dark:border-zinc-800">
+                <div class="skeleton-base h-8 w-56 rounded-md"></div>
+                <div class="flex items-center gap-2">
+                    <div class="skeleton-base h-8 w-28 rounded-md"></div>
+                    <div class="skeleton-base h-4 w-12 rounded"></div>
+                </div>
+            </div>
+            <!-- table -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="border-b border-zinc-100 dark:border-zinc-800">
+                        <tr>
+                            <?php foreach (['w-6','w-28','w-40','w-20','w-24','w-20'] as $w): ?>
+                            <th class="px-4 py-3 text-left"><div class="skeleton-base h-3 <?= $w ?> rounded"></div></th>
+                            <?php endforeach; ?>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-50 dark:divide-zinc-800">
+                        <?php
+                        $nameWidths = ['w-24','w-32','w-20','w-28','w-36','w-24','w-30','w-28'];
+                        $emailWidths = ['w-36','w-44','w-32','w-40','w-48','w-36','w-40','w-44'];
+                        for ($i = 0; $i < 8; $i++): ?>
+                        <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+                            <td class="px-4 py-3"><div class="skeleton-base h-3 w-6 rounded"></div></td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="skeleton-base w-7 h-7 rounded-full shrink-0"></div>
+                                    <div class="skeleton-base h-3 <?= $nameWidths[$i] ?> rounded"></div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3"><div class="skeleton-base h-3 <?= $emailWidths[$i] ?> rounded"></div></td>
+                            <td class="px-4 py-3"><div class="skeleton-base h-5 w-16 rounded-md"></div></td>
+                            <td class="px-4 py-3"><div class="skeleton-base h-3 w-20 rounded"></div></td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center gap-1">
+                                    <div class="skeleton-base h-7 w-14 rounded-md"></div>
+                                    <div class="skeleton-base h-7 w-16 rounded-md"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php endfor; ?>
+                    </tbody>
+                </table>
+            </div>
+            <!-- pagination -->
+            <div class="flex items-center justify-between px-4 py-3 border-t border-zinc-100 dark:border-zinc-800">
+                <div class="skeleton-base h-3 w-32 rounded"></div>
+                <div class="flex items-center gap-1">
+                    <?php for($i=0;$i<5;$i++): ?><div class="skeleton-base h-7 w-7 rounded-md"></div><?php endfor; ?>
+                </div>
+            </div>
+        </div>
+
+        <div id="admins-content" style="display:none">
+
         <div class="flex items-center justify-between gap-3 px-4 py-3 border-b border-zinc-100 dark:border-zinc-800">
             <div class="relative">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -62,7 +120,7 @@ $total     = count($adminList);
                         <th class="px-4 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wide">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-zinc-50 dark:divide-zinc-800">
+                <tbody id="admins-tbody" class="divide-y divide-zinc-50 dark:divide-zinc-800">
                     <template x-for="u in paginated" :key="u.id">
                         <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                             <td class="px-4 py-3 text-xs text-zinc-400 font-mono" x-text="u.id"></td>
@@ -104,7 +162,7 @@ $total     = count($adminList);
             </table>
         </div>
 
-        <div class="flex items-center justify-between px-4 py-3 border-t border-zinc-100 dark:border-zinc-800" x-show="totalPages > 1">
+        <div id="admins-pagination" class="flex items-center justify-between px-4 py-3 border-t border-zinc-100 dark:border-zinc-800" x-show="totalPages > 1">
             <p class="text-xs text-zinc-400">
                 Showing <span class="font-medium text-zinc-700 dark:text-zinc-300" x-text="(page-1)*perPage+1"></span>–<span class="font-medium text-zinc-700 dark:text-zinc-300" x-text="Math.min(page*perPage,filtered.length)"></span> of <span class="font-medium text-zinc-700 dark:text-zinc-300" x-text="filtered.length"></span>
             </p>
@@ -124,7 +182,9 @@ $total     = count($adminList);
                 </button>
             </div>
         </div>
-    </div>
+        </div><!-- end admins-content -->
+
+    </div><!-- end table card -->
 
     <!-- Create / Edit Modal — teleported to body to escape overflow containers -->
     <template x-teleport="body">
@@ -209,6 +269,14 @@ $total     = count($adminList);
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const sk = document.getElementById('admins-skeleton');
+    const ct = document.getElementById('admins-content');
+    if (sk && ct) {
+        setTimeout(() => { sk.style.display = 'none'; ct.style.display = ''; }, 500);
+    }
+});
+
 function AdminsTable(data) {
     return {
         rows: data,
