@@ -1,0 +1,74 @@
+#!/usr/bin/env php
+<?php
+
+if (php_sapi_name() !== 'cli') {
+    exit(1);
+}
+
+function info($msg) { echo "\033[1;36m{$msg}\033[0m\n"; }
+function success($msg) { echo "\033[1;32m{$msg}\033[0m\n"; }
+function error($msg) { echo "\033[1;31mError: {$msg}\033[0m\n"; exit(1); }
+
+$projectName = $argv[1] ?? null;
+if (!$projectName) {
+    error("Please specify the project name. Usage: kit-new <project-name>");
+}
+
+$targetDir = getcwd() . DIRECTORY_SEPARATOR . $projectName;
+if (file_exists($targetDir)) {
+    error("Directory '{$projectName}' already exists.");
+}
+
+$sourceDir = realpath(__DIR__);
+if (!$sourceDir) {
+    error("Could not determine source directory.");
+}
+
+info("Creating a new Vanilla PHP MVC Starter Kit project in '{$projectName}'...");
+
+function recursiveCopy($src, $dst, $exclude = []) {
+    $dir = opendir($src);
+    @mkdir($dst);
+    while (false !== ($file = readdir($dir))) {
+        if (($file != '.') && ($file != '..')) {
+            if (in_array($file, $exclude)) {
+                continue;
+            }
+            $srcPath = $src . DIRECTORY_SEPARATOR . $file;
+            $dstPath = $dst . DIRECTORY_SEPARATOR . $file;
+            if (is_dir($srcPath)) {
+                recursiveCopy($srcPath, $dstPath, $exclude);
+            } else {
+                copy($srcPath, $dstPath);
+            }
+        }
+    }
+    closedir($dir);
+}
+
+// Automatically exclude the target project directory to avoid infinite recursion
+$excludes = ['.git', 'vendor', '.env', 'kit-new', 'kit-new.bat', '.phpunit.result.cache', $projectName];
+recursiveCopy($sourceDir, $targetDir, $excludes);
+
+// Copy .env
+$envExample = $targetDir . DIRECTORY_SEPARATOR . '.env.example';
+$envFile = $targetDir . DIRECTORY_SEPARATOR . '.env';
+if (file_exists($envExample)) {
+    copy($envExample, $envFile);
+}
+
+chdir($targetDir);
+
+info("Installing dependencies (composer install)...");
+if (stripos(PHP_OS, 'WIN') !== false) {
+    passthru('cmd /c composer install');
+} else {
+    passthru('composer install');
+}
+
+info("Generating APP_KEY...");
+if (file_exists('kit')) {
+    passthru('php kit key:generate');
+}
+
+success("Project '{$projectName}' created successfully!");
