@@ -19,7 +19,6 @@ if (loginForm) {
         try {
             const res = await Ajax.post(BASE_URL + '/ajax/login', new FormData(loginForm));
             if (res.success) {
-                App.toast('Login successful! Redirecting…', 'success');
                 setTimeout(() => window.location.href = res.redirect ?? BASE_URL + '/', 800);
             } else {
                 App.alert('login-alert', res.message ?? 'Login failed.', 'error');
@@ -101,7 +100,6 @@ if (registerForm) {
         try {
             const res = await Ajax.post(BASE_URL + '/ajax/register', new FormData(registerForm));
             if (res.success) {
-                App.toast('Account created! Redirecting…', 'success');
                 setTimeout(() => window.location.href = res.redirect ?? BASE_URL + '/', 800);
             } else {
                 App.alert('register-alert', res.message ?? 'Registration failed.', 'error');
