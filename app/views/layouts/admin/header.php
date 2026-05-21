@@ -1,17 +1,8 @@
+<?php $tailwindConfig = ['DEFAULT' => '#4F46E5', 'hover' => '#4338CA']; ?>
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($title ?? 'Admin') ?> — <?= APP_NAME ?></title>
-    <script>if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');</script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: { extend: { colors: { primary: { DEFAULT: '#4F46E5', hover: '#4338CA' } } } }
-        }
-    </script>
+    <?php include 'app/views/components/shared/head.php'; ?>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/skeleton.css">
