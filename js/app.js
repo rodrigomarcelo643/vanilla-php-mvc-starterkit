@@ -35,9 +35,8 @@ const App = {
             box-shadow:0 8px 24px rgba(0,0,0,0.18); max-width:320px; width:max-content;
         `;
         toast.innerHTML = `
-            <span style="opacity:.9;display:flex;flex-shrink:0">${c.icon}</span>
             <span style="flex:1;line-height:1.4">${message}</span>
-            <button onclick="this.parentElement.remove()" style="opacity:.6;font-size:18px;line-height:1;background:none;border:none;color:#fff;cursor:pointer;padding:0 2px" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">&times;</button>
+            <button onclick="this.parentElement.remove()" style="opacity:.5;background:none;border:none;color:#fff;cursor:pointer;padding:0 4px;font-size:18px;line-height:1;flex-shrink:0" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">&times;</button>
             <span class="toast-bar" style="position:absolute;bottom:0;left:0;height:2px;width:100%;background:${c.bar};transform-origin:left"></span>
         `;
         const container = document.getElementById('toast-container');
