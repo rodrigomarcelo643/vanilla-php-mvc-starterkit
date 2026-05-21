@@ -27,4 +27,19 @@
     animation: spin 0.7s linear infinite;
 }
 
-
+/* ── Toast ── */
+@keyframes toast-slide-in {
+    from { opacity: 0; transform: translateX(110%); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes toast-slide-out {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(110%); }
+}
+@keyframes toast-progress {
+    from { transform: scaleX(1); }
+    to   { transform: scaleX(0); }
+}
+.toast-in  { animation: toast-slide-in 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.toast-out { animation: toast-slide-out 0.3s ease-in forwards; }
+.toast-bar { transform-origin: left; animation: toast-progress 4s linear forwards; }
