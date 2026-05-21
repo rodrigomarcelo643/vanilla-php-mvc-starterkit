@@ -54,13 +54,13 @@ class Router
 
     public static function parseUri(): string
     {
-        // Use REQUEST_URI for clean URLs (/login, /dashboard, etc.)
         $uri = $_SERVER['REQUEST_URI'] ?? '/';
 
-        // Strip base path if app lives in a subfolder
-        $base = rtrim(BASE_URL, '/');
-        if ($base !== '' && str_starts_with($uri, $base)) {
-            $uri = substr($uri, strlen($base));
+        // Extract only the PATH portion of BASE_URL (strips protocol + host + port)
+        // e.g. "http://localhost/starterkit" → "/starterkit"
+        $basePath = rtrim(parse_url(BASE_URL, PHP_URL_PATH) ?? '', '/');
+        if ($basePath !== '' && str_starts_with($uri, $basePath)) {
+            $uri = substr($uri, strlen($basePath));
         }
 
         // Strip query string (?foo=bar)
@@ -91,7 +91,11 @@ class Router
 
     public static function redirect(string $path): void
     {
-        header('Location: ' . BASE_URL . '/' . ltrim($path, '/'));
+        // Use the actual current host+port so redirects work on both Apache and php kit serve
+        $scheme   = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host     = $_SERVER['HTTP_HOST'];                              // e.g. localhost:8000
+        $basePath = rtrim(parse_url(BASE_URL, PHP_URL_PATH) ?? '', '/'); // e.g. /starterkit
+        header('Location: ' . $scheme . '://' . $host . $basePath . '/' . ltrim($path, '/'));
         exit;
     }
 
