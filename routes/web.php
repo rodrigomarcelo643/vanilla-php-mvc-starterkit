@@ -4,6 +4,7 @@
 require_once 'app/config/app.php';
 require_once 'app/config/database.php';
 require_once 'app/config/mail.php';
+require_once 'app/config/oauth.php';
 require_once 'app/helpers/helper.php';
 require_once 'app/core/Database.php';
 require_once 'app/core/Model.php';
@@ -17,6 +18,7 @@ require_once 'app/core/Mailer.php';
 // Auth
 require_once 'routes/web/auth/pages.php';
 require_once 'routes/web/auth/ajax.php';
+require_once 'routes/web/auth/oauth.php';
 
 // Client / Public
 require_once 'routes/web/client/pages.php';
