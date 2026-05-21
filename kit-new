@@ -36,6 +36,10 @@ function recursiveCopy($src, $dst, $exclude = []) {
             }
             $srcPath = $src . DIRECTORY_SEPARATOR . $file;
             $dstPath = $dst . DIRECTORY_SEPARATOR . $file;
+            // Skip copying the target project directory to prevent infinite recursion
+            if (realpath($srcPath) === realpath($dst)) {
+                continue;
+            }
             if (is_dir($srcPath)) {
                 recursiveCopy($srcPath, $dstPath, $exclude);
             } else {
