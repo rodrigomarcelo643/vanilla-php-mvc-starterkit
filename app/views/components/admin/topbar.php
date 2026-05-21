@@ -12,10 +12,63 @@ $pageLabels = [
     'admin/profile'  => 'Profile',
 ];
 $pageLabel = $pageLabels[$currentUri] ?? 'Dashboard';
+$labelPx   = max(40, strlen($pageLabel) * 8);
 ?>
 
+<!-- Topbar skeleton -->
+<div id="topbar-skeleton" style="height:56px;background:#fff;border-bottom:1px solid #e4e4e7;display:flex;align-items:center;padding:0 16px;gap:16px;flex-shrink:0">
+<script>(function(){
+    var dk = localStorage.getItem('theme')==='dark';
+    var s  = document.getElementById('topbar-skeleton');
+    if(dk){
+        s.style.background        = '#18181b';
+        s.style.borderBottomColor = '#27272a';
+    }
+    var div = s.querySelector('.sk-divider');
+    if(div) div.style.background = dk ? '#3f3f46' : '#e4e4e7';
+})();</script>
+
+    <!-- LEFT -->
+    <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+        <div style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px;flex-shrink:0">
+            <div class="skeleton-base" style="width:16px;height:16px;border-radius:3px"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+            <?php if ($currentUri !== 'admin/dashboard'): ?>
+            <div class="skeleton-base" style="width:54px;height:13px;border-radius:3px"></div>
+            <div class="skeleton-base" style="width:14px;height:14px;border-radius:3px"></div>
+            <?php endif; ?>
+            <div class="skeleton-base" style="width:<?= $labelPx ?>px;height:14px;border-radius:3px"></div>
+        </div>
+    </div>
+
+    <!-- CENTER -->
+    <div style="flex:1;display:flex;justify-content:center;padding:0 16px">
+        <div class="skeleton-base" style="width:100%;max-width:448px;height:36px;border-radius:8px"></div>
+    </div>
+
+    <!-- RIGHT -->
+    <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
+        <div style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px">
+            <div class="skeleton-base" style="width:16px;height:16px;border-radius:3px"></div>
+        </div>
+        <div class="sk-divider" style="width:1px;height:20px;margin:0 4px;flex-shrink:0"></div>
+        <div style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px">
+            <div class="skeleton-base" style="width:16px;height:16px;border-radius:3px"></div>
+        </div>
+        <div class="sk-divider" style="width:1px;height:20px;margin:0 4px;flex-shrink:0"></div>
+        <div style="display:flex;align-items:center;gap:8px;height:32px;padding:0 8px 0 4px;border-radius:6px">
+            <div class="skeleton-base" style="width:24px;height:24px;border-radius:9999px;flex-shrink:0"></div>
+            <div class="skeleton-base" style="width:72px;height:13px;border-radius:3px"></div>
+            <div class="skeleton-base" style="width:12px;height:12px;border-radius:3px"></div>
+        </div>
+    </div>
+</div>
+
 <header
-    class="h-14 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center px-4 shrink-0 z-20 gap-4">
+    class="h-14 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center px-4 shrink-0 z-20 gap-4"
+    style="display:none"
+    x-init="document.getElementById('topbar-skeleton')?.remove(); $el.style.display='flex'">
 
     <!-- Left: hamburger + breadcrumb -->
     <div class="flex items-center gap-3 shrink-0">

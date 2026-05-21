@@ -23,6 +23,67 @@ $navGroups = [
 ];
 ?>
 
+<!-- Sidebar skeleton — visible until Alpine boots -->
+<aside id="sidebar-skeleton"
+    style="position:fixed;top:0;left:0;height:100vh;z-index:40;display:flex;flex-direction:column;background:#fff;border-right:1px solid #e4e4e7;width:60px">
+<script>(function(){
+    var dk = localStorage.getItem('theme')==='dark';
+    var el = document.getElementById('sidebar-skeleton');
+    el.style.width = window.innerWidth >= 1024 ? '256px' : '60px';
+    if(dk){
+        el.style.background        = '#18181b';
+        el.style.borderRightColor  = '#27272a';
+    }
+    var hb = el.querySelector('.sk-hdr-border');
+    if(hb) hb.style.borderBottomColor = dk ? '#27272a' : '#e4e4e7';
+    var fb = el.querySelector('.sk-ftr-border');
+    if(fb) fb.style.borderTopColor = dk ? '#27272a' : '#e4e4e7';
+})();</script>
+
+    <!-- header -->
+    <div class="sk-hdr-border" style="display:flex;align-items:center;height:56px;border-bottom:1px solid #e4e4e7;padding:0 12px;gap:12px;overflow:hidden;flex-shrink:0">
+        <div class="skeleton-base" style="width:28px;height:28px;border-radius:8px;flex-shrink:0"></div>
+        <div class="skeleton-base sk-label" style="height:14px;width:96px;border-radius:4px"></div>
+    </div>
+
+    <!-- nav -->
+    <div style="flex:1;padding:12px 8px;display:flex;flex-direction:column;gap:16px;overflow:hidden">
+        <div>
+            <div style="padding:0 8px;margin-bottom:4px">
+                <div class="skeleton-base sk-label" style="height:10px;width:32px;border-radius:3px"></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:8px">
+                <div class="skeleton-base" style="width:16px;height:16px;border-radius:3px;flex-shrink:0"></div>
+                <div class="skeleton-base sk-label" style="height:12px;width:80px;border-radius:3px"></div>
+            </div>
+        </div>
+        <div>
+            <div style="padding:0 8px;margin-bottom:4px">
+                <div class="skeleton-base sk-label" style="height:10px;width:80px;border-radius:3px"></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:8px">
+                <div class="skeleton-base" style="width:16px;height:16px;border-radius:3px;flex-shrink:0"></div>
+                <div class="skeleton-base sk-label" style="height:12px;width:40px;border-radius:3px"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="sk-ftr-border" style="border-top:1px solid #e4e4e7;padding:8px;flex-shrink:0">
+        <div style="display:flex;align-items:center;gap:10px;padding:8px">
+            <div class="skeleton-base" style="width:28px;height:28px;border-radius:9999px;flex-shrink:0"></div>
+            <div class="sk-label" style="display:flex;flex-direction:column;gap:6px">
+                <div class="skeleton-base" style="height:12px;width:96px;border-radius:3px"></div>
+                <div class="skeleton-base" style="height:10px;width:64px;border-radius:3px"></div>
+            </div>
+        </div>
+    </div>
+</aside>
+<style>
+    #sidebar-skeleton .sk-label { display:none; }
+    @media(min-width:1024px){ #sidebar-skeleton .sk-label { display:block; } }
+</style>
+
 <!-- Mobile backdrop only -->
 <div x-show="isMobile && sidebarOpen" x-transition:enter="transition ease-out duration-200"
     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
@@ -39,7 +100,9 @@ $navGroups = [
         '-translate-x-full': isMobile && !sidebarOpen
     }" class="fixed top-0 left-0 h-screen z-40 flex flex-col
            bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 shadow-sm
-           transition-all duration-300 ease-in-out overflow-hidden">
+           transition-all duration-300 ease-in-out overflow-hidden"
+    style="display:none"
+    x-init="$el.style.display = '';">
     <!-- Header -->
     <div class="flex items-center h-14 border-b border-zinc-200 dark:border-zinc-800 shrink-0 px-3 gap-3">
         <!-- Logo icon — always visible -->
@@ -223,5 +286,13 @@ $navGroups = [
     </div>
 </aside>
 
-<!-- Desktop spacer — w-64 when open, w-[60px] when collapsed, 0 on mobile -->
-<div :class="isMobile ? 'w-0' : (sidebarOpen ? 'w-64' : 'w-[60px]')" class="shrink-0 transition-all duration-300"></div>
+<!-- Desktop spacer -->
+<div id="sidebar-spacer" :class="isMobile ? 'w-0' : (sidebarOpen ? 'w-64' : 'w-[60px]')" class="shrink-0 transition-all duration-300"
+     x-init="document.getElementById('sidebar-skeleton')?.remove(); document.getElementById('sidebar-spacer').style.width = '';">
+    <script>
+        (function(){
+            var el = document.getElementById('sidebar-spacer');
+            el.style.width = window.innerWidth >= 1024 ? '256px' : '0px';
+        })();
+    </script>
+</div>

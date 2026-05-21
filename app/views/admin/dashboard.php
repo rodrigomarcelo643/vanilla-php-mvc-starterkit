@@ -66,7 +66,7 @@ $colorMap = [
     </div>
 
     <!-- Stat cards -->
-    <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
+    <div id="admin-dash-stats" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <?php
         $stats = [
             ['label' => 'Total Users',    'value' => number_format($totalUsers),    'change' => '+' . $newThisMonth . ' this month', 'up' => true,  'color' => 'indigo',
@@ -252,7 +252,7 @@ $colorMap = [
                             <th class="px-5 py-3 text-left font-medium">Joined</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <tbody id="admin-dash-tbody" class="divide-y divide-zinc-100 dark:divide-zinc-800">
                         <?php foreach ($recentUsers as $r): ?>
                         <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors">
                             <td class="px-5 py-3">
@@ -338,6 +338,48 @@ $colorMap = [
     </div>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const statsGrid = document.getElementById('admin-dash-stats');
+    if (statsGrid) {
+        const cardHTML = `
+        <div class="bg-white dark:bg-zinc-900 rounded-xl p-5 border border-zinc-100 dark:border-zinc-800">
+            <div class="flex items-start justify-between mb-3">
+                <div class="skeleton-base w-9 h-9 rounded-lg"></div>
+                <div class="skeleton-base h-5 w-24 rounded-full"></div>
+            </div>
+            <div class="skeleton-base h-7 w-16 rounded mb-1"></div>
+            <div class="skeleton-base h-3 w-24 rounded mb-3"></div>
+            <div class="skeleton-base h-10 w-full rounded"></div>
+        </div>`;
+        const saved = statsGrid.innerHTML;
+        statsGrid.innerHTML = cardHTML.repeat(4);
+        setTimeout(() => { statsGrid.innerHTML = saved; }, 600);
+    }
+    const tbody = document.getElementById('admin-dash-tbody');
+    if (tbody) {
+        const rowHTML = `
+        <tr>
+            <td class="px-5 py-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="skeleton-base w-7 h-7 rounded-full shrink-0"></div>
+                    <div>
+                        <div class="skeleton-base h-3 w-28 rounded mb-1"></div>
+                        <div class="skeleton-base h-2.5 w-36 rounded"></div>
+                    </div>
+                </div>
+            </td>
+            <td class="px-5 py-3"><div class="skeleton-base h-5 w-16 rounded-full"></div></td>
+            <td class="px-5 py-3"><div class="skeleton-base h-3 w-12 rounded"></div></td>
+            <td class="px-5 py-3"><div class="skeleton-base h-3 w-20 rounded"></div></td>
+        </tr>`;
+        const savedTbody = tbody.innerHTML;
+        tbody.innerHTML = rowHTML.repeat(5);
+        setTimeout(() => { tbody.innerHTML = savedTbody; }, 600);
+    }
+});
+</script>
 
 <script>
 const growthDatasets = <?= json_encode($growthDatasets) ?>;

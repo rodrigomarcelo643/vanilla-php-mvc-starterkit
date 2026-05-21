@@ -5,6 +5,36 @@
         <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">Here's what's happening with your account.</p>
     </div>
 
+    <!-- Skeleton -->
+    <div id="app-home-skeleton">
+        <div class="grid sm:grid-cols-3 gap-4 mb-8">
+            <?php for ($i = 0; $i < 3; $i++): ?>
+            <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 shadow-sm">
+                <div class="skeleton-base h-3 w-24 rounded mb-3"></div>
+                <div class="skeleton-base h-6 w-16 rounded-full"></div>
+            </div>
+            <?php endfor; ?>
+        </div>
+        <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm overflow-hidden">
+            <div class="px-5 py-4 border-b border-zinc-100 dark:border-zinc-800">
+                <div class="skeleton-base h-4 w-28 rounded"></div>
+            </div>
+            <?php for ($i = 0; $i < 2; $i++): ?>
+            <div class="flex items-center gap-4 px-5 py-4 border-b border-zinc-100 dark:border-zinc-800 last:border-0">
+                <div class="skeleton-base w-8 h-8 rounded-lg shrink-0"></div>
+                <div class="flex-1">
+                    <div class="skeleton-base h-3.5 w-40 rounded mb-1.5"></div>
+                    <div class="skeleton-base h-3 w-56 rounded"></div>
+                </div>
+                <div class="skeleton-base w-4 h-4 rounded"></div>
+            </div>
+            <?php endfor; ?>
+        </div>
+    </div>
+
+    <!-- Real content -->
+    <div id="app-home-content" style="display:none">
+
     <!-- Stats -->
     <div class="grid sm:grid-cols-3 gap-4 mb-8">
         <?php foreach ([
@@ -46,4 +76,16 @@
             <?php endforeach; ?>
         </div>
     </div>
+
+    </div><!-- end app-home-content -->
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const sk = document.getElementById('app-home-skeleton');
+    const ct = document.getElementById('app-home-content');
+    if (sk && ct) {
+        setTimeout(() => { sk.style.display = 'none'; ct.style.display = ''; }, 500);
+    }
+});
+</script>
