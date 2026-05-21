@@ -11,12 +11,14 @@
 <script>const BASE_URL = '<?= BASE_URL ?>';</script>
 <script src="<?= BASE_URL ?>/js/theme.js"></script>
 <script src="<?= BASE_URL ?>/js/ajax.js"></script>
-<script src="<?= BASE_URL ?>/js/app.js"></script>
+<script src="<?= BASE_URL ?>/js/app.js?v=<?= filemtime('js/app.js') ?>"></script>
 <script src="<?= BASE_URL ?>/js/skeleton.js"></script>
 <script src="<?= BASE_URL ?>/js/logout.js"></script>
 <script src="<?= BASE_URL ?>/js/sidebar.js"></script>
 <script src="<?= BASE_URL ?>/js/avatar.js"></script>
 <script src="<?= BASE_URL ?>/js/profile.js"></script>
-
+<?php $toast = Session::flash('toast'); if ($toast): ?>
+<script>document.addEventListener('DOMContentLoaded',()=>App.toast(<?= json_encode($toast['message']) ?>,<?= json_encode($toast['type']) ?>));</script>
+<?php endif; ?>
 </body>
 </html>
