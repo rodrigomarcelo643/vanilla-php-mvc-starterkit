@@ -9,7 +9,8 @@
     "scripts": {
         "test":         "phpunit",
         "test:unit":    "phpunit --testsuite Unit",
-        "test:feature": "phpunit --testsuite Feature"
+        "test:feature": "phpunit --testsuite Feature",
+        "kit":          "php kit"
     },
     "require": {
         "phpmailer/phpmailer": "^7.1"
