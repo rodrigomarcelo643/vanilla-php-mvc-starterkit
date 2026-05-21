@@ -123,6 +123,7 @@ class AuthController extends Controller
             'email' => $email,
             'role'  => 'user',
         ]);
+        Session::set('oauth_prefill', null);
 
         Router::json(['success' => true, 'redirect' => BASE_URL . '/app/home']);
     }
