@@ -1,6 +1,6 @@
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.1.0-4F46E5?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-1.0.0-4F46E5?style=for-the-badge)
 ![PHP](https://img.shields.io/badge/PHP-8.0+-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-5.7+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
@@ -10,7 +10,7 @@
 
 # 🚀 Vanilla PHP MVC Starter Kit
 
-### A clean PHP 8+ MVC boilerplate with a structured `js/` layer, split route files, super admin + admin panels, session auth with live password strength validation, role-based routing, AJAX fetch helpers, Alpine.js reactive UI, Tailwind CSS, and PHPUnit — zero frameworks, zero fluff.
+### A clean PHP 8+ MVC boilerplate with a structured `js/` layer, split route files, super admin + admin panels, session auth with live password strength validation, role-based routing, OAuth (Google + GitHub), flash toast system, AJAX fetch helpers, Alpine.js reactive UI, Tailwind CSS, and PHPUnit — zero frameworks, zero fluff.
 
 [⭐ Star on GitHub](https://github.com/rodrigomarcelo643/php-vanilla-mvc-starterkit) · [📖 Docs](#️-installation) · [🧪 Tests](#-testing)
 
@@ -32,9 +32,11 @@ Backed by PHPUnit with 77 tests across unit and feature suites, GitHub Actions w
 
 - **Multi-panel layout** — Super Admin, Admin, App (authenticated users), and Client (public) views
 - **Session authentication** — Login, registration, logout, and password reset out of the box
+- **OAuth login** — Google and GitHub sign-in with auto-prefill registration for new accounts
 - **Role-based routing** — Segregated routes for super admin, admin, app, client, and AJAX calls
 - **Super admin panel** — Highest-privilege panel with admin management, full user CRUD, purple-accented UI
 - **Full admin panel** — Collapsible sidebar, topbar, user management, and data tables
+- **Flash toast system** — `Session::flash()` sets one-time toasts, auto-fired on next page load
 - **AJAX helpers** — Lightweight fetch wrappers for POST/GET with JSON responses
 - **Avatar uploads** — Image preview, crop, and AJAX upload built in
 - **Environment config** — `.env`-driven configuration, no hardcoded credentials
@@ -77,10 +79,11 @@ Backed by PHPUnit with 77 tests across unit and feature suites, GitHub Actions w
 ```
 starterkit/
 ├── app/
-│   ├── config/         # App, database & mail config (reads from .env)
+│   ├── config/         # App, database, mail & OAuth config (reads from .env)
 │   ├── controllers/    # MVC controllers
+│   │   ├── auth/       # AuthController, OAuthController, PasswordController, ProfileController
 │   │   └── superadmin/ # SuperAdminDashboardController, SuperAdminAdminController
-│   ├── core/           # Router, Model, Auth, Session, Database, Mailer
+│   ├── core/           # Router, Model, Auth, Session (+ flash), Database, Mailer
 │   ├── helpers/        # Global helper functions
 │   ├── models/         # Data models (User, Admin, SuperAdmin, PasswordReset)
 │   └── views/          # Layouts, components & pages (superadmin/admin/app/client/auth)
@@ -104,7 +107,7 @@ starterkit/
 │       ├── superadmin/ # Super admin page + AJAX routes
 │       ├── admin/      # Admin page + AJAX routes
 │       ├── app/        # Authenticated user page + AJAX routes
-│       ├── auth/       # Auth page + AJAX routes
+│       ├── auth/       # Auth page + AJAX + OAuth routes
 │       └── client/     # Public/client page routes
 ├── storage/            # Uploads
 ├── tests/              # PHPUnit unit & feature suites
@@ -186,14 +189,15 @@ http://localhost/your-folder-path
 
 ## 🗺️ Routes Overview
 
-| File              | Prefix          | Description                            |
-| ----------------- | --------------- | -------------------------------------- |
-| `client.php`      | `/`             | Public pages (home, about, blog…)      |
-| `superadmin/pages.php` | `superadmin/` | Super admin dashboard, admins, users |
-| `superadmin/ajax.php`  | `ajax/admins/` | Admin CRUD AJAX endpoints            |
-| `admin.php`       | `admin/`        | Admin dashboard, users, settings       |
-| `app.php`         | `app/`          | Authenticated user pages               |
-| `ajax.php`        | `ajax/`         | Login, register + AJAX endpoints       |
+| File              | Prefix                  | Description                            |
+| ----------------- | ----------------------- | -------------------------------------- |
+| `client/pages.php`      | `/`               | Public pages (home, about, blog…)      |
+| `superadmin/pages.php`  | `superadmin/`     | Super admin dashboard, admins, users   |
+| `superadmin/ajax.php`   | `ajax/admins/`    | Admin CRUD AJAX endpoints              |
+| `admin/pages.php`       | `admin/`          | Admin dashboard, users, settings       |
+| `app/pages.php`         | `app/`            | Authenticated user pages               |
+| `auth/ajax.php`         | `ajax/`           | Login, register + AJAX endpoints       |
+| `auth/oauth.php`        | `oauth/`          | Google + GitHub OAuth redirect/callback |
 
 ---
 
@@ -262,7 +266,58 @@ routes/web/superadmin/ajax.php
 
 ---
 
-## 🧪 Testing
+## 🔐 OAuth Login
+
+Google and GitHub OAuth are wired up and ready — just add credentials to `.env` to activate.
+
+### Flow
+
+1. User clicks **Google** or **GitHub** on login or register page
+2. Redirected to provider → user authenticates
+3. **Existing email** → logged in directly, flash toast shown, redirect to dashboard
+4. **New email** → redirected to `/register` with name + email auto-filled and locked, user only sets a password
+5. On register submit → OAuth prefill cleared from session
+
+### Setup
+
+Add to `.env`:
+
+```env
+# Google: https://console.cloud.google.com/ → APIs & Services → Credentials → OAuth 2.0 Client ID
+# Redirect URI: BASE_URL/oauth/google/callback
+GOOGLE_CLIENT_ID=your-client-id
+GOOGLE_CLIENT_SECRET=your-client-secret
+
+# GitHub: https://github.com/settings/developers → OAuth Apps → New OAuth App
+# Callback URL: BASE_URL/oauth/github/callback
+GITHUB_CLIENT_ID=your-client-id
+GITHUB_CLIENT_SECRET=your-client-secret
+```
+
+### New files added
+
+```
+app/config/oauth.php
+app/controllers/auth/OAuthController.php
+routes/web/auth/oauth.php
+```
+
+---
+
+## 🔔 Flash Toast System
+
+`Session::flash()` stores a one-time message that fires as a toast on the next page load. All layout footers (auth, app, admin, superadmin) read and display it automatically.
+
+```php
+// Set in any controller before redirecting
+Session::flash('toast', ['message' => 'Saved successfully!', 'type' => 'success']);
+// types: success | error | info
+Router::redirect('dashboard');
+```
+
+The toast renders bottom-right with a gradient background, progress bar, and auto-dismisses after 4 seconds.
+
+---
 
 The project uses **PHPUnit 11** with 77 tests and 98 assertions across two suites.
 
