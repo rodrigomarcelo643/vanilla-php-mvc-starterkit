@@ -2,11 +2,19 @@
     "name": "mardev/starter-kit",
     "description": "Starter Kit — PHP MVC Boilerplate",
     "type": "project",
+    "bin": [
+        "kit-new",
+        "kit-new.bat"
+    ],
     "minimum-stability": "stable",
     "require-dev": {
         "phpunit/phpunit": "^11"
     },
     "scripts": {
+        "post-create-project-cmd": [
+            "php -r \"@copy('.env.example', '.env');\"",
+            "php kit key:generate"
+        ],
         "test":         "phpunit",
         "test:unit":    "phpunit --testsuite Unit",
         "test:feature": "phpunit --testsuite Feature",
