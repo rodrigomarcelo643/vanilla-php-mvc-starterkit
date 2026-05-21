@@ -187,6 +187,55 @@ http://localhost/your-folder-path
 
 ---
 
+## 🛠️ Kit CLI Developer Tool
+
+The starter kit comes with **Kit** (a custom PHP command-line interface helper) to streamline database setup, route inspection, scaffolding, cache management, and server management.
+
+You can run commands using:
+```bash
+# On Windows/Unix
+php kit [command] [arguments] [options]
+
+# On Windows (shortcut)
+kit.bat [command] [arguments] [options]
+```
+
+### Available Commands
+
+#### 🗄️ Database Management
+* `php kit db:fresh` — Drops all tables and re-imports the initial schema.
+* `php kit db:seed` — Imports the baseline schema and seed data from `database/starter.sql`.
+* `php kit migrate` — Runs all pending database migrations.
+* `php kit migrate:rollback` — Rolls back the last batch of migrations.
+
+#### 🏗️ Code Scaffolding
+* `php kit make:controller [Name]` — Generates a new Controller class.
+  * Options: `--admin` (places in admin folder), `--resource` (adds boilerplate CRUD methods).
+* `php kit make:model [Name]` — Generates a new Model class.
+  * Options: `--resource` (adds CRUD helper methods).
+* `php kit make:view [folder/name]` — Generates a new View template file.
+  * Options: `--resource` (creates standard list/show/create/edit views).
+* `php kit make:middleware [Name]` — Generates a new Middleware class.
+* `php kit make:migration [Name]` — Generates a new Migration template file.
+* `php kit make:auth` — Generates full Authentication scaffolding (Controllers, Views, and Routes).
+
+#### 🗺️ Routing
+* `php kit route:list` — Lists all registered application routes, organized by request method, URI path, and handler.
+
+#### 💻 System & Development Utilities
+* `php kit serve [host?] [port?]` — Starts the local PHP built-in development server with custom routing support.
+* `php kit tinker` — Starts an interactive PHP REPL (Read-Eval-Print Loop) session to play with your models and databases.
+* `php kit key:generate` — Generates a secure `APP_KEY` and updates it in your `.env` file.
+* `php kit cache:clear` — Clears application cache files.
+* `php kit logs:clear` — Clears application log files.
+* `php kit optimize:clear` — Clears all compiled caches and logs at once.
+
+### ⚙️ Environment & Routing Intelligence
+* **Environment-Aware Server Router (`server.php`)**: Dynamically parses the `BASE_URL` from `.env` to strip any path prefix when serving requests using PHP's built-in development server (`php kit serve`).
+* **Dynamic URI Parsing (`app/core/Router.php`)**: Fully decoupled from hardcoded subdirectory dependencies, allowing routing to work seamlessly whether served from an Apache alias (e.g., `http://localhost/starterkit`) or the built-in server (e.g., `http://localhost:8000`).
+
+---
+
 ## 🗺️ Routes Overview
 
 | File              | Prefix                  | Description                            |
