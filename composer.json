@@ -13,6 +13,7 @@
     "scripts": {
         "post-create-project-cmd": [
             "php -r \"@copy('.env.example', '.env');\"",
+            "php kit env:setup",
             "php kit key:generate",
             "php kit db:seed"
         ],
