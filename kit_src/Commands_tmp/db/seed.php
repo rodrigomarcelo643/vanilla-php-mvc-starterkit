@@ -2,7 +2,7 @@
 
 Output::info('Seeding database from database/starter.sql ...');
 
-$sqlPath = (defined('KIT_ROOT') ? KIT_ROOT : getcwd()) . '/database/starter.sql';
+$sqlPath = defined('KIT_ROOT') ? KIT_ROOT . '/database/starter.sql' : dirname(__DIR__, 2) . '/database/starter.sql';
 $sql = file_get_contents($sqlPath);
 if (!$sql) {
     Output::error('Could not read database/starter.sql');
