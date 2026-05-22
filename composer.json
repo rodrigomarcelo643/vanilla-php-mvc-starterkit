@@ -13,7 +13,8 @@
     "scripts": {
         "post-create-project-cmd": [
             "php -r \"@copy('.env.example', '.env');\"",
-            "php kit key:generate"
+            "php kit key:generate",
+            "php kit db:seed"
         ],
         "test":         "phpunit",
         "test:unit":    "phpunit --testsuite Unit",

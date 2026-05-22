@@ -2,7 +2,8 @@
 
 Output::info('Seeding database from database/starter.sql ...');
 
-$sql = file_get_contents(KIT_ROOT . '/database/starter.sql');
+$sqlPath = (defined('KIT_ROOT') ? KIT_ROOT : getcwd()) . '/database/starter.sql';
+$sql = file_get_contents($sqlPath);
 if (!$sql) {
     Output::error('Could not read database/starter.sql');
     exit(1);
@@ -14,8 +15,10 @@ try {
         DB_USER, DB_PASS,
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
     );
+    $pdo->exec('CREATE DATABASE IF NOT EXISTS `' . DB_NAME . '` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
+    $pdo->exec('USE `' . DB_NAME . '`');
     $pdo->exec($sql);
-    Output::success('Database seeded successfully.');
+    Output::success('Database "' . DB_NAME . '" seeded successfully.');
 } catch (PDOException $e) {
     Output::error('Seed failed: ' . $e->getMessage());
     exit(1);

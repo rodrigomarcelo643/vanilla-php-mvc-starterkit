@@ -37,7 +37,8 @@ try {
 
     Output::line();
     Output::info('Seeding from starter.sql...');
-    $sql = file_get_contents(KIT_ROOT . '/database/starter.sql');
+    $sqlPath = (defined('KIT_ROOT') ? KIT_ROOT : getcwd()) . '/database/starter.sql';
+    $sql = file_get_contents($sqlPath);
     $pdo->exec($sql);
     
     Output::line();
