@@ -9,6 +9,10 @@ if (!$sql) {
     exit(1);
 }
 
+// Replace hardcoded DB name in SQL with the one from .env
+$sql = preg_replace('/CREATE DATABASE IF NOT EXISTS `[^`]+`/i', 'CREATE DATABASE IF NOT EXISTS `' . DB_NAME . '`', $sql);
+$sql = preg_replace('/USE `[^`]+`;/i', 'USE `' . DB_NAME . '`;', $sql);
+
 try {
     $pdo = new PDO(
         'mysql:host=' . DB_HOST . ';charset=utf8mb4',

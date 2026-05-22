@@ -39,6 +39,8 @@ try {
     Output::info('Seeding from starter.sql...');
     $sqlPath = defined('KIT_ROOT') ? KIT_ROOT . '/database/starter.sql' : dirname(__DIR__, 2) . '/database/starter.sql';
     $sql = file_get_contents($sqlPath);
+    $sql = preg_replace('/CREATE DATABASE IF NOT EXISTS `[^`]+`/i', 'CREATE DATABASE IF NOT EXISTS `' . DB_NAME . '`', $sql);
+    $sql = preg_replace('/USE `[^`]+`;/i', 'USE `' . DB_NAME . '`;', $sql);
     $pdo->exec($sql);
     
     Output::line();
