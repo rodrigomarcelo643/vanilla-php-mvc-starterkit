@@ -12,6 +12,7 @@
     },
     "scripts": {
         "post-create-project-cmd": [
+            "php kit_src/Setup/Installer.php",
             "php -r \"@copy('.env.example', '.env');\"",
             "php kit env:setup",
             "php kit key:generate",
