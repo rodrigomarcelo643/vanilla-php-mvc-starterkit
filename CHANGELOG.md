@@ -4,12 +4,6 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
----
-
-## [Unreleased]
-
----
-
 ## [1.0.0] — 2026-05-23
 
 ### Added
@@ -72,7 +66,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 - `AppController` GET route mapped to `AppController::home()` (not the non-existent `index()`)
 - `AdminDashboardController` corrected to `DashboardController` matching actual class name
 
----
-
-[Unreleased]: https://github.com/rodrigomarcelo643/vanilla-php-mvc-starterkit/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/rodrigomarcelo643/vanilla-php-mvc-starterkit/releases/tag/v1.0.0
