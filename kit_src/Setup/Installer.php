@@ -5,7 +5,8 @@ echo "\033[1;36m       Welcome to Vanilla PHP MVC Starter Kit       \033[0m\n";
 echo "\033[1;36m====================================================\033[0m\n\n";
 echo "Which preset would you like to install?\n";
 echo "  [1] Full Stack (Alpine.js + AJAX Monolith) - Default\n";
-echo "  [2] REST API (Backend only, JSON Responses)\n";
+echo "  [2] REST API (Full Stack with JS)\n";
+echo "  [3] Backend Only (REST API, No UI)\n";
 echo "\nSelect an option [1]: ";
 
 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
@@ -21,8 +22,8 @@ if ($handle !== false) {
     $choice = '1';
 }
 
-if ($choice === '2') {
-    echo "\n\033[32mConfiguring as REST API...\033[0m\n";
+if ($choice === '3') {
+    echo "\n\033[32mConfiguring as Backend Only (REST API)...\033[0m\n";
     
     $basePath = __DIR__ . '/../../';
     
@@ -66,7 +67,9 @@ if ($choice === '2') {
         
     file_put_contents($basePath . 'routes/web.php', $apiRouteContent);
     
-    echo "\033[32m✔ Frontend UI removed. REST API routes configured.\033[0m\n";
+    echo "\033[32m✔ Frontend UI removed. Backend Only REST API configured.\033[0m\n";
+} elseif ($choice === '2') {
+    echo "\n\033[32m✔ Configuring as REST API (Full Stack with JS)...\033[0m\n";
 } else {
     echo "\n\033[32m✔ Configuring as Full Stack Monolith (Default)...\033[0m\n";
 }
