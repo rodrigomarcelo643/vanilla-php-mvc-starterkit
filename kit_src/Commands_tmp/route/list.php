@@ -1,15 +1,46 @@
 <?php
 
 $routeDir = KIT_ROOT . '/routes/web';
-$files    = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($routeDir));
+$allFiles = [];
+
+// 1. Always parse the main routes/web.php file if it exists
+$webFile = KIT_ROOT . '/routes/web.php';
+if (file_exists($webFile)) {
+    $allFiles[] = $webFile;
+}
+
+// 2. Parse nested files inside routes/web if it exists
+if (is_dir($routeDir)) {
+    $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($routeDir));
+    foreach ($files as $file) {
+        if ($file->isDir()) continue;
+        if ($file->getExtension() !== 'php') continue;
+        $allFiles[] = $file->getPathname();
+    }
+}
+
+$allFiles = array_unique($allFiles);
 $routes   = [];
 
-foreach ($files as $file) {
-    if ($file->getExtension() !== 'php') continue;
-    $content = file_get_contents($file->getPathname());
-    preg_match_all('/Router::(get|post|any)\s*\(\s*[\'"]([^\'"]+)[\'"]\s*,\s*\[\'([^\']+)\'\s*,\s*\'([^\']+)\'\]/', $content, $matches, PREG_SET_ORDER);
+foreach ($allFiles as $filePath) {
+    $content = file_get_contents($filePath);
+    
+    // Match Router::get/post/any/put/patch/delete
+    preg_match_all('/Router::(get|post|any|put|patch|delete)\s*\(\s*[\'"]([^\'"]+)[\'"]\s*,\s*(.+)/i', $content, $matches, PREG_SET_ORDER);
+    
     foreach ($matches as $m) {
-        $routes[] = [strtoupper($m[1]), $m[2], $m[3] . '@' . $m[4]];
+        $method = strtoupper($m[1]);
+        $uri    = $m[2];
+        $rest   = trim($m[3]);
+        
+        $action = 'Closure';
+        
+        // If it matches a controller array like ['SomeController', 'someMethod']
+        if (preg_match('/\[\s*[\'"]([^\'"]+)[\'"]\s*,\s*[\'"]([^\'"]+)[\'"]\s*\]/', $rest, $am)) {
+            $action = $am[1] . '@' . $am[2];
+        }
+        
+        $routes[] = [$method, $uri, $action];
     }
 }
 
