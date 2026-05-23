@@ -34,16 +34,15 @@
         </div>
 
         <!-- Bottom stats -->
-        <?php
-        $loginStars = github_stars('rodrigomarcelo643/php-vanilla-mvc-starterkit');
-        ?>
         <div class="flex items-center gap-8 relative z-10">
-            <?php foreach ([[$loginStars,'GitHub Stars'],['PHP 8+','Required']] as $s): ?>
-            <div>
-                <p class="text-white font-semibold text-lg"><?= $s[0] ?></p>
-                <p class="text-zinc-500 text-xs"><?= $s[1] ?></p>
+            <div x-data="{ stars: '...' }" x-init="fetch('https://api.github.com/repos/rodrigomarcelo643/php-vanilla-mvc-starterkit').then(r => r.json()).then(d => stars = d.stargazers_count || 0).catch(() => stars = 0)">
+                <p class="text-white font-semibold text-lg" x-text="stars">...</p>
+                <p class="text-zinc-500 text-xs">GitHub Stars</p>
             </div>
-            <?php endforeach; ?>
+            <div>
+                <p class="text-white font-semibold text-lg">PHP 8+</p>
+                <p class="text-zinc-500 text-xs">Required</p>
+            </div>
         </div>
     </div>
 

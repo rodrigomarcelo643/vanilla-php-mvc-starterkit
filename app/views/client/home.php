@@ -6,7 +6,6 @@
             <?php
             $githubRepo = 'rodrigomarcelo643/php-vanilla-mvc-starterkit';
             $githubUrl  = 'https://github.com/' . $githubRepo;
-            $stars      = github_stars($githubRepo);
             ?>
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-700 text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-7">
@@ -52,7 +51,11 @@
 
             <!-- Social proof -->
             <div class="flex flex-wrap items-center justify-center gap-5 mt-10 pt-8 border-t border-zinc-100 dark:border-zinc-800">
-                <?php foreach ([[$stars,'GitHub Stars'],['Laravel-ready','MVC Patterns'],['Zero Frameworks','Pure PHP 8+']] as $s): ?>
+                <div x-data="{ stars: '...' }" x-init="fetch('https://api.github.com/repos/<?= $githubRepo ?>').then(r => r.json()).then(d => stars = d.stargazers_count || 0).catch(() => stars = 0)">
+                    <p class="text-sm font-semibold text-zinc-900 dark:text-zinc-100" x-text="stars">...</p>
+                    <p class="text-xs text-zinc-400">GitHub Stars</p>
+                </div>
+                <?php foreach ([['Laravel-ready','MVC Patterns'],['Zero Frameworks','Pure PHP 8+']] as $s): ?>
                 <div>
                     <p class="text-sm font-semibold text-zinc-900 dark:text-zinc-100"><?= $s[0] ?></p>
                     <p class="text-xs text-zinc-400"><?= $s[1] ?></p>
