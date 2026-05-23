@@ -103,18 +103,50 @@ class Installer
             
             // Overwrite routes/web.php to act as the main API router
             $apiRouteContent = "<?php\n\n" .
-                "Router::get('/', function() {\n" .
-                "    Router::json([\n" .
-                "        'status' => 'success',\n" .
-                "        'message' => 'Welcome to the Vanilla PHP REST API Boilerplate',\n" .
-                "        'version' => '1.0'\n" .
-                "    ]);\n" .
-                "});\n\n" .
-                "Router::get('api/ping', function() {\n" .
-                "    Router::json(['status' => 'ok', 'timestamp' => time()]);\n" .
-                "});\n";
+                "// ── Bootstrap ─────────────────────────────────────────────────\n" .
+                "require_once 'app/config/app.php';\n" .
+                "require_once 'app/config/database.php';\n" .
+                "require_once 'app/config/mail.php';\n" .
+                "require_once 'app/config/oauth.php';\n" .
+                "require_once 'app/helpers/helper.php';\n" .
+                "require_once 'app/core/Database.php';\n" .
+                "require_once 'app/core/Model.php';\n" .
+                "require_once 'app/core/Session.php';\n" .
+                "require_once 'app/core/Auth.php';\n" .
+                "require_once 'app/core/Controller.php';\n" .
+                "require_once 'app/core/Mailer.php';\n\n" .
+                "// ── Routes ────────────────────────────────────────────────────\n" .
+                "Router::get('/', ['HomeController', 'index']);\n" .
+                "Router::get('api/ping', ['HomeController', 'ping']);\n\n" .
+                "// ── Dispatch ──────────────────────────────────────────────────\n" .
+                "Router::dispatch();\n";
                 
             file_put_contents($basePath . 'routes/web.php', $apiRouteContent);
+
+            // Overwrite app/controllers/client/HomeController.php to return JSON
+            $homeControllerContent = "<?php\n\n" .
+                "class HomeController extends Controller\n" .
+                "{\n" .
+                "    public function index()\n" .
+                "    {\n" .
+                "        Router::json([\n" .
+                "            'status' => 'success',\n" .
+                "            'message' => 'Welcome to the Vanilla PHP REST API Boilerplate',\n" .
+                "            'version' => '1.0'\n" .
+                "        ]);\n" .
+                "    }\n\n" .
+                "    public function ping()\n" .
+                "    {\n" .
+                "        Router::json([\n" .
+                "            'status' => 'ok',\n" .
+                "            'timestamp' => time()\n" .
+                "        ]);\n" .
+                "    }\n" .
+                "}\n";
+
+            @mkdir($basePath . 'app/controllers/client', 0755, true);
+            file_put_contents($basePath . 'app/controllers/client/HomeController.php', $homeControllerContent);
+
             self::log("✔ Frontend UI removed. Backend Only REST API configured.", $event);
         } elseif ($choice === '2') {
             self::log("✔ Configuring as REST API (Full Stack with JS)...", $event);
