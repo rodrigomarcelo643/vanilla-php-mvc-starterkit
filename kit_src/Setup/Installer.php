@@ -1,40 +1,47 @@
 <?php
 
-echo "\n\033[1;36m====================================================\033[0m\n";
-echo "\033[1;36m       Welcome to Vanilla PHP MVC Starter Kit       \033[0m\n";
-echo "\033[1;36m====================================================\033[0m\n\n";
-echo "Which preset would you like to install?\n";
-echo "  [1] Full Stack (Alpine.js + AJAX Monolith) - Default\n";
-echo "  [2] REST API (Full Stack with JS)\n";
-echo "  [3] Backend Only (REST API, No UI)\n";
-echo "\nSelect an option [1]: ";
+$isWin   = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+$console = $isWin ? 'CON' : '/dev/tty';
 
-// Flush output so the prompt appears before we block on input
-if (ob_get_level()) ob_flush();
-flush();
+// Open the real console device for both writing the menu AND reading input.
+// This bypasses Composer's STDIN/STDOUT redirection entirely.
+$con = @fopen($console, 'r+');
+
+$menu  = "\n\033[1;36m====================================================\033[0m\n";
+$menu .= "\033[1;36m       Welcome to Vanilla PHP MVC Starter Kit       \033[0m\n";
+$menu .= "\033[1;36m====================================================\033[0m\n\n";
+$menu .= "Which preset would you like to install?\n";
+$menu .= "  [1] Full Stack (Alpine.js + AJAX Monolith) - Default\n";
+$menu .= "  [2] REST API (Full Stack with JS)\n";
+$menu .= "  [3] Backend Only (REST API, No UI)\n";
+$menu .= "\nSelect an option [1]: ";
+
+if ($con !== false) {
+    fwrite($con, $menu);
+} else {
+    // Fallback: echo to stdout if console device not available
+    echo $menu;
+    if (ob_get_level()) ob_flush();
+    flush();
+}
 
 $choice = '1'; // fallback default
 
-// Strategy 1: Try STDIN directly (works when Composer keeps it open)
-if (defined('STDIN') && STDIN !== false) {
-    stream_set_blocking(STDIN, true);
-    $line = fgets(STDIN);
+// Read from the console device we already opened
+if ($con !== false) {
+    $line = fgets($con);
+    fclose($con);
     if ($line !== false) {
-        // Strip non-digit chars (handles PowerShell UTF-16/BOM encoding)
         $digit = preg_replace('/[^1-9]/', '', $line);
         if ($digit !== '') {
             $choice = $digit;
         }
     }
-}
-
-// Strategy 2: Fallback — open console/tty directly
-if ($choice === '1') {
-    $tty = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? 'CON' : '/dev/tty';
-    $handle = @fopen($tty, 'r');
-    if ($handle !== false) {
-        $line = fgets($handle);
-        fclose($handle);
+} else {
+    // Fallback: try STDIN
+    if (defined('STDIN') && STDIN !== false) {
+        stream_set_blocking(STDIN, true);
+        $line = fgets(STDIN);
         if ($line !== false) {
             $digit = preg_replace('/[^1-9]/', '', $line);
             if ($digit !== '') {
