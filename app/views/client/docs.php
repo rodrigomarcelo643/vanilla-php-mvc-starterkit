@@ -172,6 +172,35 @@
                         <p class="font-semibold mb-1">⚠️ Important Routing Precaution</p>
                         <p>We recommend using your Apache local server address (e.g. <code class="px-1 py-0.5 bg-amber-100 dark:bg-amber-900 rounded font-mono">http://localhost/myphpapp/</code>) to run the project. Do not use <code class="px-1 py-0.5 bg-amber-100 dark:bg-amber-900 rounded font-mono">php kit serve</code> or <code class="px-1 py-0.5 bg-amber-100 dark:bg-amber-900 rounded font-mono">localhost:8000</code> for development yet due to temporary routing and .htaccess path constraints.</p>
                     </div>
+
+                    <!-- Preset Options Wizard -->
+                    <div class="mt-5 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden bg-zinc-50/50 dark:bg-zinc-900/50">
+                        <div class="px-4 py-3 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-800/50">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100">🧩 Setup Wizard Presets</h4>
+                        </div>
+                        <div class="p-4 space-y-4">
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                                The interactive setup wizard prompts you to select one of the three tailored modes during installation:
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div class="p-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 rounded-lg">
+                                    <span class="text-[10px] uppercase font-bold text-indigo-600 dark:text-indigo-400">Option 1</span>
+                                    <h5 class="text-xs font-semibold text-zinc-900 dark:text-zinc-100 mt-1 mb-1.5">Full Stack Monolith</h5>
+                                    <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Classic server-side HTML views with frontend Alpine.js, cookies, and AJAX.</p>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 rounded-lg">
+                                    <span class="text-[10px] uppercase font-bold text-indigo-600 dark:text-indigo-400">Option 2</span>
+                                    <h5 class="text-xs font-semibold text-zinc-900 dark:text-zinc-100 mt-1 mb-1.5">REST API + UI</h5>
+                                    <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Maintains HTML views alongside the Smart Controller that auto-switches `/api/` to pure JSON output.</p>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 rounded-lg">
+                                    <span class="text-[10px] uppercase font-bold text-indigo-600 dark:text-indigo-400">Option 3</span>
+                                    <h5 class="text-xs font-semibold text-zinc-900 dark:text-zinc-100 mt-1 mb-1.5">Backend Only</h5>
+                                    <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Deletes all views and frontend folders completely, delivering a 100% stateless RESTful JSON API.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Default credentials -->
@@ -359,6 +388,21 @@
 
                             <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
                                 <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit route:test</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">api-test</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Starts the **Interactive REST API Tester CLI**. This premium tool lets you test all your REST API endpoints directly from the console:</p>
+                                <ul class="list-disc pl-4 space-y-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+                                    <li>Auto-resolves the target application URL.</li>
+                                    <li>Interactive menus to browse and select endpoints grouped by category.</li>
+                                    <li>Performs live HTTP requests (GET, POST, PUT, DELETE) right from your terminal.</li>
+                                    <li>Maintains a persistent session using a dedicated cookie jar (test authenticated actions seamlessly).</li>
+                                    <li>Pretty-prints colorized, structured JSON responses.</li>
+                                </ul>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
                                     <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit key:generate</code>
                                     <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">key</span>
                                 </div>
@@ -413,7 +457,7 @@
             <div id="routing" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
                 <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Routing</h2>
                 <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
-                    Routes are split across four files inside <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">routes/web/</code> and loaded by <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">routes/web.php</code>.
+                    Routes are split across traditional web files inside <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">routes/web/</code> and the pure REST API routes inside <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">routes/api.php</code>.
                 </p>
 
                 <div class="grid grid-cols-2 gap-2 mb-5">
@@ -422,6 +466,7 @@
                         ['admin.php',  'admin/',  'Admin panel'],
                         ['app.php',    'app/',    'Authenticated users'],
                         ['ajax.php',   'ajax/',   'AJAX endpoints'],
+                        ['api.php',    'api/',    'REST API JSON endpoints'],
                     ] as $r): ?>
                     <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
                         <code class="text-xs font-mono text-zinc-700 dark:text-zinc-300"><?= $r[0] ?></code>
@@ -737,7 +782,7 @@
             <div class="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 text-center">
                 <p class="text-sm font-medium text-zinc-900 dark:text-zinc-100 mb-1">Something missing?</p>
                 <p class="text-xs text-zinc-500 mb-3">Open an issue or contribute on GitHub.</p>
-                <a href="https://github.com/rodrigomarcelo643/php-vanilla-mvc-starterkit" target="_blank"
+                <a href="https://github.com/rodrigomarcelo643/vanilla-php-mvc-starterkit" target="_blank"
                    class="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 hover:bg-zinc-700 text-white text-xs font-medium rounded-lg transition-colors">
                     <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
