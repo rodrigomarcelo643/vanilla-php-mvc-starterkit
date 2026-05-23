@@ -6,17 +6,17 @@ class Router
 
     // ── Registration ─────────────────────────────────────────
 
-    public static function get(string $uri, array $action): void
+    public static function get(string $uri, array|callable $action): void
     {
         self::$routes['GET'][$uri] = $action;
     }
 
-    public static function post(string $uri, array $action): void
+    public static function post(string $uri, array|callable $action): void
     {
         self::$routes['POST'][$uri] = $action;
     }
 
-    public static function any(string $uri, array $action): void
+    public static function any(string $uri, array|callable $action): void
     {
         self::$routes['GET'][$uri]  = $action;
         self::$routes['POST'][$uri] = $action;
@@ -32,17 +32,16 @@ class Router
         $map = self::$routes[$method] ?? [];
 
         if (array_key_exists($uri, $map)) {
-            [$controller, $action] = $map[$uri];
-            self::call($controller, $action);
+            $action = $map[$uri];
+            self::callAction($action);
             return;
         }
 
-        // POST fallback → try GET (e.g. browser typing /ajax/login directly)
+        // POST fallback → try GET (e.g. browser typing /api/login directly)
         if ($method === 'POST') {
             $fallback = self::$routes['GET'][$uri] ?? null;
             if ($fallback) {
-                [$controller, $action] = $fallback;
-                self::call($controller, $action);
+                self::callAction($fallback);
                 return;
             }
         }
@@ -70,7 +69,8 @@ class Router
 
         $uri = trim($uri, '/');
 
-        return $uri === '' ? '/' : $uri;
+        // Root URL returns '' so Router::get('', fn) matches correctly
+        return $uri;
     }
 
     // ── Helpers ──────────────────────────────────────────────
@@ -100,6 +100,16 @@ class Router
     }
 
     // ── Internal ─────────────────────────────────────────────
+
+    private static function callAction(array|callable $action): void
+    {
+        if (is_callable($action)) {
+            $action();
+            return;
+        }
+        [$controller, $method] = $action;
+        self::call($controller, $method);
+    }
 
     private static function call(string $controller, string $action): void
     {
