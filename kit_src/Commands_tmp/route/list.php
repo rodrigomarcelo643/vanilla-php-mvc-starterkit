@@ -9,6 +9,12 @@ if (file_exists($webFile)) {
     $allFiles[] = $webFile;
 }
 
+// 1.5. Always parse the main routes/api.php file if it exists
+$apiFile = KIT_ROOT . '/routes/api.php';
+if (file_exists($apiFile)) {
+    $allFiles[] = $apiFile;
+}
+
 // 2. Parse nested files inside routes/web if it exists
 if (is_dir($routeDir)) {
     $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($routeDir));
@@ -95,7 +101,7 @@ foreach ($routes as $route) {
     
     // Determine the route's group
     $first = explode('/', trim($uri, '/'))[0];
-    if ($first === '' || !in_array($first, ['admin', 'superadmin', 'app', 'ajax', 'oauth'])) {
+    if ($first === '' || !in_array($first, ['admin', 'superadmin', 'app', 'ajax', 'oauth', 'api'])) {
         if (in_array($first, ['login', 'register', 'forgot-password', 'reset-password'])) {
             $group = 'Authentication';
         } else {
@@ -105,6 +111,7 @@ foreach ($routes as $route) {
         $group = ucfirst($first);
         if ($group === 'Oauth') $group = 'OAuth';
         if ($group === 'Ajax') $group = 'AJAX';
+        if ($group === 'Api') $group = 'API';
     }
     
     // 2. Group Filter
@@ -120,7 +127,7 @@ foreach ($routes as $route) {
     $groups[$group][] = $route;
 }
 
-$order = ['Public', 'Authentication', 'OAuth', 'App', 'Admin', 'Superadmin', 'AJAX'];
+$order = ['Public', 'Authentication', 'OAuth', 'App', 'Admin', 'Superadmin', 'AJAX', 'API'];
 uksort($groups, function($a, $b) use ($order) {
     $posA = array_search($a, $order);
     $posB = array_search($b, $order);

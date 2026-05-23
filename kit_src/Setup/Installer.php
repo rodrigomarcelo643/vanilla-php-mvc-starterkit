@@ -96,15 +96,64 @@ class Installer
         if ($choice === '3') {
             self::log("Configuring as Backend Only (REST API)...", $event);
             
-            // Delete only physical frontend directories
+            // 1. Delete only physical frontend directories
             self::deleteDir($basePath . 'app/views');
             self::deleteDir($basePath . 'assets');
             self::deleteDir($basePath . 'js');
             
-            // We KEEP routes/web intact so all backend default starter routes and controllers still exist!
-            // We KEEP the original routes/web.php because it loads all nested route files!
+            // 2. Delete the old AJAX route files
+            @unlink($basePath . 'routes/web/auth/ajax.php');
+            @unlink($basePath . 'routes/web/admin/ajax.php');
+            @unlink($basePath . 'routes/web/superadmin/ajax.php');
+            @unlink($basePath . 'routes/web/app/ajax.php');
             
-            // Overwrite app/core/Controller.php to intercept view loading and output clean JSON instead
+            // 3. Overwrite routes/web.php to exclude AJAX files
+            $webRouteContent = "<?php\n\n" .
+                "// ── Bootstrap ─────────────────────────────────────────────────\n" .
+                "require_once 'app/config/app.php';\n" .
+                "require_once 'app/config/database.php';\n" .
+                "require_once 'app/config/mail.php';\n" .
+                "require_once 'app/config/oauth.php';\n" .
+                "require_once 'app/helpers/helper.php';\n" .
+                "require_once 'app/core/Database.php';\n" .
+                "require_once 'app/core/Model.php';\n" .
+                "require_once 'app/core/Session.php';\n" .
+                "require_once 'app/core/Auth.php';\n" .
+                "require_once 'app/core/Controller.php';\n" .
+                "require_once 'app/core/Mailer.php';\n\n" .
+                "// ── Route Files ───────────────────────────────────────────────\n\n" .
+                "// Auth\n" .
+                "if (file_exists('routes/web/auth/pages.php')) {\n" .
+                "    require_once 'routes/web/auth/pages.php';\n" .
+                "}\n" .
+                "if (file_exists('routes/web/auth/oauth.php')) {\n" .
+                "    require_once 'routes/web/auth/oauth.php';\n" .
+                "}\n\n" .
+                "// Client / Public\n" .
+                "if (file_exists('routes/web/client/pages.php')) {\n" .
+                "    require_once 'routes/web/client/pages.php';\n" .
+                "}\n\n" .
+                "// Super Admin\n" .
+                "if (file_exists('routes/web/superadmin/pages.php')) {\n" .
+                "    require_once 'routes/web/superadmin/pages.php';\n" .
+                "}\n\n" .
+                "// Admin\n" .
+                "if (file_exists('routes/web/admin/pages.php')) {\n" .
+                "    require_once 'routes/web/admin/pages.php';\n" .
+                "}\n\n" .
+                "// App / Authenticated User\n" .
+                "if (file_exists('routes/web/app/pages.php')) {\n" .
+                "    require_once 'routes/web/app/pages.php';\n" .
+                "}\n\n" .
+                "// ── API Routes ────────────────────────────────────────────────\n" .
+                "if (file_exists('routes/api.php')) {\n" .
+                "    require_once 'routes/api.php';\n" .
+                "}\n\n" .
+                "// ── Dispatch ──────────────────────────────────────────────────\n" .
+                "Router::dispatch();\n";
+            file_put_contents($basePath . 'routes/web.php', $webRouteContent);
+
+            // 4. Overwrite app/core/Controller.php to intercept view loading and output clean JSON instead
             $apiControllerContent = "<?php\n\n" .
                 "class Controller\n" .
                 "{\n" .
@@ -149,10 +198,9 @@ class Installer
                 "        ]);\n" .
                 "    }\n" .
                 "}\n";
-
             file_put_contents($basePath . 'app/core/Controller.php', $apiControllerContent);
 
-            // Overwrite app/controllers/ErrorController.php to output JSON 404
+            // 5. Overwrite app/controllers/ErrorController.php to output JSON 404
             $errorControllerContent = "<?php\n\n" .
                 "class ErrorController extends Controller\n" .
                 "{\n" .
@@ -165,12 +213,123 @@ class Installer
                 "        ], 404);\n" .
                 "    }\n" .
                 "}\n";
-
             file_put_contents($basePath . 'app/controllers/ErrorController.php', $errorControllerContent);
 
-            self::log("✔ Frontend UI removed. Backend MVC REST API configured successfully.", $event);
+            self::log("✔ Frontend UI removed. Backend MVC REST API configured successfully. Old AJAX routes removed.", $event);
         } elseif ($choice === '2') {
-            self::log("✔ Configuring as REST API (Full Stack with JS)...", $event);
+            self::log("Configuring as Full Stack REST API with JS...", $event);
+            
+            // 1. Delete the old AJAX route files
+            @unlink($basePath . 'routes/web/auth/ajax.php');
+            @unlink($basePath . 'routes/web/admin/ajax.php');
+            @unlink($basePath . 'routes/web/superadmin/ajax.php');
+            @unlink($basePath . 'routes/web/app/ajax.php');
+            
+            // 2. Overwrite routes/web.php to exclude AJAX files
+            $webRouteContent = "<?php\n\n" .
+                "// ── Bootstrap ─────────────────────────────────────────────────\n" .
+                "require_once 'app/config/app.php';\n" .
+                "require_once 'app/config/database.php';\n" .
+                "require_once 'app/config/mail.php';\n" .
+                "require_once 'app/config/oauth.php';\n" .
+                "require_once 'app/helpers/helper.php';\n" .
+                "require_once 'app/core/Database.php';\n" .
+                "require_once 'app/core/Model.php';\n" .
+                "require_once 'app/core/Session.php';\n" .
+                "require_once 'app/core/Auth.php';\n" .
+                "require_once 'app/core/Controller.php';\n" .
+                "require_once 'app/core/Mailer.php';\n\n" .
+                "// ── Route Files ───────────────────────────────────────────────\n\n" .
+                "// Auth\n" .
+                "if (file_exists('routes/web/auth/pages.php')) {\n" .
+                "    require_once 'routes/web/auth/pages.php';\n" .
+                "}\n" .
+                "if (file_exists('routes/web/auth/oauth.php')) {\n" .
+                "    require_once 'routes/web/auth/oauth.php';\n" .
+                "}\n\n" .
+                "// Client / Public\n" .
+                "if (file_exists('routes/web/client/pages.php')) {\n" .
+                "    require_once 'routes/web/client/pages.php';\n" .
+                "}\n\n" .
+                "// Super Admin\n" .
+                "if (file_exists('routes/web/superadmin/pages.php')) {\n" .
+                "    require_once 'routes/web/superadmin/pages.php';\n" .
+                "}\n\n" .
+                "// Admin\n" .
+                "if (file_exists('routes/web/admin/pages.php')) {\n" .
+                "    require_once 'routes/web/admin/pages.php';\n" .
+                "}\n\n" .
+                "// App / Authenticated User\n" .
+                "if (file_exists('routes/web/app/pages.php')) {\n" .
+                "    require_once 'routes/web/app/pages.php';\n" .
+                "}\n\n" .
+                "// ── API Routes ────────────────────────────────────────────────\n" .
+                "if (file_exists('routes/api.php')) {\n" .
+                "    require_once 'routes/api.php';\n" .
+                "}\n\n" .
+                "// ── Dispatch ──────────────────────────────────────────────────\n" .
+                "Router::dispatch();\n";
+            file_put_contents($basePath . 'routes/web.php', $webRouteContent);
+            
+            // 3. Overwrite js/ajax.js to seamlessly map all /ajax/ frontend calls to /api/ REST endpoints
+            $jsAjaxContent = "/**\n" .
+                " * Ajax — lightweight fetch wrapper with REST API mapping\n" .
+                " */\n" .
+                "const Ajax = {\n" .
+                "    _mapUrl(url) {\n" .
+                "        return url.replace('/ajax/login', '/api/auth/login')\n" .
+                "                  .replace('/ajax/register', '/api/auth/register')\n" .
+                "                  .replace('/ajax/logout', '/api/auth/logout')\n" .
+                "                  .replace('/ajax/forgot-password', '/api/auth/forgot-password')\n" .
+                "                  .replace('/ajax/reset-password', '/api/auth/reset-password')\n" .
+                "                  .replace('/ajax/users/create', '/api/admin/users')\n" .
+                "                  .replace('/ajax/users/update', '/api/admin/users/update')\n" .
+                "                  .replace('/ajax/users/delete', '/api/admin/users/delete')\n" .
+                "                  .replace('/ajax/admins/create', '/api/superadmin/admins')\n" .
+                "                  .replace('/ajax/admins/update', '/api/superadmin/admins/update')\n" .
+                "                  .replace('/ajax/admins/delete', '/api/superadmin/admins/delete')\n" .
+                "                  .replace('/ajax/avatar', '/api/profile/avatar')\n" .
+                "                  .replace('/ajax/profile', '/api/profile/update')\n" .
+                "                  .replace('/ajax/change-password', '/api/profile/change-password');\n" .
+                "    },\n\n" .
+                "    post(url, data) {\n" .
+                "        url = this._mapUrl(url);\n" .
+                "        const body = data instanceof FormData ? data : (() => {\n" .
+                "            const fd = new FormData();\n" .
+                "            Object.entries(data).forEach(([k, v]) => fd.append(k, v));\n" .
+                "            return fd;\n" .
+                "        })();\n\n" .
+                "        return fetch(url, {\n" .
+                "            method: 'POST',\n" .
+                "            headers: { 'X-Requested-With': 'XMLHttpRequest' },\n" .
+                "            body,\n" .
+                "        }).then(res => res.json());\n" .
+                "    },\n\n" .
+                "    get(url) {\n" .
+                "        url = this._mapUrl(url);\n" .
+                "        return fetch(url, {\n" .
+                "            headers: { 'X-Requested-With': 'XMLHttpRequest' },\n" .
+                "        }).then(res => res.json());\n" .
+                "    },\n" .
+                "};\n";
+            file_put_contents($basePath . 'js/ajax.js', $jsAjaxContent);
+
+            // 4. Overwrite app/controllers/ErrorController.php to output JSON 404
+            $errorControllerContent = "<?php\n\n" .
+                "class ErrorController extends Controller\n" .
+                "{\n" .
+                "    public function notFound()\n" .
+                "    {\n" .
+                "        Router::json([\n" .
+                "            'status' => 'error',\n" .
+                "            'message' => 'Resource not found',\n" .
+                "            'code' => 404\n" .
+                "        ], 404);\n" .
+                "    }\n" .
+                "}\n";
+            file_put_contents($basePath . 'app/controllers/ErrorController.php', $errorControllerContent);
+
+            self::log("✔ Full Stack REST API configured. Old AJAX routes removed. Frontend requests mapped to /api/* successfully.", $event);
         } else {
             self::log("✔ Configuring as Full Stack Monolith (Default)...", $event);
         }

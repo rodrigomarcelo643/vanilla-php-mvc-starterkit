@@ -35,5 +35,10 @@ require_once 'routes/web/admin/ajax.php';
 require_once 'routes/web/app/pages.php';
 require_once 'routes/web/app/ajax.php';
 
+// ── API Routes ────────────────────────────────────────────────
+if (file_exists('routes/api.php')) {
+    require_once 'routes/api.php';
+}
+
 // ── Dispatch ──────────────────────────────────────────────────
 Router::dispatch();
