@@ -282,61 +282,6 @@ class Installer
                 "};\n";
             file_put_contents($basePath . 'js/ajax.js', $jsAjaxContent);
 
-            // 4. Overwrite app/core/Controller.php — intercept view loading AND override guard() / guardAjax()
-            //    so ALL child controllers return JSON 401 instead of doing header(Location:) redirect
-            $apiControllerContent = "<?php\n\n" .
-                "class Controller\n" .
-                "{\n" .
-                "    // ── Guard overrides: return JSON 401/403 instead of redirecting ──\n" .
-                "    protected function guard(array \$roles = []): void\n" .
-                "    {\n" .
-                "        \$user = Session::get('user');\n" .
-                "        if (!Auth::check()) {\n" .
-                "            Router::json(['status' => 'error', 'message' => 'Unauthenticated. Please login.', 'code' => 401], 401);\n" .
-                "        }\n" .
-                "        if (!empty(\$roles) && !in_array(\$user['role'] ?? '', \$roles)) {\n" .
-                "            Router::json(['status' => 'error', 'message' => 'Forbidden. Insufficient permissions.', 'code' => 403], 403);\n" .
-                "        }\n" .
-                "    }\n\n" .
-                "    protected function guardAjax(array \$roles = []): void\n" .
-                "    {\n" .
-                "        \$this->guard(\$roles);\n" .
-                "    }\n\n" .
-                "    // ── View interceptors: return structured JSON instead of rendering HTML ──\n" .
-                "    public function client(\$view, \$data = [])\n" .
-                "    {\n" .
-                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
-                "    }\n\n" .
-                "    public function admin(\$view, \$data = [])\n" .
-                "    {\n" .
-                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
-                "    }\n\n" .
-                "    public function app(\$view, \$data = [])\n" .
-                "    {\n" .
-                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
-                "    }\n\n" .
-                "    public function auth(\$view, \$data = [])\n" .
-                "    {\n" .
-                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
-                "    }\n\n" .
-                "    public function superadmin(\$view, \$data = [])\n" .
-                "    {\n" .
-                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
-                "    }\n" .
-                "}\n";
-            file_put_contents($basePath . 'app/core/Controller.php', $apiControllerContent);
-
-            // 5. Overwrite app/controllers/ErrorController.php to output JSON 404
-            $errorControllerContent = "<?php\n\n" .
-                "class ErrorController extends Controller\n" .
-                "{\n" .
-                "    public function notFound()\n" .
-                "    {\n" .
-                "        Router::json(['status' => 'error', 'message' => 'Resource not found', 'code' => 404], 404);\n" .
-                "    }\n" .
-                "}\n";
-            file_put_contents($basePath . 'app/controllers/ErrorController.php', $errorControllerContent);
-
             self::log("✔ Full Stack REST API configured. Old AJAX routes removed. Frontend requests mapped to /api/* successfully.", $event);
         } else {
             self::log("✔ Configuring as Full Stack Monolith (Default)...", $event);
