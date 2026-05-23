@@ -124,49 +124,106 @@ class Installer
                 "Router::dispatch();\n";
             file_put_contents($basePath . 'routes/web.php', $webRouteContent);
 
-            // 4. Overwrite app/core/Controller.php — intercept view loading AND override guard() / guardAjax()
-            //    so ALL child controllers return JSON 401 instead of doing header(Location:) redirect
+            // 4. Overwrite app/core/Controller.php — smart API detector, authorization constructor, and view json interceptor
             $apiControllerContent = "<?php\n\n" .
                 "class Controller\n" .
                 "{\n" .
-                "    // ── Guard overrides: return JSON 401 instead of redirecting ──\n" .
-                "    protected function guard(array \$roles = []): void\n" .
+                "    private function isApiRequest(): bool\n" .
                 "    {\n" .
-                "        \$user = Session::get('user');\n" .
-                "        if (!Auth::check()) {\n" .
-                "            Router::json(['status' => 'error', 'message' => 'Unauthenticated. Please login.', 'code' => 401], 401);\n" .
+                "        \$uri = \$_SERVER['REQUEST_URI'] ?? '';\n" .
+                "        \$basePath = rtrim(parse_url(BASE_URL, PHP_URL_PATH) ?? '', '/');\n" .
+                "        if (\$basePath !== '' && str_starts_with(\$uri, \$basePath)) {\n" .
+                "            \$uri = substr(\$uri, strlen(\$basePath));\n" .
                 "        }\n" .
-                "        if (!empty(\$roles) && !in_array(\$user['role'] ?? '', \$roles)) {\n" .
-                "            Router::json(['status' => 'error', 'message' => 'Forbidden. Insufficient permissions.', 'code' => 403], 403);\n" .
+                "        \$uri = trim(\$uri, '/');\n" .
+                "        return str_starts_with(\$uri, 'api/') || str_starts_with(\$uri, 'api');\n" .
+                "    }\n\n" .
+                "    public function __construct()\n" .
+                "    {\n" .
+                "        if (\$this->isApiRequest()) {\n" .
+                "            \$uri = \$_SERVER['REQUEST_URI'] ?? '';\n" .
+                "            \$basePath = rtrim(parse_url(BASE_URL, PHP_URL_PATH) ?? '', '/');\n" .
+                "            if (\$basePath !== '' && str_starts_with(\$uri, \$basePath)) {\n" .
+                "                \$uri = substr(\$uri, strlen(\$basePath));\n" .
+                "            }\n" .
+                "            \$uri = trim(\$uri, '/');\n\n" .
+                "            // Automatically check authentication for protected API groups\n" .
+                "            if (str_starts_with(\$uri, 'api/admin/') || str_starts_with(\$uri, 'api/admin')) {\n" .
+                "                \$role = Session::get('user')['role'] ?? '';\n" .
+                "                if (!Auth::check() || !in_array(\$role, ['admin', 'superadmin'])) {\n" .
+                "                    Router::json(['status' => 'error', 'message' => 'Unauthorized or Unauthenticated. (Admin access required)', 'code' => 401], 401);\n" .
+                "                }\n" .
+                "            }\n" .
+                "            if (str_starts_with(\$uri, 'api/superadmin/') || str_starts_with(\$uri, 'api/superadmin')) {\n" .
+                "                \$role = Session::get('user')['role'] ?? '';\n" .
+                "                if (!Auth::check() || \$role !== 'superadmin') {\n" .
+                "                    Router::json(['status' => 'error', 'message' => 'Unauthorized or Unauthenticated. (Superadmin access required)', 'code' => 401], 401);\n" .
+                "                }\n" .
+                "            }\n" .
+                "            if (str_starts_with(\$uri, 'api/profile') || str_starts_with(\$uri, 'api/app/')) {\n" .
+                "                if (!Auth::check()) {\n" .
+                "                    Router::json(['status' => 'error', 'message' => 'Unauthenticated. Please login.', 'code' => 401], 401);\n" .
+                "                }\n" .
+                "            }\n" .
                 "        }\n" .
                 "    }\n\n" .
-                "    protected function guardAjax(array \$roles = []): void\n" .
-                "    {\n" .
-                "        \$this->guard(\$roles);\n" .
-                "    }\n\n" .
-                "    // ── View interceptors: return structured JSON instead of rendering HTML ──\n" .
+                "    // Client Views\n" .
                 "    public function client(\$view, \$data = [])\n" .
                 "    {\n" .
-                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        if (\$this->isApiRequest()) {\n" .
+                "            Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        }\n" .
+                "        extract(\$data);\n" .
+                "        include 'app/views/layouts/client/header.php';\n" .
+                "        include \"app/views/\$view.php\";\n" .
+                "        include 'app/views/layouts/client/footer.php';\n" .
                 "    }\n\n" .
+                "    // Admin Views\n" .
                 "    public function admin(\$view, \$data = [])\n" .
                 "    {\n" .
-                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        if (\$this->isApiRequest()) {\n" .
+                "            Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        }\n" .
+                "        extract(\$data);\n" .
+                "        include 'app/views/layouts/admin/header.php';\n" .
+                "        include \"app/views/\$view.php\";\n" .
+                "        include 'app/views/layouts/admin/footer.php';\n" .
                 "    }\n\n" .
+                "    // User Views\n" .
                 "    public function app(\$view, \$data = [])\n" .
                 "    {\n" .
-                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        if (\$this->isApiRequest()) {\n" .
+                "            Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        }\n" .
+                "        extract(\$data);\n" .
+                "        include 'app/views/layouts/app/header.php';\n" .
+                "        include \"app/views/\$view.php\";\n" .
+                "        include 'app/views/layouts/app/footer.php';\n" .
                 "    }\n\n" .
+                "    // Auth Views\n" .
                 "    public function auth(\$view, \$data = [])\n" .
                 "    {\n" .
-                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        if (\$this->isApiRequest()) {\n" .
+                "            Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        }\n" .
+                "        extract(\$data);\n" .
+                "        include 'app/views/layouts/auth/header.php';\n" .
+                "        include \"app/views/\$view.php\";\n" .
+                "        include 'app/views/layouts/auth/footer.php';\n" .
                 "    }\n\n" .
                 "    public function superadmin(\$view, \$data = [])\n" .
                 "    {\n" .
-                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        if (\$this->isApiRequest()) {\n" .
+                "            Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        }\n" .
+                "        extract(\$data);\n" .
+                "        include 'app/views/layouts/superadmin/header.php';\n" .
+                "        include \"app/views/\$view.php\";\n" .
+                "        include 'app/views/layouts/superadmin/footer.php';\n" .
                 "    }\n" .
                 "}\n";
             file_put_contents($basePath . 'app/core/Controller.php', $apiControllerContent);
+
 
             // 5. Overwrite app/controllers/ErrorController.php to output JSON 404
             $errorControllerContent = "<?php\n\n" .
@@ -281,6 +338,106 @@ class Installer
                 "    },\n" .
                 "};\n";
             file_put_contents($basePath . 'js/ajax.js', $jsAjaxContent);
+
+            // 4. Overwrite app/core/Controller.php — smart API detector, authorization constructor, and view json interceptor
+            $apiControllerContent = "<?php\n\n" .
+                "class Controller\n" .
+                "{\n" .
+                "    private function isApiRequest(): bool\n" .
+                "    {\n" .
+                "        \$uri = \$_SERVER['REQUEST_URI'] ?? '';\n" .
+                "        \$basePath = rtrim(parse_url(BASE_URL, PHP_URL_PATH) ?? '', '/');\n" .
+                "        if (\$basePath !== '' && str_starts_with(\$uri, \$basePath)) {\n" .
+                "            \$uri = substr(\$uri, strlen(\$basePath));\n" .
+                "        }\n" .
+                "        \$uri = trim(\$uri, '/');\n" .
+                "        return str_starts_with(\$uri, 'api/') || str_starts_with(\$uri, 'api');\n" .
+                "    }\n\n" .
+                "    public function __construct()\n" .
+                "    {\n" .
+                "        if (\$this->isApiRequest()) {\n" .
+                "            \$uri = \$_SERVER['REQUEST_URI'] ?? '';\n" .
+                "            \$basePath = rtrim(parse_url(BASE_URL, PHP_URL_PATH) ?? '', '/');\n" .
+                "            if (\$basePath !== '' && str_starts_with(\$uri, \$basePath)) {\n" .
+                "                \$uri = substr(\$uri, strlen(\$basePath));\n" .
+                "            }\n" .
+                "            \$uri = trim(\$uri, '/');\n\n" .
+                "            // Automatically check authentication for protected API groups\n" .
+                "            if (str_starts_with(\$uri, 'api/admin/') || str_starts_with(\$uri, 'api/admin')) {\n" .
+                "                \$role = Session::get('user')['role'] ?? '';\n" .
+                "                if (!Auth::check() || !in_array(\$role, ['admin', 'superadmin'])) {\n" .
+                "                    Router::json(['status' => 'error', 'message' => 'Unauthorized or Unauthenticated. (Admin access required)', 'code' => 401], 401);\n" .
+                "                }\n" .
+                "            }\n" .
+                "            if (str_starts_with(\$uri, 'api/superadmin/') || str_starts_with(\$uri, 'api/superadmin')) {\n" .
+                "                \$role = Session::get('user')['role'] ?? '';\n" .
+                "                if (!Auth::check() || \$role !== 'superadmin') {\n" .
+                "                    Router::json(['status' => 'error', 'message' => 'Unauthorized or Unauthenticated. (Superadmin access required)', 'code' => 401], 401);\n" .
+                "                }\n" .
+                "            }\n" .
+                "            if (str_starts_with(\$uri, 'api/profile') || str_starts_with(\$uri, 'api/app/')) {\n" .
+                "                if (!Auth::check()) {\n" .
+                "                    Router::json(['status' => 'error', 'message' => 'Unauthenticated. Please login.', 'code' => 401], 401);\n" .
+                "                }\n" .
+                "            }\n" .
+                "        }\n" .
+                "    }\n\n" .
+                "    // Client Views\n" .
+                "    public function client(\$view, \$data = [])\n" .
+                "    {\n" .
+                "        if (\$this->isApiRequest()) {\n" .
+                "            Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        }\n" .
+                "        extract(\$data);\n" .
+                "        include 'app/views/layouts/client/header.php';\n" .
+                "        include \"app/views/\$view.php\";\n" .
+                "        include 'app/views/layouts/client/footer.php';\n" .
+                "    }\n\n" .
+                "    // Admin Views\n" .
+                "    public function admin(\$view, \$data = [])\n" .
+                "    {\n" .
+                "        if (\$this->isApiRequest()) {\n" .
+                "            Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        }\n" .
+                "        extract(\$data);\n" .
+                "        include 'app/views/layouts/admin/header.php';\n" .
+                "        include \"app/views/\$view.php\";\n" .
+                "        include 'app/views/layouts/admin/footer.php';\n" .
+                "    }\n\n" .
+                "    // User Views\n" .
+                "    public function app(\$view, \$data = [])\n" .
+                "    {\n" .
+                "        if (\$this->isApiRequest()) {\n" .
+                "            Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        }\n" .
+                "        extract(\$data);\n" .
+                "        include 'app/views/layouts/app/header.php';\n" .
+                "        include \"app/views/\$view.php\";\n" .
+                "        include 'app/views/layouts/app/footer.php';\n" .
+                "    }\n\n" .
+                "    // Auth Views\n" .
+                "    public function auth(\$view, \$data = [])\n" .
+                "    {\n" .
+                "        if (\$this->isApiRequest()) {\n" .
+                "            Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        }\n" .
+                "        extract(\$data);\n" .
+                "        include 'app/views/layouts/auth/header.php';\n" .
+                "        include \"app/views/\$view.php\";\n" .
+                "        include 'app/views/layouts/auth/footer.php';\n" .
+                "    }\n\n" .
+                "    public function superadmin(\$view, \$data = [])\n" .
+                "    {\n" .
+                "        if (\$this->isApiRequest()) {\n" .
+                "            Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "        }\n" .
+                "        extract(\$data);\n" .
+                "        include 'app/views/layouts/superadmin/header.php';\n" .
+                "        include \"app/views/\$view.php\";\n" .
+                "        include 'app/views/layouts/superadmin/footer.php';\n" .
+                "    }\n" .
+                "}\n";
+            file_put_contents($basePath . 'app/core/Controller.php', $apiControllerContent);
 
             self::log("✔ Full Stack REST API configured. Old AJAX routes removed. Frontend requests mapped to /api/* successfully.", $event);
         } else {
