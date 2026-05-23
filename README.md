@@ -229,6 +229,69 @@ http://localhost/your-folder-path
 
 ---
 
+## 🧩 Installer Presets
+
+When you run `composer install`, the setup wizard automatically launches and asks you to pick an installation mode:
+
+```
+====================================================
+       Welcome to Vanilla PHP MVC Starter Kit
+====================================================
+
+Which preset would you like to install?
+  [1] Full Stack (Alpine.js + AJAX Monolith) - Default
+  [2] REST API (Full Stack with JS)
+  [3] Backend Only (REST API, No UI)
+
+Select an option [1]:
+```
+
+### Option 1 — Full Stack (Alpine.js + AJAX Monolith) *(default)*
+
+The classic MVC full stack mode. All views are rendered server-side. AJAX calls use the `/ajax/` route prefix and return JSON. The `/api/` routes are also registered and available for external consumers alongside the HTML interface.
+
+- ✅ All HTML views intact (client, admin, superadmin, app panels)
+- ✅ Session-based auth with login/register pages
+- ✅ AJAX endpoints under `/ajax/`
+- ✅ REST API endpoints under `/api/` (JSON)
+- ✅ `http://localhost/yourapp/` → renders HTML homepage
+
+### Option 2 — REST API (Full Stack with JS)
+
+Identical to Option 1 but injects the **smart `Controller`** which auto-detects `/api/` prefixed requests and switches them to JSON output mode. All HTML views remain intact. The frontend JS layer drives data via `/api/` fetch calls.
+
+- ✅ All HTML views intact
+- ✅ Smart `Controller` — `/api/` routes return JSON, page routes return HTML
+- ✅ Session cookie reused for both browser and API requests
+- ✅ `http://localhost/yourapp/` → renders HTML homepage
+- ✅ `http://localhost/yourapp/api/admin/users` → returns JSON user list
+
+### Option 3 — Backend Only (REST API, No UI)
+
+Pure JSON API mode. All frontend assets (views, JS, CSS, client routes) are removed. Every request returns JSON. Use this when building a decoupled frontend (React, Vue, mobile app) that communicates with this backend via the `/api/` endpoints.
+
+- ✅ All HTML views **removed**
+- ✅ Only `routes/api.php` is loaded — pure JSON responses
+- ✅ Smart `Controller` auth guard returns JSON `401`/`403` (no HTML redirects)
+- ✅ `http://localhost/yourapp/` → returns JSON welcome message
+- ✅ `http://localhost/yourapp/api/admin/users` → returns JSON user list
+
+### Comparison
+
+| Feature                        | Option 1 | Option 2 | Option 3 |
+|-------------------------------|----------|----------|----------|
+| HTML Views                    | ✅       | ✅       | ❌       |
+| Session Auth (Browser)        | ✅       | ✅       | ✅       |
+| `/ajax/` AJAX endpoints       | ✅       | ✅       | ❌       |
+| `/api/` REST endpoints (JSON) | ✅       | ✅       | ✅       |
+| Smart JSON/HTML auto-switch   | ❌       | ✅       | ✅       |
+| Root `/` returns HTML         | ✅       | ✅       | ❌       |
+| Root `/` returns JSON         | ❌       | ❌       | ✅       |
+
+> You can re-run the installer at any time with: `php kit env:setup`
+
+---
+
 ## 🛠️ Kit CLI Developer Tool
 
 The starter kit comes with **Kit** (a custom PHP command-line interface helper) to streamline database setup, route inspection, scaffolding, cache management, and server management.
@@ -263,6 +326,7 @@ kit.bat [command] [arguments] [options]
 
 #### 🗺️ Routing
 * `php kit route:list` — Lists all registered application routes, organized by request method, URI path, and handler.
+* `php kit route:test` — Launches an **interactive API endpoint tester** directly in your terminal. Categorizes all registered `/api/` routes by group (Auth, Admin, Superadmin, Profile, App), sends real HTTP requests via cURL (including session cookies), and displays colorized JSON responses. Press `[ENTER]` to return to the menu after each request. Exit with `X` or `Ctrl+C`.
 
 #### 💻 System & Development Utilities
 * `php kit serve [host?] [port?]` — Starts the local PHP built-in development server with custom routing support.
@@ -280,15 +344,46 @@ kit.bat [command] [arguments] [options]
 
 ## 🗺️ Routes Overview
 
-| File              | Prefix                  | Description                            |
-| ----------------- | ----------------------- | -------------------------------------- |
-| `client/pages.php`      | `/`               | Public pages (home, about, blog…)      |
-| `superadmin/pages.php`  | `superadmin/`     | Super admin dashboard, admins, users   |
-| `superadmin/ajax.php`   | `ajax/admins/`    | Admin CRUD AJAX endpoints              |
-| `admin/pages.php`       | `admin/`          | Admin dashboard, users, settings       |
-| `app/pages.php`         | `app/`            | Authenticated user pages               |
-| `auth/ajax.php`         | `ajax/`           | Login, register + AJAX endpoints       |
-| `auth/oauth.php`        | `oauth/`          | Google + GitHub OAuth redirect/callback |
+| File                    | Prefix             | Description                              |
+| ----------------------- | ------------------ | ---------------------------------------- |
+| `client/pages.php`      | `/`                | Public pages (home, about, blog…)        |
+| `superadmin/pages.php`  | `superadmin/`      | Super admin dashboard, admins, users     |
+| `superadmin/ajax.php`   | `ajax/admins/`     | Admin CRUD AJAX endpoints                |
+| `admin/pages.php`       | `admin/`           | Admin dashboard, users, settings         |
+| `app/pages.php`         | `app/`             | Authenticated user pages                 |
+| `auth/ajax.php`         | `ajax/`            | Login, register + AJAX endpoints         |
+| `auth/oauth.php`        | `oauth/`           | Google + GitHub OAuth redirect/callback  |
+| `routes/api.php`        | `api/`             | Unified REST API — JSON-only endpoints for all roles |
+
+### REST API Endpoints (`routes/api.php`)
+
+All `/api/` routes return **JSON only**, regardless of installation mode.
+
+| Method | Endpoint                        | Description                    |
+|--------|---------------------------------|--------------------------------|
+| `GET`  | `/api/ping`                     | Health check                   |
+| `GET`  | `/api`                          | API info + endpoint list       |
+| `POST` | `/api/auth/login`               | Login                          |
+| `POST` | `/api/auth/register`            | Register                       |
+| `POST` | `/api/auth/logout`              | Logout                         |
+| `POST` | `/api/auth/forgot-password`     | Request password reset         |
+| `POST` | `/api/auth/reset-password`      | Complete password reset        |
+| `GET`  | `/api/admin/users`              | Get all users (admin)          |
+| `POST` | `/api/admin/users`              | Create user (admin)            |
+| `POST` | `/api/admin/users/update`       | Update user (admin)            |
+| `POST` | `/api/admin/users/delete`       | Delete user (admin)            |
+| `GET`  | `/api/admin/dashboard`          | Admin dashboard stats          |
+| `GET`  | `/api/superadmin/admins`        | Get all admins (superadmin)    |
+| `POST` | `/api/superadmin/admins`        | Create admin (superadmin)      |
+| `POST` | `/api/superadmin/admins/update` | Update admin (superadmin)      |
+| `POST` | `/api/superadmin/admins/delete` | Delete admin (superadmin)      |
+| `GET`  | `/api/superadmin/users`         | Get all users (superadmin)     |
+| `GET`  | `/api/superadmin/dashboard`     | Superadmin dashboard stats     |
+| `GET`  | `/api/profile`                  | Get current user profile       |
+| `POST` | `/api/profile/avatar`           | Upload avatar                  |
+| `POST` | `/api/profile/update`           | Update profile                 |
+| `POST` | `/api/profile/change-password`  | Change password                |
+| `GET`  | `/api/app/home`                 | Authenticated user home data   |
 
 ---
 
