@@ -140,7 +140,12 @@ const BASE_URL = '<?= BASE_URL ?>';
         <script src="<?= BASE_URL ?>/js/admin/users.js"></script>
         <script src="<?= BASE_URL ?>/js/admin/admin.js"></script>
         <script src="<?= BASE_URL ?>/js/sidebar.js"></script>
-
+        <?php $toast = Session::flash('toast'); if ($toast): ?>
+        <script>
+document.addEventListener('DOMContentLoaded', () => App.toast(<?= json_encode($toast['message']) ?>,
+    <?= json_encode($toast['type']) ?>));
+        </script>
+        <?php endif; ?>
         </body>
 
         </html>
