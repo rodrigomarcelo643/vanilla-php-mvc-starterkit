@@ -9,17 +9,32 @@ echo "  [2] REST API (Full Stack with JS)\n";
 echo "  [3] Backend Only (REST API, No UI)\n";
 echo "\nSelect an option [1]: ";
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    $handle = fopen("CON", "r");
-} else {
-    $handle = fopen("/dev/tty", "r");
+// Flush output so the prompt appears before we block on input
+if (ob_get_level()) ob_flush();
+flush();
+
+$choice = '1'; // fallback default
+
+// Strategy 1: Try STDIN directly (works when Composer keeps it open)
+if (defined('STDIN') && STDIN !== false) {
+    stream_set_blocking(STDIN, true);
+    $line = fgets(STDIN);
+    if ($line !== false && trim($line) !== '') {
+        $choice = trim($line);
+    }
 }
 
-if ($handle !== false) {
-    $choice = trim(fgets($handle));
-    fclose($handle);
-} else {
-    $choice = '1';
+// Strategy 2: Fallback — open console/tty directly
+if ($choice === '1') {
+    $tty = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? 'CON' : '/dev/tty';
+    $handle = @fopen($tty, 'r');
+    if ($handle !== false) {
+        $line = fgets($handle);
+        fclose($handle);
+        if ($line !== false && trim($line) !== '') {
+            $choice = trim($line);
+        }
+    }
 }
 
 if ($choice === '3') {
