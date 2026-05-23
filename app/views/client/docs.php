@@ -718,6 +718,21 @@
                 <p class="text-xs text-zinc-400">Uncomment the <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">push</code> trigger in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">.github/workflows/deploy.yml</code> to activate on every push to main.</p>
             </div>
 
+            <!-- Star History -->
+            <div class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">⭐ Star History</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+                    If this project helped you, consider giving it a star on GitHub — it helps others discover it!
+                </p>
+                <a href="https://star-history.com/#rodrigomarcelo643/vanilla-php-mvc-starterkit&Date" target="_blank" class="block">
+                    <img
+                        src="https://api.star-history.com/svg?repos=rodrigomarcelo643/vanilla-php-mvc-starterkit&type=Date"
+                        alt="Star History Chart"
+                        class="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 dark:invert dark:opacity-80"
+                    />
+                </a>
+            </div>
+
             <!-- Bottom CTA -->
             <div class="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 text-center">
                 <p class="text-sm font-medium text-zinc-900 dark:text-zinc-100 mb-1">Something missing?</p>

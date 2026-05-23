@@ -467,6 +467,14 @@ This project ships with ready-made context files for AI coding assistants so the
 - **Any agent** — point it to `.agent/context/project.md` for the full project map
 - **Prompt templates** — copy a template from `.agent/prompts/`, fill in the placeholders, and send it to your agent
 
+## 📈 Star History
+
+<div align="center">
+
+[![Star History Chart](https://api.star-history.com/svg?repos=rodrigomarcelo643/vanilla-php-mvc-starterkit&type=Date)](https://star-history.com/#rodrigomarcelo643/vanilla-php-mvc-starterkit&Date)
+
+</div>
+
 ---
 
 <div align="center">
