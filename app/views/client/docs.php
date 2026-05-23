@@ -3,7 +3,7 @@
 
         <!-- Sidebar -->
         <aside class="hidden lg:block w-52 shrink-0" x-data="{ active: 'introduction' }" x-init="
-            const sectionIds = ['introduction','installation','configuration','routing','controllers','models','views','authentication','admin-panel','ajax','database','custom-routes','middleware','deployment'];
+            const sectionIds = ['introduction','installation','configuration','cli-commands','routing','controllers','models','views','authentication','admin-panel','ajax','database','custom-routes','middleware','deployment'];
             const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
             window.addEventListener('scroll', () => {
                 let current = 'introduction';
@@ -17,7 +17,7 @@
             <div class="sticky top-20 space-y-6">
                 <?php
                 $sections = [
-                    'Getting Started' => ['Introduction', 'Installation', 'Configuration'],
+                    'Getting Started' => ['Introduction', 'Installation', 'Configuration', 'CLI Commands'],
                     'Core Concepts'   => ['Routing', 'Controllers', 'Models', 'Views'],
                     'Features'        => ['Authentication', 'Admin Panel', 'AJAX', 'Database'],
                     'Advanced'        => ['Custom Routes', 'Middleware', 'Deployment'],
@@ -60,19 +60,22 @@
             <div id="installation" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
                 <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">Installation</h2>
                 <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-5">
-                    Get up and running in minutes. You'll need PHP 8.0+, MySQL 5.7+, Apache with mod_rewrite, and Composer.
+                    Follow these steps to get the project set up on your local development environment. You'll need PHP 8.0+, MySQL 5.7+, Apache (with mod_rewrite enabled), and Composer.
                 </p>
 
                 <!-- Step 1 -->
                 <div class="mb-6">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">1</span>
-                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Clone the repository</h3>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Create the Project via Composer</h3>
                     </div>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-3">
+                        Open your terminal, navigate to your local web server root directory (e.g., <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded font-mono">htdocs</code> for XAMPP or <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded font-mono">www</code> for Laragon), and create the project using Composer:
+                    </p>
                     <div class="relative">
                         <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
-                            <p><span class="text-zinc-500"># Place inside your web root</span></p>
-                            <p>git clone https://github.com/rodrigomarcelo643/php-vanilla-mvc-starterkit.git</p>
+                            <p><span class="text-zinc-500"># Create the project using the mardev/starter-kit package (replace myphpapp with your desired directory name)</span></p>
+                            <p>composer create-project mardev/starter-kit myphpapp</p>
                         </div>
                         <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
                             <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
@@ -81,63 +84,29 @@
                             <span class="label-check hidden text-green-400">Copied!</span>
                         </button>
                     </div>
+                    <p class="text-xs text-zinc-400 mt-2">
+                        This command automatically creates the <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded font-mono">myphpapp</code> folder, downloads all dependency packages, copies the configuration file, generates the encryption key, and builds the starter schema.
+                    </p>
                 </div>
 
                 <!-- Step 2 -->
                 <div class="mb-6">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">2</span>
-                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Install dependencies</h3>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Configure Local URL and Environment</h3>
                     </div>
-                    <div class="relative">
-                        <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
-                            <p>composer install</p>
-                        </div>
-                        <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
-                            <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                            <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                            <span class="label-copy">Copy</span>
-                            <span class="label-check hidden text-green-400">Copied!</span>
-                        </button>
-                    </div>
-                    <p class="text-xs text-zinc-400 mt-2">This installs PHPMailer, PHPUnit, and other packages defined in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">composer.json</code>.</p>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="mb-6">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">3</span>
-                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Import the database</h3>
-                    </div>
-                    <div class="relative">
-                        <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
-                            <p><span class="text-zinc-500"># Open phpMyAdmin</span></p>
-                            <p>Import &rarr; database/starter.sql</p>
-                        </div>
-                        <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
-                            <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                            <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                            <span class="label-copy">Copy</span>
-                            <span class="label-check hidden text-green-400">Copied!</span>
-                        </button>
-                    </div>
-                    <p class="text-xs text-zinc-400 mt-2">Creates the <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">starter</code> database with all tables and seed data including default admin and user accounts.</p>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="mb-6">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">4</span>
-                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Configure environment</h3>
-                    </div>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-3">
+                        Copy <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded font-mono">.env.example</code> to <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded font-mono">.env</code>. Set your local site URL path under <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded font-mono">BASE_URL</code>, and configure your MySQL database credentials.
+                    </p>
                     <div class="relative">
                         <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300 space-y-1">
-                            <p><span class="text-zinc-500"># Copy the example file</span></p>
+                            <p><span class="text-zinc-500"># Copy environment example file</span></p>
                             <p>cp .env.example .env</p>
-                            <p class="mt-3"><span class="text-zinc-500"># Edit .env with your values</span></p>
+                            <p class="mt-3"><span class="text-zinc-500"># Edit your .env with the matching local server folder name</span></p>
                             <p>APP_NAME=<span class="text-yellow-300">"Starter Kit"</span></p>
-                            <p>BASE_URL=<span class="text-yellow-300">"/your-folder-path"</span></p>
-                            <p class="mt-1">DB_HOST=<span class="text-yellow-300">localhost</span></p>
+                            <p>BASE_URL=<span class="text-yellow-300">"/myphpapp"</span></p>
+                            <p class="mt-3"><span class="text-zinc-500"># Configure database credentials</span></p>
+                            <p>DB_HOST=<span class="text-yellow-300">localhost</span></p>
                             <p>DB_NAME=<span class="text-yellow-300">starter</span></p>
                             <p>DB_USER=<span class="text-yellow-300">root</span></p>
                             <p>DB_PASS=<span class="text-yellow-300"></span></p>
@@ -151,15 +120,21 @@
                     </div>
                 </div>
 
-                <!-- Step 5 -->
-                <div class="mb-4">
+                <!-- Step 3 -->
+                <div class="mb-6">
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">5</span>
-                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Visit the app</h3>
+                        <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">3</span>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Setup Database & Keys</h3>
                     </div>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-3">
+                        Create an empty database named <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded font-mono">starter</code> (or the name you specified in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded font-mono">.env</code>). Then, generate a secure app key and seed the database using the CLI tool.
+                    </p>
                     <div class="relative">
                         <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
-                            <p>http://localhost/your-folder-path</p>
+                            <p><span class="text-zinc-500"># Generate a secure application encryption key</span></p>
+                            <p>php kit key:generate</p>
+                            <p class="mt-3"><span class="text-zinc-500"># Seed the database with starter schema and default users</span></p>
+                            <p>php kit db:seed</p>
                         </div>
                         <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
                             <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
@@ -168,19 +143,54 @@
                             <span class="label-check hidden text-green-400">Copied!</span>
                         </button>
                     </div>
+                    <p class="text-xs text-zinc-400 mt-2">
+                        Alternatively, you can manually import the database using the SQL dump file located at <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 font-mono">database/starter.sql</code> via phpMyAdmin.
+                    </p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="mb-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">4</span>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Visit your Application</h3>
+                    </div>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-3">
+                        Open your web browser and navigate directly to your local server url:
+                    </p>
+                    <div class="relative">
+                        <div class="bg-zinc-950 rounded-xl p-4 font-mono text-xs text-zinc-300">
+                            <p>http://localhost/myphpapp/</p>
+                        </div>
+                        <button onclick="copyCode(this)" class="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100 text-[10px] font-medium transition-colors">
+                            <svg class="w-3 h-3 icon-copy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <svg class="w-3 h-3 icon-check hidden text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span class="label-copy">Copy</span>
+                            <span class="label-check hidden text-green-400">Copied!</span>
+                        </button>
+                    </div>
+                    <div class="mt-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 rounded-xl p-4 text-xs text-amber-800 dark:text-amber-300">
+                        <p class="font-semibold mb-1">⚠️ Important Routing Precaution</p>
+                        <p>We recommend using your Apache local server address (e.g. <code class="px-1 py-0.5 bg-amber-100 dark:bg-amber-900 rounded font-mono">http://localhost/myphpapp/</code>) to run the project. Do not use <code class="px-1 py-0.5 bg-amber-100 dark:bg-amber-900 rounded font-mono">php kit serve</code> or <code class="px-1 py-0.5 bg-amber-100 dark:bg-amber-900 rounded font-mono">localhost:8000</code> for development yet due to temporary routing and .htaccess path constraints.</p>
+                    </div>
                 </div>
 
                 <!-- Default credentials -->
                 <div class="mt-5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4">
-                    <p class="text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-3">Default credentials</p>
+                    <p class="text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-3">Default accounts loaded by the seeder:</p>
                     <div class="grid grid-cols-3 gap-2 text-xs">
                         <span class="font-medium text-zinc-500">Role</span>
                         <span class="font-medium text-zinc-500">Email</span>
                         <span class="font-medium text-zinc-500">Password</span>
-                        <span class="text-zinc-900 dark:text-zinc-100">Admin</span>
+                        
+                        <span class="text-zinc-900 dark:text-zinc-100 font-medium">Super Admin</span>
+                        <span class="text-zinc-700 dark:text-zinc-300 font-mono">superadmin@starter.com</span>
+                        <span class="text-zinc-700 dark:text-zinc-300 font-mono">password</span>
+
+                        <span class="text-zinc-900 dark:text-zinc-100 font-medium">Admin</span>
                         <span class="text-zinc-700 dark:text-zinc-300 font-mono">admin@starter.com</span>
                         <span class="text-zinc-700 dark:text-zinc-300 font-mono">password</span>
-                        <span class="text-zinc-900 dark:text-zinc-100">User</span>
+                        
+                        <span class="text-zinc-900 dark:text-zinc-100 font-medium">User</span>
                         <span class="text-zinc-700 dark:text-zinc-300 font-mono">alice@example.com</span>
                         <span class="text-zinc-700 dark:text-zinc-300 font-mono">password</span>
                     </div>
@@ -222,6 +232,180 @@
                         <span class="label-copy">Copy</span>
                         <span class="label-check hidden text-green-400">Copied!</span>
                     </button>
+                </div>
+            </div>
+
+            <!-- Section: CLI Commands -->
+            <div id="cli-commands" class="mb-10 pb-10 border-b border-zinc-100 dark:border-zinc-800">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">CLI Commands</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-5">
+                    The framework features a custom command-line interface tool named <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">kit</code> to accelerate development tasks. Run it using <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-700 dark:text-zinc-300 text-xs font-mono">php kit [command]</code> from your project root.
+                </p>
+
+                <div class="space-y-6">
+                    <!-- Database Category -->
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-3">Database Management</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit db:seed</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">seed</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Seeds the database using the SQL dump file located in <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded font-mono">database/starter.sql</code>.</p>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit db:fresh</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">fresh</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Drops all existing tables inside the configured database and re-imports the initial schema from scratch.</p>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit migrate</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">migrate</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Runs all pending database migrations inside the <code class="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded font-mono">database/migrations</code> folder.</p>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit migrate:rollback</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">rollback</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Rolls back the last batch of database migrations.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scaffolding Category -->
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-3">Scaffolding (Code Generation)</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit make:controller [Name] [--admin] [--superadmin] [--resource]</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">controller</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Generates a new Controller class extending the base Controller. Options:</p>
+                                <ul class="list-disc pl-4 space-y-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+                                    <li><code class="font-mono bg-zinc-100 dark:bg-zinc-850 px-1 rounded">--admin</code>: Places controller in <code class="font-mono">app/controllers/admin</code></li>
+                                    <li><code class="font-mono bg-zinc-100 dark:bg-zinc-850 px-1 rounded">--superadmin</code>: Places controller in <code class="font-mono">app/controllers/superadmin</code></li>
+                                    <li><code class="font-mono bg-zinc-100 dark:bg-zinc-850 px-1 rounded">--resource</code>: Generates CRUD action placeholders (index, create, update, delete)</li>
+                                </ul>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit make:model [Name] [--resource]</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">model</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Generates a new Model class extending the base Model. Pass <code class="font-mono bg-zinc-100 dark:bg-zinc-850 px-1 rounded">--resource</code> to prepopulate database querying helper skeletons.</p>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit make:view [folder/name] [--resource]</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">view</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Generates a view file inside the <code class="font-mono">app/views</code> directory. Pass <code class="font-mono bg-zinc-100 dark:bg-zinc-850 px-1 rounded">--resource</code> to generate CRUD view files (create.php, edit.php, index.php, show.php).</p>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit make:middleware [Name]</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">middleware</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Generates a middleware template class under the <code class="font-mono">app/middleware</code> directory.</p>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit make:migration [Name]</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">migration</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Generates a new database migration class with timestamp prefix inside <code class="font-mono">database/migrations</code>.</p>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit make:auth</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">auth</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Scaffolds full user authentication (views, controllers, models, and routes) automatically.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System & Utility Category -->
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-3">System Utilities</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit route:list [filters]</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">routes</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Lists all registered application routes. You can customize and filter the output using options:</p>
+                                <ul class="list-disc pl-4 space-y-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+                                    <li>Filter by HTTP method: <code class="font-mono bg-zinc-100 dark:bg-zinc-850 px-1 rounded">php kit route:list GET</code> or <code class="font-mono bg-zinc-100 dark:bg-zinc-850 px-1 rounded">--method=POST</code></li>
+                                    <li>Filter by route prefix group: <code class="font-mono bg-zinc-100 dark:bg-zinc-850 px-1 rounded">php kit route:list admin</code> or <code class="font-mono bg-zinc-100 dark:bg-zinc-850 px-1 rounded">--group=ajax</code></li>
+                                    <li>Search URI or actions: <code class="font-mono bg-zinc-100 dark:bg-zinc-850 px-1 rounded">php kit route:list profile</code> or <code class="font-mono bg-zinc-100 dark:bg-zinc-850 px-1 rounded">--search=create</code></li>
+                                </ul>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit key:generate</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">key</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Generates a random secure key and sets it as the <code class="font-mono bg-zinc-100 dark:bg-zinc-850 px-1 rounded">APP_KEY</code> in your <code class="font-mono">.env</code> file for session validation and hashing encryption.</p>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit tinker</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">tinker</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Starts an interactive Read-Eval-Print Loop (REPL) shell where you can run arbitrary PHP code within your application environment.</p>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit serve [host?] [port?]</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">serve</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Starts the local PHP built-in development server (defaults to 127.0.0.1:8000).</p>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit cache:clear</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">cache</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Clears compiled application cache files.</p>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit logs:clear</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">logs</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Clears and empties all application log files.</p>
+                            </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit optimize:clear</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">clean</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Clears all application caches and logs at once.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
