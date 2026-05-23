@@ -58,7 +58,7 @@ Router::post('api/admin/users/update',   ['UserController',     'ajaxUpdate']);
 Router::post('api/admin/users/delete',   ['UserController',     'ajaxDelete']);
 
 // ── Super Admin / Admin Management API ───────────────────────
-Router::get('api/superadmin/admins',        ['SuperAdminAdminController', 'index']);
+Router::get('api/superadmin/admins',        ['SuperAdminDashboardController', 'admins']);
 Router::post('api/superadmin/admins',        ['SuperAdminAdminController', 'ajaxCreate']);
 Router::post('api/superadmin/admins/update', ['SuperAdminAdminController', 'ajaxUpdate']);
 Router::post('api/superadmin/admins/delete', ['SuperAdminAdminController', 'ajaxDelete']);
@@ -67,7 +67,7 @@ Router::post('api/superadmin/admins/delete', ['SuperAdminAdminController', 'ajax
 Router::get('api/superadmin/users',         ['SuperAdminUserController',  'index']);
 
 // ── Dashboards API ───────────────────────────────────────────
-Router::get('api/admin/dashboard',          ['AdminDashboardController',  'index']);
+Router::get('api/admin/dashboard',          ['DashboardController',       'index']);
 Router::get('api/superadmin/dashboard',     ['SuperAdminDashboardController', 'index']);
 
 // ── Profile / User Settings API ──────────────────────────────
@@ -77,7 +77,7 @@ Router::post('api/profile/update',          ['ProfileController', 'ajaxUpdatePro
 Router::post('api/profile/change-password', ['ProfileController', 'ajaxChangePassword']);
 
 // ── App / Authenticated User API ─────────────────────────────
-Router::get('api/app/home',                 ['AppController',     'index']);
+Router::get('api/app/home',                 ['AppController',     'home']);
 
 // ── Health Check ──────────────────────────────────────────────
 Router::get('api/ping', function () {
