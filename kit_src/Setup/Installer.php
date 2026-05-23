@@ -1,11 +1,6 @@
 <?php
 
-$isWin   = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
-$console = $isWin ? 'CON' : '/dev/tty';
-
-// Open the real console device for both writing the menu AND reading input.
-// This bypasses Composer's STDIN/STDOUT redirection entirely.
-$con = @fopen($console, 'r+');
+$isWin = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 
 $menu  = "\n\033[1;36m====================================================\033[0m\n";
 $menu .= "\033[1;36m       Welcome to Vanilla PHP MVC Starter Kit       \033[0m\n";
@@ -16,21 +11,32 @@ $menu .= "  [2] REST API (Full Stack with JS)\n";
 $menu .= "  [3] Backend Only (REST API, No UI)\n";
 $menu .= "\nSelect an option [1]: ";
 
-if ($con !== false) {
-    fwrite($con, $menu);
+// On Windows use CONOUT$/CONIN$ (explicit console I/O devices that block correctly).
+// On Linux/Mac use /dev/tty (the controlling terminal, bypasses Composer pipe).
+if ($isWin) {
+    $conOut = @fopen('CONOUT$', 'w');
+    $conIn  = @fopen('CONIN$',  'r');
 } else {
-    // Fallback: echo to stdout if console device not available
+    $tty    = @fopen('/dev/tty', 'r+');
+    $conOut = $tty;
+    $conIn  = $tty;
+}
+
+// Write menu directly to console (not stdout, which Composer may buffer)
+if ($conOut) {
+    fwrite($conOut, $menu);
+    if ($isWin) fclose($conOut);
+} else {
     echo $menu;
     if (ob_get_level()) ob_flush();
     flush();
 }
 
-$choice = '1'; // fallback default
-
-// Read from the console device we already opened
-if ($con !== false) {
-    $line = fgets($con);
-    fclose($con);
+// Read input directly from console (not stdin, which Composer redirects)
+$choice = '1';
+if ($conIn) {
+    $line = fgets($conIn);
+    fclose($conIn);
     if ($line !== false) {
         $digit = preg_replace('/[^1-9]/', '', $line);
         if ($digit !== '') {
@@ -38,15 +44,13 @@ if ($con !== false) {
         }
     }
 } else {
-    // Fallback: try STDIN
+    // Last resort fallback: STDIN
     if (defined('STDIN') && STDIN !== false) {
         stream_set_blocking(STDIN, true);
         $line = fgets(STDIN);
         if ($line !== false) {
             $digit = preg_replace('/[^1-9]/', '', $line);
-            if ($digit !== '') {
-                $choice = $digit;
-            }
+            if ($digit !== '') $choice = $digit;
         }
     }
 }
