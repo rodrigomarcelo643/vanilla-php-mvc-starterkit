@@ -21,7 +21,7 @@ $categories = [
         'make:auth'         => ['Generate full Authentication scaffolding', ''],
     ],
     'Routing' => [
-        'route:list'        => ['Display a list of all registered application routes', ''],
+        'route:list'        => ['Display application routes', '[--method=GET/POST] [--group=admin/ajax...] [--search=...]'],
     ],
     'System' => [
         'tinker'            => ['Start an interactive PHP REPL session', ''],
