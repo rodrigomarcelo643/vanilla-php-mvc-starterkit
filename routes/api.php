@@ -1,22 +1,24 @@
 <?php
 
 // ── Root / Welcome ────────────────────────────────────────────
-Router::get('', function () {
-    Router::json([
-        'status'  => 'success',
-        'engine'  => 'MARDEV Starter Kit',
-        'version' => '1.3.5',
-        'message' => 'REST API is running.',
-        'docs'    => 'See /api for available endpoints.',
-    ]);
-});
+if (!Router::hasRoute('GET', '')) {
+    Router::get('', function () {
+        Router::json([
+            'status'  => 'success',
+            'engine'  => 'MARDEV Starter Kit',
+            'version' => '1.3.8',
+            'message' => 'REST API is running.',
+            'docs'    => 'See /api for available endpoints.',
+        ]);
+    });
+}
 
 // ── API Info ──────────────────────────────────────────────────
 Router::get('api', function () {
     Router::json([
         'status'    => 'success',
         'engine'    => 'MARDEV Starter Kit REST API',
-        'version'   => '1.3.5',
+        'version'   => '1.3.8',
         'endpoints' => [
             'POST /api/auth/login'                  => 'Login',
             'POST /api/auth/register'               => 'Register',

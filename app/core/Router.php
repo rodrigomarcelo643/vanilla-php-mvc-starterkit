@@ -16,6 +16,11 @@ class Router
         self::$routes['POST'][$uri] = $action;
     }
 
+    public static function hasRoute(string $method, string $uri): bool
+    {
+        return isset(self::$routes[strtoupper($method)][$uri]);
+    }
+
     public static function any(string $uri, array|callable $action): void
     {
         self::$routes['GET'][$uri]  = $action;
