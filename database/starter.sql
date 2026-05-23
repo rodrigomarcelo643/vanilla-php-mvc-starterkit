@@ -65,7 +65,7 @@ CREATE TABLE `admins` (
 
 -- plain password: password
 INSERT INTO `admins` (`name`, `email`, `password`, `status`) VALUES
-('Super Admin', 'admin@starter.com', '$2y$10$UwBbtw7SU2RR5YPq5Moj2eZuHJUfYXP3Fd5QcoYIW65TIveFKIzAC', 'active');
+('Admin', 'admin@starter.com', '$2y$10$UwBbtw7SU2RR5YPq5Moj2eZuHJUfYXP3Fd5QcoYIW65TIveFKIzAC', 'active');
 
 -- ============================================================
 --  TABLE: super_admins
