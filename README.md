@@ -46,6 +46,48 @@ Backed by PHPUnit with 77 tests across unit and feature suites, GitHub Actions w
 
 ---
 
+## 🤔 Why This Over Laravel?
+
+This starter kit is intentionally built **without Laravel** — and that's the point.
+
+### 🎓 Built for Students
+If you are learning PHP for the first time or studying MVC architecture, Laravel's abstractions (Eloquent, Facades, Service Containers) can hide what's actually happening under the hood. This kit exposes everything — the router, the auth system, the database layer — in plain, readable PHP so you can **see exactly how it works**.
+
+> Start here. Understand MVC fundamentals. Then move to Laravel with confidence.
+
+### 🏢 Built for Small to Medium Projects
+Not every project needs the full weight of a framework. This kit is:
+- **Lightweight** — no 30MB+ vendor folder, no service provider bootstrapping on every request
+- **Shared-hosting friendly** — runs on basic Apache/XAMPP/Laragon setups without special server config
+- **Fast to deploy** — one SQL import, one `.env` file, and you're live
+
+### 🚀 A Natural Laravel On-ramp
+
+| This Kit | Laravel Equivalent |
+|---|---|
+| `Router::get()` | `Route::get()` |
+| `php kit make:controller` | `php artisan make:controller` |
+| `php kit db:seed` | `php artisan db:seed` |
+| `php kit migrate` | `php artisan migrate` |
+| `.env` config | `.env` config |
+| Middleware classes | Middleware classes |
+| MVC structure | MVC structure |
+
+The patterns here are intentionally **Laravel-inspired** — so once you understand this kit, transitioning to Laravel feels familiar, not foreign.
+
+### ⚡ When to Use This vs Laravel
+
+| Scenario | Use This Kit | Use Laravel |
+|---|---|---|
+| Learning MVC from scratch | ✅ | ❌ Too much magic |
+| Small business site / portfolio | ✅ | ✅ |
+| Shared hosting (cPanel) | ✅ | ⚠️ Can be tricky |
+| Large enterprise SaaS | ⚠️ | ✅ |
+| Understanding routing internals | ✅ | ❌ Hidden behind framework |
+| Rapid API with auth/queues/etc | ⚠️ | ✅ |
+
+---
+
 ## 🖼️ UI Visuals
 
 <div align="center">
