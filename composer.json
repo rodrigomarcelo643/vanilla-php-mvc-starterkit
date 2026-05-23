@@ -1,6 +1,7 @@
 {
     "name": "mardev/starter-kit",
     "description": "Starter Kit — PHP MVC Boilerplate",
+    "license": "MIT",
     "type": "project",
     "bin": [
         "kit-new",

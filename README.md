@@ -614,6 +614,14 @@ This project ships with ready-made context files for AI coding assistants so the
 
 ---
 
+## 📄 License
+
+This project is open-source software licensed under the **MIT License**. Created and maintained by **Marcelo Rodrigo (MarDev) - Software Developer**.
+
+You are free to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the conditions outlined in the [LICENSE](LICENSE) file.
+
+---
+
 <div align="center">
 
 ![Built with ❤️](https://img.shields.io/badge/built_with-❤️-E11D48?style=for-the-badge)
