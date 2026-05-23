@@ -11,30 +11,31 @@ class Installer
         // 1. Get input using Composer IO if available, otherwise direct console fallback
         if ($event && method_exists($event, 'getIO')) {
             $io = $event->getIO();
-            $io->write("<info>====================================================</info>");
-            $io->write("<info>       Welcome to Vanilla PHP MVC Starter Kit       </info>");
-            $io->write("<info>====================================================</info>");
-            $io->write("");
-            
-            $prompt = "Which preset would you like to install?\n" .
-                      "  [1] Full Stack (Alpine.js + AJAX Monolith) - Default\n" .
-                      "  [2] REST API (Full Stack with JS)\n" .
-                      "  [3] Backend Only (REST API, No UI)\n\n" .
-                      "Select an option [1]: ";
-            
-            $choice = $io->ask($prompt, '1');
+            $io->write('');
+            $io->write('<fg=blue>  ┌────────────────────────────────────────────────┐</>');
+            $io->write('<fg=blue>  │</>  <options=bold>Choose Your Installation Preset</>               <fg=blue>│</>');
+            $io->write('<fg=blue>  └────────────────────────────────────────────────┘</>');
+            $io->write('');
+            $io->write('  <comment>[1]</comment> <options=bold>Full Stack</>   — Alpine.js + AJAX Monolith  <info>← default</info>');
+            $io->write('  <comment>[2]</comment> <options=bold>REST API</>     — Full Stack with JS Frontend');
+            $io->write('  <comment>[3]</comment> <options=bold>Backend Only</> — REST API, No UI');
+            $io->write('');
+
+            $choice = $io->ask('  <question>Select an option</question> [<comment>1</comment>]: ', '1');
         } else {
             // Fallback for direct execution
             $isWin = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
             
-            $menu  = "\n\033[1;36m====================================================\033[0m\n";
-            $menu .= "\033[1;36m       Welcome to Vanilla PHP MVC Starter Kit       \033[0m\n";
-            $menu .= "\033[1;36m====================================================\033[0m\n\n";
-            $menu .= "Which preset would you like to install?\n";
-            $menu .= "  [1] Full Stack (Alpine.js + AJAX Monolith) - Default\n";
-            $menu .= "  [2] REST API (Full Stack with JS)\n";
-            $menu .= "  [3] Backend Only (REST API, No UI)\n";
-            $menu .= "\nSelect an option [1]: ";
+            $menu  = "\n";
+            $menu .= "\033[1;34m  ┌────────────────────────────────────────────────┐\033[0m\n";
+            $menu .= "\033[1;34m  │\033[0m  \033[1;37mChoose Your Installation Preset\033[0m               \033[1;34m│\033[0m\n";
+            $menu .= "\033[1;34m  └────────────────────────────────────────────────┘\033[0m\n";
+            $menu .= "\n";
+            $menu .= "  \033[1;33m[1]\033[0m \033[1mFull Stack\033[0m   — Alpine.js + AJAX Monolith  \033[1;32m← default\033[0m\n";
+            $menu .= "  \033[1;33m[2]\033[0m \033[1mREST API\033[0m     — Full Stack with JS Frontend\n";
+            $menu .= "  \033[1;33m[3]\033[0m \033[1mBackend Only\033[0m — REST API, No UI\n";
+            $menu .= "\n";
+            $menu .= "  \033[1;36mSelect an option\033[0m [\033[1;33m1\033[0m]: ";
 
             $conIn = null;
             $conOut = null;
