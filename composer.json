@@ -10,9 +10,14 @@
     "require-dev": {
         "phpunit/phpunit": "^11"
     },
+    "autoload": {
+        "psr-4": {
+            "Setup\\": "kit_src/Setup/"
+        }
+    },
     "scripts": {
         "post-create-project-cmd": [
-            "php kit_src/Setup/Installer.php",
+            "Setup\\Installer::install",
             "php -r \"@copy('.env.example', '.env');\"",
             "php kit env:setup",
             "php kit key:generate",
