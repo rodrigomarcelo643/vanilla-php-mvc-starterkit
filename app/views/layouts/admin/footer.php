@@ -8,9 +8,9 @@
         <div x-data>
 
             <!-- Create / Edit User Modal -->
-            <div x-show="$store.userModal && $store.userModal.open && $store.userModal.type !== 'delete'" style="display:none"
-                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100"
+            <div x-show="$store.userModal && $store.userModal.open && $store.userModal.type !== 'delete'" x-cloak x-transition:enter="transition ease-out duration-200"
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                 class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-md">
 
                 <div class="relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden"
@@ -116,9 +116,9 @@
             </div>
 
             <!-- Delete Confirmation -->
-            <div x-show="$store.userModal && $store.userModal.open && $store.userModal.type === 'delete'" style="display:none"
-                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100"
+            <div x-show="$store.userModal && $store.userModal.open && $store.userModal.type === 'delete'" x-cloak x-transition:enter="transition ease-out duration-200"
+ x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                 class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-md">
 
                 <div class="relative bg-white dark:bg-zinc-900 border border-red-200 dark:border-red-900/30 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden"
@@ -173,11 +173,15 @@ const BASE_URL = '<?= BASE_URL ?>';
         <script src="<?= BASE_URL ?>/js/auth.js"></script>
         <script src="<?= BASE_URL ?>/js/avatar.js"></script>
         <script src="<?= BASE_URL ?>/js/profile.js"></script>
-        <script src="<?= BASE_URL ?>/js/admin/users.js"></script>
+        <script src="<?= BASE_URL ?>/js/users.js"></script>
         <script src="<?= BASE_URL ?>/js/admin/admin.js"></script>
         <script src="<?= BASE_URL ?>/js/sidebar.js"></script>
         <?php $toast = Session::flash('toast'); if ($toast): ?>
-        <script>document.addEventListener('DOMContentLoaded',()=>App.toast(<?= json_encode($toast['message']) ?>,<?= json_encode($toast['type']) ?>));</script>
+        <script>
+document.addEventListener('DOMContentLoaded', () => App.toast(<?= json_encode($toast['message']) ?>,
+    <?= json_encode($toast['type']) ?>));
+        </script>
         <?php endif; ?>
         </body>
+
         </html>
