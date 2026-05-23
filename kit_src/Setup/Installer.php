@@ -19,8 +19,12 @@ $choice = '1'; // fallback default
 if (defined('STDIN') && STDIN !== false) {
     stream_set_blocking(STDIN, true);
     $line = fgets(STDIN);
-    if ($line !== false && trim($line) !== '') {
-        $choice = trim($line);
+    if ($line !== false) {
+        // Strip non-digit chars (handles PowerShell UTF-16/BOM encoding)
+        $digit = preg_replace('/[^1-9]/', '', $line);
+        if ($digit !== '') {
+            $choice = $digit;
+        }
     }
 }
 
@@ -31,8 +35,11 @@ if ($choice === '1') {
     if ($handle !== false) {
         $line = fgets($handle);
         fclose($handle);
-        if ($line !== false && trim($line) !== '') {
-            $choice = trim($line);
+        if ($line !== false) {
+            $digit = preg_replace('/[^1-9]/', '', $line);
+            if ($digit !== '') {
+                $choice = $digit;
+            }
         }
     }
 }
