@@ -47,16 +47,6 @@ class SuperAdminDashboardController extends Controller
         ]);
     }
 
-    public function users()
-    {
-        $this->guard();
-        require_once 'app/models/User.php';
-        $this->superadmin('superadmin/users', [
-            'title' => 'Users',
-            'users' => (new User())->getAll(),
-        ]);
-    }
-
     public function profile()
     {
         $this->guard();
