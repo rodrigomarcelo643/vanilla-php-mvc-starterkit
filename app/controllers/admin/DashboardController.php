@@ -29,21 +29,6 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function users()
-    {
-        if (!Auth::check()) {
-            header('Location: ' . BASE_URL . '/login');
-            exit;
-        }
-        require_once 'app/models/User.php';
-        $userModel = new User();
-
-        $this->admin('admin/users', [
-            'title' => 'Users',
-            'users' => $userModel->getAll(),
-        ]);
-    }
-
     public function profile()
     {
         if (!Auth::check()) {
