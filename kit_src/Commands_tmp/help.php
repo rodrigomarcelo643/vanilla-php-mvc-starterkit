@@ -22,6 +22,7 @@ $categories = [
     ],
     'Routing' => [
         'route:list'        => ['Display application routes', '[--method=GET/POST] [--group=admin/ajax...] [--search=...]'],
+        'route:test'        => ['Interactive API endpoint tester CLI', '[Ctrl+C to exit]'],
     ],
     'System' => [
         'tinker'            => ['Start an interactive PHP REPL session', ''],
