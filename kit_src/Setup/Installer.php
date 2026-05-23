@@ -8,9 +8,18 @@ echo "  [1] Full Stack (Alpine.js + AJAX Monolith) - Default\n";
 echo "  [2] REST API (Backend only, JSON Responses)\n";
 echo "\nSelect an option [1]: ";
 
-$handle = fopen("php://stdin", "r");
-$choice = trim(fgets($handle));
-fclose($handle);
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    $handle = fopen("CON", "r");
+} else {
+    $handle = fopen("/dev/tty", "r");
+}
+
+if ($handle !== false) {
+    $choice = trim(fgets($handle));
+    fclose($handle);
+} else {
+    $choice = '1';
+}
 
 if ($choice === '2') {
     echo "\n\033[32mConfiguring as REST API...\033[0m\n";
