@@ -101,13 +101,10 @@ class Installer
             self::deleteDir($basePath . 'assets');
             self::deleteDir($basePath . 'js');
             
-            // 2. Delete the old AJAX route files
-            @unlink($basePath . 'routes/web/auth/ajax.php');
-            @unlink($basePath . 'routes/web/admin/ajax.php');
-            @unlink($basePath . 'routes/web/superadmin/ajax.php');
-            @unlink($basePath . 'routes/web/app/ajax.php');
-            
-            // 3. Overwrite routes/web.php to exclude AJAX files
+            // 2. Delete the ENTIRE routes/web/ subfolder — no views exist so ALL page routes are dead weight
+            self::deleteDir($basePath . 'routes/web');
+
+            // 3. Overwrite routes/web.php — PURE API bootstrap, no page routes at all
             $webRouteContent = "<?php\n\n" .
                 "// ── Bootstrap ─────────────────────────────────────────────────\n" .
                 "require_once 'app/config/app.php';\n" .
@@ -121,81 +118,52 @@ class Installer
                 "require_once 'app/core/Auth.php';\n" .
                 "require_once 'app/core/Controller.php';\n" .
                 "require_once 'app/core/Mailer.php';\n\n" .
-                "// ── Route Files ───────────────────────────────────────────────\n\n" .
-                "// Auth\n" .
-                "if (file_exists('routes/web/auth/pages.php')) {\n" .
-                "    require_once 'routes/web/auth/pages.php';\n" .
-                "}\n" .
-                "if (file_exists('routes/web/auth/oauth.php')) {\n" .
-                "    require_once 'routes/web/auth/oauth.php';\n" .
-                "}\n\n" .
-                "// Client / Public\n" .
-                "if (file_exists('routes/web/client/pages.php')) {\n" .
-                "    require_once 'routes/web/client/pages.php';\n" .
-                "}\n\n" .
-                "// Super Admin\n" .
-                "if (file_exists('routes/web/superadmin/pages.php')) {\n" .
-                "    require_once 'routes/web/superadmin/pages.php';\n" .
-                "}\n\n" .
-                "// Admin\n" .
-                "if (file_exists('routes/web/admin/pages.php')) {\n" .
-                "    require_once 'routes/web/admin/pages.php';\n" .
-                "}\n\n" .
-                "// App / Authenticated User\n" .
-                "if (file_exists('routes/web/app/pages.php')) {\n" .
-                "    require_once 'routes/web/app/pages.php';\n" .
-                "}\n\n" .
-                "// ── API Routes ────────────────────────────────────────────────\n" .
-                "if (file_exists('routes/api.php')) {\n" .
-                "    require_once 'routes/api.php';\n" .
-                "}\n\n" .
+                "// ── REST API Routes ───────────────────────────────────────────\n" .
+                "require_once 'routes/api.php';\n\n" .
                 "// ── Dispatch ──────────────────────────────────────────────────\n" .
                 "Router::dispatch();\n";
             file_put_contents($basePath . 'routes/web.php', $webRouteContent);
 
-            // 4. Overwrite app/core/Controller.php to intercept view loading and output clean JSON instead
+            // 4. Overwrite app/core/Controller.php — intercept view loading AND override guard() / guardAjax()
+            //    so ALL child controllers return JSON 401 instead of doing header(Location:) redirect
             $apiControllerContent = "<?php\n\n" .
                 "class Controller\n" .
                 "{\n" .
+                "    // ── Guard overrides: return JSON 401 instead of redirecting ──\n" .
+                "    protected function guard(array \$roles = []): void\n" .
+                "    {\n" .
+                "        \$user = Session::get('user');\n" .
+                "        if (!Auth::check()) {\n" .
+                "            Router::json(['status' => 'error', 'message' => 'Unauthenticated. Please login.', 'code' => 401], 401);\n" .
+                "        }\n" .
+                "        if (!empty(\$roles) && !in_array(\$user['role'] ?? '', \$roles)) {\n" .
+                "            Router::json(['status' => 'error', 'message' => 'Forbidden. Insufficient permissions.', 'code' => 403], 403);\n" .
+                "        }\n" .
+                "    }\n\n" .
+                "    protected function guardAjax(array \$roles = []): void\n" .
+                "    {\n" .
+                "        \$this->guard(\$roles);\n" .
+                "    }\n\n" .
+                "    // ── View interceptors: return structured JSON instead of rendering HTML ──\n" .
                 "    public function client(\$view, \$data = [])\n" .
                 "    {\n" .
-                "        Router::json([\n" .
-                "            'status' => 'success',\n" .
-                "            'view' => \$view,\n" .
-                "            'data' => \$data\n" .
-                "        ]);\n" .
+                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
                 "    }\n\n" .
                 "    public function admin(\$view, \$data = [])\n" .
                 "    {\n" .
-                "        Router::json([\n" .
-                "            'status' => 'success',\n" .
-                "            'view' => \$view,\n" .
-                "            'data' => \$data\n" .
-                "        ]);\n" .
+                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
                 "    }\n\n" .
                 "    public function app(\$view, \$data = [])\n" .
                 "    {\n" .
-                "        Router::json([\n" .
-                "            'status' => 'success',\n" .
-                "            'view' => \$view,\n" .
-                "            'data' => \$data\n" .
-                "        ]);\n" .
+                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
                 "    }\n\n" .
                 "    public function auth(\$view, \$data = [])\n" .
                 "    {\n" .
-                "        Router::json([\n" .
-                "            'status' => 'success',\n" .
-                "            'view' => \$view,\n" .
-                "            'data' => \$data\n" .
-                "        ]);\n" .
+                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
                 "    }\n\n" .
                 "    public function superadmin(\$view, \$data = [])\n" .
                 "    {\n" .
-                "        Router::json([\n" .
-                "            'status' => 'success',\n" .
-                "            'view' => \$view,\n" .
-                "            'data' => \$data\n" .
-                "        ]);\n" .
+                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
                 "    }\n" .
                 "}\n";
             file_put_contents($basePath . 'app/core/Controller.php', $apiControllerContent);
@@ -314,17 +282,57 @@ class Installer
                 "};\n";
             file_put_contents($basePath . 'js/ajax.js', $jsAjaxContent);
 
-            // 4. Overwrite app/controllers/ErrorController.php to output JSON 404
+            // 4. Overwrite app/core/Controller.php — intercept view loading AND override guard() / guardAjax()
+            //    so ALL child controllers return JSON 401 instead of doing header(Location:) redirect
+            $apiControllerContent = "<?php\n\n" .
+                "class Controller\n" .
+                "{\n" .
+                "    // ── Guard overrides: return JSON 401/403 instead of redirecting ──\n" .
+                "    protected function guard(array \$roles = []): void\n" .
+                "    {\n" .
+                "        \$user = Session::get('user');\n" .
+                "        if (!Auth::check()) {\n" .
+                "            Router::json(['status' => 'error', 'message' => 'Unauthenticated. Please login.', 'code' => 401], 401);\n" .
+                "        }\n" .
+                "        if (!empty(\$roles) && !in_array(\$user['role'] ?? '', \$roles)) {\n" .
+                "            Router::json(['status' => 'error', 'message' => 'Forbidden. Insufficient permissions.', 'code' => 403], 403);\n" .
+                "        }\n" .
+                "    }\n\n" .
+                "    protected function guardAjax(array \$roles = []): void\n" .
+                "    {\n" .
+                "        \$this->guard(\$roles);\n" .
+                "    }\n\n" .
+                "    // ── View interceptors: return structured JSON instead of rendering HTML ──\n" .
+                "    public function client(\$view, \$data = [])\n" .
+                "    {\n" .
+                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "    }\n\n" .
+                "    public function admin(\$view, \$data = [])\n" .
+                "    {\n" .
+                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "    }\n\n" .
+                "    public function app(\$view, \$data = [])\n" .
+                "    {\n" .
+                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "    }\n\n" .
+                "    public function auth(\$view, \$data = [])\n" .
+                "    {\n" .
+                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "    }\n\n" .
+                "    public function superadmin(\$view, \$data = [])\n" .
+                "    {\n" .
+                "        Router::json(['status' => 'success', 'view' => \$view, 'data' => \$data]);\n" .
+                "    }\n" .
+                "}\n";
+            file_put_contents($basePath . 'app/core/Controller.php', $apiControllerContent);
+
+            // 5. Overwrite app/controllers/ErrorController.php to output JSON 404
             $errorControllerContent = "<?php\n\n" .
                 "class ErrorController extends Controller\n" .
                 "{\n" .
                 "    public function notFound()\n" .
                 "    {\n" .
-                "        Router::json([\n" .
-                "            'status' => 'error',\n" .
-                "            'message' => 'Resource not found',\n" .
-                "            'code' => 404\n" .
-                "        ], 404);\n" .
+                "        Router::json(['status' => 'error', 'message' => 'Resource not found', 'code' => 404], 404);\n" .
                 "    }\n" .
                 "}\n";
             file_put_contents($basePath . 'app/controllers/ErrorController.php', $errorControllerContent);
