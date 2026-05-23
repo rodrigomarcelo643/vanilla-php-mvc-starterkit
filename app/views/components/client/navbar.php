@@ -18,10 +18,12 @@ $navLinks = [
 ];
 
 $u           = Auth::check() ? Session::get('user') : null;
-$isAdmin     = $u && ($u['role'] ?? '') === 'admin';
-$dashUrl     = $isAdmin ? BASE_URL . '/admin/dashboard' : BASE_URL . '/app/home';
-$profileUrl  = $isAdmin ? BASE_URL . '/admin/profile'   : BASE_URL . '/app/profile';
-$settingsUrl = $isAdmin ? BASE_URL . '/admin/settings'  : BASE_URL . '/app/settings';
+    $role      = $u['role'] ?? '';
+    $isAdmin   = $role === 'admin';
+    $isSuper   = $role === 'superadmin';
+    $dashUrl   = $isSuper ? BASE_URL . '/superadmin/dashboard' : ($isAdmin ? BASE_URL . '/admin/dashboard' : BASE_URL . '/app/home');
+    $profileUrl = $isSuper ? BASE_URL . '/superadmin/profile' : ($isAdmin ? BASE_URL . '/admin/profile' : BASE_URL . '/app/profile');
+    $settingsUrl = $isSuper ? BASE_URL . '/superadmin/settings' : ($isAdmin ? BASE_URL . '/admin/settings' : BASE_URL . '/app/settings');
 ?>
 
 <!-- Navbar -->
