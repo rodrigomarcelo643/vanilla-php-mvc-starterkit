@@ -96,58 +96,79 @@ class Installer
         if ($choice === '3') {
             self::log("Configuring as Backend Only (REST API)...", $event);
             
+            // Delete only physical frontend directories
             self::deleteDir($basePath . 'app/views');
             self::deleteDir($basePath . 'assets');
             self::deleteDir($basePath . 'js');
-            self::deleteDir($basePath . 'routes/web');
             
-            // Overwrite routes/web.php to act as the main API router
-            $apiRouteContent = "<?php\n\n" .
-                "// ── Bootstrap ─────────────────────────────────────────────────\n" .
-                "require_once 'app/config/app.php';\n" .
-                "require_once 'app/config/database.php';\n" .
-                "require_once 'app/config/mail.php';\n" .
-                "require_once 'app/config/oauth.php';\n" .
-                "require_once 'app/helpers/helper.php';\n" .
-                "require_once 'app/core/Database.php';\n" .
-                "require_once 'app/core/Model.php';\n" .
-                "require_once 'app/core/Session.php';\n" .
-                "require_once 'app/core/Auth.php';\n" .
-                "require_once 'app/core/Controller.php';\n" .
-                "require_once 'app/core/Mailer.php';\n\n" .
-                "// ── Routes ────────────────────────────────────────────────────\n" .
-                "Router::get('/', ['HomeController', 'index']);\n" .
-                "Router::get('api/ping', ['HomeController', 'ping']);\n\n" .
-                "// ── Dispatch ──────────────────────────────────────────────────\n" .
-                "Router::dispatch();\n";
-                
-            file_put_contents($basePath . 'routes/web.php', $apiRouteContent);
-
-            // Overwrite app/controllers/client/HomeController.php to return JSON
-            $homeControllerContent = "<?php\n\n" .
-                "class HomeController extends Controller\n" .
+            // We KEEP routes/web intact so all backend default starter routes and controllers still exist!
+            // We KEEP the original routes/web.php because it loads all nested route files!
+            
+            // Overwrite app/core/Controller.php to intercept view loading and output clean JSON instead
+            $apiControllerContent = "<?php\n\n" .
+                "class Controller\n" .
                 "{\n" .
-                "    public function index()\n" .
+                "    public function client(\$view, \$data = [])\n" .
                 "    {\n" .
                 "        Router::json([\n" .
                 "            'status' => 'success',\n" .
-                "            'message' => 'Welcome to the Vanilla PHP REST API Boilerplate',\n" .
-                "            'version' => '1.0'\n" .
+                "            'view' => \$view,\n" .
+                "            'data' => \$data\n" .
                 "        ]);\n" .
                 "    }\n\n" .
-                "    public function ping()\n" .
+                "    public function admin(\$view, \$data = [])\n" .
                 "    {\n" .
                 "        Router::json([\n" .
-                "            'status' => 'ok',\n" .
-                "            'timestamp' => time()\n" .
+                "            'status' => 'success',\n" .
+                "            'view' => \$view,\n" .
+                "            'data' => \$data\n" .
+                "        ]);\n" .
+                "    }\n\n" .
+                "    public function app(\$view, \$data = [])\n" .
+                "    {\n" .
+                "        Router::json([\n" .
+                "            'status' => 'success',\n" .
+                "            'view' => \$view,\n" .
+                "            'data' => \$data\n" .
+                "        ]);\n" .
+                "    }\n\n" .
+                "    public function auth(\$view, \$data = [])\n" .
+                "    {\n" .
+                "        Router::json([\n" .
+                "            'status' => 'success',\n" .
+                "            'view' => \$view,\n" .
+                "            'data' => \$data\n" .
+                "        ]);\n" .
+                "    }\n\n" .
+                "    public function superadmin(\$view, \$data = [])\n" .
+                "    {\n" .
+                "        Router::json([\n" .
+                "            'status' => 'success',\n" .
+                "            'view' => \$view,\n" .
+                "            'data' => \$data\n" .
                 "        ]);\n" .
                 "    }\n" .
                 "}\n";
 
-            @mkdir($basePath . 'app/controllers/client', 0755, true);
-            file_put_contents($basePath . 'app/controllers/client/HomeController.php', $homeControllerContent);
+            file_put_contents($basePath . 'app/core/Controller.php', $apiControllerContent);
 
-            self::log("✔ Frontend UI removed. Backend Only REST API configured.", $event);
+            // Overwrite app/controllers/ErrorController.php to output JSON 404
+            $errorControllerContent = "<?php\n\n" .
+                "class ErrorController extends Controller\n" .
+                "{\n" .
+                "    public function notFound()\n" .
+                "    {\n" .
+                "        Router::json([\n" .
+                "            'status' => 'error',\n" .
+                "            'message' => 'Resource not found',\n" .
+                "            'code' => 404\n" .
+                "        ], 404);\n" .
+                "    }\n" .
+                "}\n";
+
+            file_put_contents($basePath . 'app/controllers/ErrorController.php', $errorControllerContent);
+
+            self::log("✔ Frontend UI removed. Backend MVC REST API configured successfully.", $event);
         } elseif ($choice === '2') {
             self::log("✔ Configuring as REST API (Full Stack with JS)...", $event);
         } else {
