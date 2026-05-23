@@ -14,11 +14,6 @@ if (!extension_loaded('curl')) {
     exit(1);
 }
 
-// ── Watermark & Welcome ──
-echo "\033[1;35m=========================================================\033[0m\n";
-echo "\033[1;36m  MARDEV BACKEND API INTERACTIVE CLI TESTER\033[0m\n";
-echo "\033[1;35m=========================================================\033[0m\n";
-
 // ── Resolve Target Host ──
 $targetHost = rtrim(BASE_URL, '/');
 if (!str_starts_with($targetHost, 'http://') && !str_starts_with($targetHost, 'https://')) {
