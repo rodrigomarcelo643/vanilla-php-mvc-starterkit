@@ -624,9 +624,6 @@ You are free to use, copy, modify, merge, publish, distribute, sublicense, and/o
 
 <div align="center">
 
-![Built with ❤️](https://img.shields.io/badge/built_with-❤️-E11D48?style=for-the-badge)
-![MarDev](https://img.shields.io/badge/developed_by-MarDev-4F46E5?style=for-the-badge)
-
 **Developed by [MarDev](https://github.com/rodrigomarcelo643) — Software Developer**
 
 </div>
