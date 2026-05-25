@@ -4,7 +4,53 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] — 2026-05-25
+
+### Added
+
+#### Middleware System
+- New `app/core/Route.php` — fluent `->middleware()` chaining on route definitions
+- `Router` upgraded with a static middleware map and an `array_reduce` pipeline runner
+- `app/middlewares/AuthMiddleware.php` — blocks unauthenticated access; returns JSON `401` for AJAX/API requests
+- `app/middlewares/GuestMiddleware.php` — redirects authenticated users to their role dashboard
+- `app/middlewares/AdminMiddleware.php` — enforces `admin` or `superadmin` role
+- `app/middlewares/SuperAdminMiddleware.php` — enforces exclusive `superadmin` role
+- `php kit make:middleware` command added to the `kit` runner map
+
+#### Installation Wizard
+- New **[4] jQuery Stack** preset — Full Stack with jQuery `$.ajax` wrapper replacing native `fetch`
+- Auto-downloads jQuery 3.7.1 minified to `js/jquery.min.js` on preset selection
+- Injects `<script>` tag for jQuery into all layout headers (auth, admin, superadmin, app, client)
+- `js/ajax.js` swapped for a drop-in jQuery wrapper — all existing JS files work unchanged
+- All views, role panels, and controllers remain completely untouched in this preset
+
+#### Route List (`php kit route:list`)
+- API routes now hidden by default on **Full Stack (option 1)** only — they are internal AJAX backing routes, not a public API surface
+- API routes correctly visible on **jQuery Stack (4)**, **REST API (2)**, and **Backend Only (3)** presets
+- Preset auto-detected at runtime: presence of `ajax/` route files + absence of `jquery.min.js` → Full Stack
+- Added `api` as a valid `--group` filter argument so API routes can still be explicitly listed with `php kit route:list --group=api`
+
+### Changed
+- All protected web, AJAX, and REST API routes now declare middleware via `->middleware(...)` instead of inline controller guards
+- `routes/web/auth/pages.php` — `guest` middleware applied
+- `routes/web/app/pages.php` & `ajax.php` — `auth` middleware applied
+- `routes/web/admin/pages.php` & `ajax.php` — `admin` middleware applied
+- `routes/web/superadmin/pages.php` & `ajax.php` — `superadmin` middleware applied
+- `routes/api.php` — per-route `auth`, `admin`, and `superadmin` middlewares applied
+
+### Removed
+- Manual `guard()` and `guardAjax()` private methods removed from all controllers:
+  - `AppController`, `DashboardController`, `UserController`
+  - `SuperAdminDashboardController`, `SuperAdminUserController`, `SuperAdminAdminController`
+  - `AuthController`, `ProfileController`, `PasswordController`
+
+### Fixed
+- `RouterTest` root URI assertions corrected to match `Router::parseUri()` empty-string output for the root path
+
+---
+
 ## [1.0.0] — 2026-05-23
+
 
 ### Added
 
@@ -66,4 +112,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 - `AppController` GET route mapped to `AppController::home()` (not the non-existent `index()`)
 - `AdminDashboardController` corrected to `DashboardController` matching actual class name
 
+[1.1.0]: https://github.com/rodrigomarcelo643/vanilla-php-mvc-starterkit/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/rodrigomarcelo643/vanilla-php-mvc-starterkit/releases/tag/v1.0.0
