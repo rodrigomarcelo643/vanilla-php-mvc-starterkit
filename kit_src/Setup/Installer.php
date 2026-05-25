@@ -16,9 +16,10 @@ class Installer
             $io->write('<fg=blue>  │</>  <options=bold>Choose Your Installation Preset</>               <fg=blue>│</>');
             $io->write('<fg=blue>  └────────────────────────────────────────────────┘</>');
             $io->write('');
-            $io->write('  <comment>[1]</comment> <options=bold>Full Stack</>   — Alpine.js + AJAX Monolith  <info>← default</info>');
-            $io->write('  <comment>[2]</comment> <options=bold>REST API</>     — Full Stack with JS Frontend');
-            $io->write('  <comment>[3]</comment> <options=bold>Backend Only</> — REST API, No UI');
+            $io->write('  <comment>[1]</comment> <options=bold>Full Stack</options=bold>      — Alpine.js + AJAX Monolith  <info>← default</info>');
+            $io->write('  <comment>[2]</comment> <options=bold>REST API</options=bold>        — Full Stack with JS Frontend');
+            $io->write('  <comment>[3]</comment> <options=bold>Backend Only</options=bold>    — REST API, No UI');
+            $io->write('  <comment>[4]</comment> <options=bold>jQuery Stack</options=bold>    — Full Stack with jQuery AJAX');
             $io->write('');
 
             $choice = $io->ask('  <question>Select an option</question> [<comment>1</comment>]: ', '1');
@@ -31,9 +32,10 @@ class Installer
             $menu .= "\033[1;34m  │\033[0m  \033[1;37mChoose Your Installation Preset\033[0m               \033[1;34m│\033[0m\n";
             $menu .= "\033[1;34m  └────────────────────────────────────────────────┘\033[0m\n";
             $menu .= "\n";
-            $menu .= "  \033[1;33m[1]\033[0m \033[1mFull Stack\033[0m   — Alpine.js + AJAX Monolith  \033[1;32m← default\033[0m\n";
-            $menu .= "  \033[1;33m[2]\033[0m \033[1mREST API\033[0m     — Full Stack with JS Frontend\n";
-            $menu .= "  \033[1;33m[3]\033[0m \033[1mBackend Only\033[0m — REST API, No UI\n";
+            $menu .= "  \033[1;33m[1]\033[0m \033[1mFull Stack\033[0m      — Alpine.js + AJAX Monolith  \033[1;32m← default\033[0m\n";
+            $menu .= "  \033[1;33m[2]\033[0m \033[1mREST API\033[0m        — Full Stack with JS Frontend\n";
+            $menu .= "  \033[1;33m[3]\033[0m \033[1mBackend Only\033[0m    — REST API, No UI\n";
+            $menu .= "  \033[1;33m[4]\033[0m \033[1mjQuery Stack\033[0m    — Full Stack with jQuery AJAX\n";
             $menu .= "\n";
             $menu .= "  \033[1;36mSelect an option\033[0m [\033[1;33m1\033[0m]: ";
 
@@ -88,7 +90,7 @@ class Installer
 
         // 2. Sanitize and apply choice
         $choice = preg_replace('/[^1-9]/', '', $choice);
-        if (!in_array($choice, ['1', '2', '3'])) {
+        if (!in_array($choice, ['1', '2', '3', '4'])) {
             $choice = '1';
         }
 
@@ -441,6 +443,110 @@ class Installer
             file_put_contents($basePath . 'app/core/Controller.php', $apiControllerContent);
 
             self::log("✔ Full Stack REST API configured. Old AJAX routes removed. Frontend requests mapped to /api/* successfully.", $event);
+        } elseif ($choice === '4') {
+            self::log("Configuring as jQuery Full Stack...", $event);
+
+            // 1. Download jQuery minified into js/jquery.min.js
+            $jqDest = $basePath . 'js/jquery.min.js';
+            if (!file_exists($jqDest)) {
+                $jqUrl = 'https://code.jquery.com/jquery-3.7.1.min.js';
+                $jqSrc = @file_get_contents($jqUrl);
+                if ($jqSrc !== false) {
+                    file_put_contents($jqDest, $jqSrc);
+                    self::log("  ✔ jQuery 3.7.1 downloaded to js/jquery.min.js", $event);
+                } else {
+                    self::log("  ⚠ Could not download jQuery. Add it manually to js/jquery.min.js.", $event);
+                }
+            }
+
+            // 2. Overwrite js/ajax.js with a jQuery $.ajax wrapper
+            //    — identical public API to the native fetch wrapper (Ajax.post / Ajax.get)
+            //    — so ALL existing JS files (auth.js, users.js, profile.js, etc.) work unchanged
+            $jsAjaxContent =
+                "/**\n" .
+                " * Ajax — jQuery \$.ajax wrapper\n" .
+                " * Compatible drop-in for the native fetch-based Ajax helper.\n" .
+                " * Requires jQuery (js/jquery.min.js).\n" .
+                " */\n" .
+                "const Ajax = {\n" .
+                "    /**\n" .
+                "     * POST form data to a URL\n" .
+                "     * @param {string} url\n" .
+                "     * @param {FormData|object} data\n" .
+                "     * @returns {Promise<object>}\n" .
+                "     */\n" .
+                "    post(url, data) {\n" .
+                "        const fd = data instanceof FormData ? data : (() => {\n" .
+                "            const f = new FormData();\n" .
+                "            Object.entries(data).forEach(([k, v]) => f.append(k, v));\n" .
+                "            return f;\n" .
+                "        })();\n\n" .
+                "        return new Promise((resolve, reject) => {\n" .
+                "            \$.ajax({\n" .
+                "                url,\n" .
+                "                method: 'POST',\n" .
+                "                data: fd,\n" .
+                "                processData: false,\n" .
+                "                contentType: false,\n" .
+                "                headers: { 'X-Requested-With': 'XMLHttpRequest' },\n" .
+                "                success: resolve,\n" .
+                "                error: (xhr) => {\n" .
+                "                    try { resolve(JSON.parse(xhr.responseText)); }\n" .
+                "                    catch { reject(new Error(xhr.statusText)); }\n" .
+                "                },\n" .
+                "            });\n" .
+                "        });\n" .
+                "    },\n\n" .
+                "    /**\n" .
+                "     * GET request\n" .
+                "     * @param {string} url\n" .
+                "     * @returns {Promise<object>}\n" .
+                "     */\n" .
+                "    get(url) {\n" .
+                "        return new Promise((resolve, reject) => {\n" .
+                "            \$.ajax({\n" .
+                "                url,\n" .
+                "                method: 'GET',\n" .
+                "                headers: { 'X-Requested-With': 'XMLHttpRequest' },\n" .
+                "                success: resolve,\n" .
+                "                error: (xhr) => {\n" .
+                "                    try { resolve(JSON.parse(xhr.responseText)); }\n" .
+                "                    catch { reject(new Error(xhr.statusText)); }\n" .
+                "                },\n" .
+                "            });\n" .
+                "        });\n" .
+                "    },\n" .
+                "};\n";
+            file_put_contents($basePath . 'js/ajax.js', $jsAjaxContent);
+
+            // 3. Inject jQuery script tag into every layout header that loads JS assets
+            $layoutHeaders = [
+                $basePath . 'app/views/layouts/auth/header.php',
+                $basePath . 'app/views/layouts/admin/header.php',
+                $basePath . 'app/views/layouts/superadmin/header.php',
+                $basePath . 'app/views/layouts/app/header.php',
+                $basePath . 'app/views/layouts/client/header.php',
+            ];
+            $jqTag = '<script src="' . "<?= BASE_URL ?>" . '/js/jquery.min.js"></script>';
+            foreach ($layoutHeaders as $hFile) {
+                if (!file_exists($hFile)) continue;
+                $html = file_get_contents($hFile);
+                // Only inject once — before the first local <script src=
+                if (strpos($html, 'jquery.min.js') === false) {
+                    $html = preg_replace(
+                        '/(<script\s[^>]*src=["\'][^"\'>]*\/js\/[^"\'>]*["\'][^>]*>)/i',
+                        $jqTag . "\n    $1",
+                        $html,
+                        1
+                    );
+                    file_put_contents($hFile, $html);
+                }
+            }
+
+            // 4. routes/web.php stays identical to option [1] (full monolith) — all page + ajax routes intact
+            //    No route files are deleted; admin/user/superadmin displays are completely unaffected.
+
+            self::log("✔ jQuery Full Stack configured. js/ajax.js replaced with jQuery wrapper. All views and role panels untouched.", $event);
         } else {
             self::log("✔ Configuring as Full Stack Monolith (Default)...", $event);
         }
