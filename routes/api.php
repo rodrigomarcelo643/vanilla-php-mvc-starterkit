@@ -6,7 +6,7 @@ if (!Router::hasRoute('GET', '')) {
         Router::json([
             'status'  => 'success',
             'engine'  => 'MARDEV Starter Kit',
-            'version' => '1.3.8',
+            'version' => '1.1.2',
             'message' => 'REST API is running.',
             'docs'    => 'See /api for available endpoints.',
         ]);
@@ -18,7 +18,7 @@ Router::get('api', function () {
     Router::json([
         'status'    => 'success',
         'engine'    => 'MARDEV Starter Kit REST API',
-        'version'   => '1.3.8',
+        'version'   => '1.1.2',
         'endpoints' => [
             'POST /api/auth/login'                  => 'Login',
             'POST /api/auth/register'               => 'Register',

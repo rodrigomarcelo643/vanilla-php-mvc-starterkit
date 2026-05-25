@@ -232,14 +232,14 @@ class Installer
             foreach ($controllers as $ctrl) {
                 if (file_exists($ctrl)) {
                     $content = file_get_contents($ctrl);
-                    $content = preg_replace('/function ajax([A-Z])/', 'function api$1', $content);
+                    $content = preg_replace('/function (ajax|api|jquery)([A-Z])/', 'function api$2', $content);
                     file_put_contents($ctrl, $content);
                 }
             }
             $apiRouteFile = $basePath . 'routes/api.php';
             if (file_exists($apiRouteFile)) {
                 $content = file_get_contents($apiRouteFile);
-                $content = preg_replace("/'ajax([A-Z][a-zA-Z0-9_]*)'/", "'api$1'", $content);
+                $content = preg_replace("/'(ajax|api|jquery)([A-Z][a-zA-Z0-9_]*)'/", "'api$2'", $content);
                 file_put_contents($apiRouteFile, $content);
             }
 
@@ -345,14 +345,14 @@ class Installer
             foreach ($controllers as $ctrl) {
                 if (file_exists($ctrl)) {
                     $content = file_get_contents($ctrl);
-                    $content = preg_replace('/function ajax([A-Z])/', 'function api$1', $content);
+                    $content = preg_replace('/function (ajax|api|jquery)([A-Z])/', 'function api$2', $content);
                     file_put_contents($ctrl, $content);
                 }
             }
             $apiRouteFile = $basePath . 'routes/api.php';
             if (file_exists($apiRouteFile)) {
                 $content = file_get_contents($apiRouteFile);
-                $content = preg_replace("/'ajax([A-Z][a-zA-Z0-9_]*)'/", "'api$1'", $content);
+                $content = preg_replace("/'(ajax|api|jquery)([A-Z][a-zA-Z0-9_]*)'/", "'api$2'", $content);
                 file_put_contents($apiRouteFile, $content);
             }
 
@@ -544,7 +544,7 @@ class Installer
                     $content = file_get_contents($newPath);
                     $content = str_replace('ajax/', 'jquery/', $content);
                     $content = str_replace('AJAX Routes', 'jQuery Routes', $content);
-                    $content = preg_replace("/'ajax([A-Z][a-zA-Z0-9_]*)'/", "'jquery$1'", $content);
+                    $content = preg_replace("/'(ajax|api|jquery)([A-Z][a-zA-Z0-9_]*)'/", "'jquery$2'", $content);
                     file_put_contents($newPath, $content);
                 }
             }
@@ -554,14 +554,14 @@ class Installer
             foreach ($controllers as $ctrl) {
                 if (file_exists($ctrl)) {
                     $content = file_get_contents($ctrl);
-                    $content = preg_replace('/function ajax([A-Z])/', 'function jquery$1', $content);
+                    $content = preg_replace('/function (ajax|api|jquery)([A-Z])/', 'function jquery$2', $content);
                     file_put_contents($ctrl, $content);
                 }
             }
             $apiRouteFile = $basePath . 'routes/api.php';
             if (file_exists($apiRouteFile)) {
                 $content = file_get_contents($apiRouteFile);
-                $content = preg_replace("/'ajax([A-Z][a-zA-Z0-9_]*)'/", "'jquery$1'", $content);
+                $content = preg_replace("/'(ajax|api|jquery)([A-Z][a-zA-Z0-9_]*)'/", "'jquery$2'", $content);
                 file_put_contents($apiRouteFile, $content);
             }
 

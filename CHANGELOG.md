@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] — 2026-05-25
+
+### Fixed
+- **Installation Wizard:**
+  - Updated method renaming regex in all presets (Option 2, 3, and 4) to support matching any of the prefixes (`ajax`, `api`, or `jquery`). This resolves user registration errors and allows switching between presets seamlessly or re-running the installer.
+
+---
+
 ## [1.1.1] — 2026-05-25
 
 ### Changed
