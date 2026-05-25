@@ -9,9 +9,26 @@ if (file_exists($webFile)) {
     $allFiles[] = $webFile;
 }
 
-// 1.5. Always parse the main routes/api.php file if it exists
+// 1.5. Detect install preset to decide whether to show API routes:
+//
+//   [1] Full Stack   — ajax/ files present, no jquery.min.js  → HIDE api.php (internal only)
+//   [2] REST API     — ajax/ files deleted                    → SHOW api.php
+//   [3] Backend Only — ajax/ files deleted                    → SHOW api.php
+//   [4] jQuery Stack — ajax/ files present + jquery.min.js    → SHOW api.php
+//
+$hasAjaxRoutes = file_exists(KIT_ROOT . '/routes/web/auth/ajax.php')
+              || file_exists(KIT_ROOT . '/routes/web/app/ajax.php')
+              || file_exists(KIT_ROOT . '/routes/web/admin/ajax.php')
+              || file_exists(KIT_ROOT . '/routes/web/superadmin/ajax.php');
+
+$isJqueryPreset = file_exists(KIT_ROOT . '/js/jquery.min.js');
+
+// Hide API routes only for the plain Full Stack preset (option 1):
+// ajax routes exist BUT jQuery has NOT been installed.
+$isFullStackOnly = $hasAjaxRoutes && !$isJqueryPreset;
+
 $apiFile = KIT_ROOT . '/routes/api.php';
-if (file_exists($apiFile)) {
+if (file_exists($apiFile) && !$isFullStackOnly) {
     $allFiles[] = $apiFile;
 }
 
@@ -80,7 +97,7 @@ for ($i = 2; $i < count($argv); $i++) {
             $valUpper = strtoupper($arg);
             if (in_array($valUpper, ['GET', 'POST', 'ANY'])) {
                 $filterMethod = $valUpper;
-            } elseif (in_array(strtolower($arg), ['public', 'auth', 'authentication', 'oauth', 'app', 'admin', 'superadmin', 'ajax'])) {
+            } elseif (in_array(strtolower($arg), ['public', 'auth', 'authentication', 'oauth', 'app', 'admin', 'superadmin', 'ajax', 'api'])) {
                 $filterGroup = strtolower($arg);
                 if ($filterGroup === 'auth') $filterGroup = 'authentication';
             } else {
