@@ -1,19 +1,36 @@
 <?php
 
+require_once __DIR__ . '/Route.php';
+
 class Router
 {
     private static array $routes = [];
 
+    private static array $middlewareMap = [
+        'auth'       => 'AuthMiddleware',
+        'guest'      => 'GuestMiddleware',
+        'admin'      => 'AdminMiddleware',
+        'superadmin' => 'SuperAdminMiddleware',
+    ];
+
     // ── Registration ─────────────────────────────────────────
 
-    public static function get(string $uri, array|callable $action): void
+    public static function get(string $uri, array|callable $action): Route
     {
-        self::$routes['GET'][$uri] = $action;
+        self::$routes['GET'][$uri] = [
+            'action'     => $action,
+            'middleware' => [],
+        ];
+        return new Route('GET', $uri);
     }
 
-    public static function post(string $uri, array|callable $action): void
+    public static function post(string $uri, array|callable $action): Route
     {
-        self::$routes['POST'][$uri] = $action;
+        self::$routes['POST'][$uri] = [
+            'action'     => $action,
+            'middleware' => [],
+        ];
+        return new Route('POST', $uri);
     }
 
     public static function hasRoute(string $method, string $uri): bool
@@ -21,10 +38,33 @@ class Router
         return isset(self::$routes[strtoupper($method)][$uri]);
     }
 
-    public static function any(string $uri, array|callable $action): void
+    public static function any(string $uri, array|callable $action): Route
     {
-        self::$routes['GET'][$uri]  = $action;
-        self::$routes['POST'][$uri] = $action;
+        self::$routes['GET'][$uri]  = [
+            'action'     => $action,
+            'middleware' => [],
+        ];
+        self::$routes['POST'][$uri] = [
+            'action'     => $action,
+            'middleware' => [],
+        ];
+        return new Route(['GET', 'POST'], $uri);
+    }
+
+    public static function addMiddlewareToRoute(array|string $methods, string $uri, array|string $middleware): void
+    {
+        $methods = (array) $methods;
+        $middlewares = (array) $middleware;
+
+        foreach ($methods as $method) {
+            $method = strtoupper($method);
+            if (isset(self::$routes[$method][$uri])) {
+                self::$routes[$method][$uri]['middleware'] = array_merge(
+                    self::$routes[$method][$uri]['middleware'],
+                    $middlewares
+                );
+            }
+        }
     }
 
     // ── Dispatch ─────────────────────────────────────────────
@@ -37,8 +77,13 @@ class Router
         $map = self::$routes[$method] ?? [];
 
         if (array_key_exists($uri, $map)) {
-            $action = $map[$uri];
-            self::callAction($action);
+            $routeData  = $map[$uri];
+            $action     = is_array($routeData) && isset($routeData['action']) ? $routeData['action'] : $routeData;
+            $middleware = is_array($routeData) && isset($routeData['middleware']) ? $routeData['middleware'] : [];
+
+            self::runMiddleware($middleware, function() use ($action) {
+                self::callAction($action);
+            });
             return;
         }
 
@@ -46,12 +91,48 @@ class Router
         if ($method === 'POST') {
             $fallback = self::$routes['GET'][$uri] ?? null;
             if ($fallback) {
-                self::callAction($fallback);
+                $action     = is_array($fallback) && isset($fallback['action']) ? $fallback['action'] : $fallback;
+                $middleware = is_array($fallback) && isset($fallback['middleware']) ? $fallback['middleware'] : [];
+
+                self::runMiddleware($middleware, function() use ($action) {
+                    self::callAction($action);
+                });
                 return;
             }
         }
 
         self::call('ErrorController', 'notFound');
+    }
+
+    private static function runMiddleware(array $middlewares, callable $destination): void
+    {
+        $pipeline = array_reduce(
+            array_reverse($middlewares),
+            function ($next, $middlewareName) {
+                return function () use ($next, $middlewareName) {
+                    $className = self::$middlewareMap[$middlewareName] ?? null;
+                    if (!$className) {
+                        $next();
+                        return;
+                    }
+
+                    $file = "app/middlewares/{$className}.php";
+                    if (file_exists($file)) {
+                        require_once $file;
+                    }
+
+                    if (class_exists($className)) {
+                        $middlewareInstance = new $className();
+                        $middlewareInstance->handle($next);
+                    } else {
+                        $next();
+                    }
+                };
+            },
+            $destination
+        );
+
+        $pipeline();
     }
 
     // ── URI Parser ───────────────────────────────────────────
