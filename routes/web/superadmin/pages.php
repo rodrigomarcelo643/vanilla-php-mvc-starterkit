@@ -1,8 +1,8 @@
 <?php
 
 // ── Super Admin Page Routes ───────────────────────────────────
-Router::get('superadmin/dashboard', ['SuperAdminDashboardController', 'index']);
-Router::get('superadmin/admins',    ['SuperAdminDashboardController', 'admins']);
-Router::get('superadmin/users',     ['SuperAdminUserController', 'index']);
-Router::get('superadmin/settings',  ['SuperAdminDashboardController', 'settings']);
-Router::get('superadmin/profile',   ['SuperAdminDashboardController', 'profile']);
+Router::get('superadmin/dashboard', ['SuperAdminDashboardController', 'index'])->middleware('superadmin');
+Router::get('superadmin/admins',    ['SuperAdminDashboardController', 'admins'])->middleware('superadmin');
+Router::get('superadmin/users',     ['SuperAdminUserController', 'index'])->middleware('superadmin');
+Router::get('superadmin/settings',  ['SuperAdminDashboardController', 'settings'])->middleware('superadmin');
+Router::get('superadmin/profile',   ['SuperAdminDashboardController', 'profile'])->middleware('superadmin');
