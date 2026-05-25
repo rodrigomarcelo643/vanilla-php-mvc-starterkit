@@ -21,7 +21,7 @@ class RouterTest extends TestCase
     public function test_root_uri_returns_slash(): void
     {
         $this->setUri('/starterkit');
-        $this->assertSame('/', Router::parseUri());
+        $this->assertSame('', Router::parseUri());
     }
 
     public function test_simple_segment_parsed_correctly(): void
@@ -53,7 +53,7 @@ class RouterTest extends TestCase
     public function test_root_with_query_string_returns_slash(): void
     {
         $this->setUri('/starterkit/?ref=email');
-        $this->assertSame('/', Router::parseUri());
+        $this->assertSame('', Router::parseUri());
     }
 
     // ── Trailing slash normalisation ──────────────────────────

@@ -2,17 +2,8 @@
 
 class SuperAdminDashboardController extends Controller
 {
-    private function guard(): void
-    {
-        if (!Auth::check() || (Session::get('user')['role'] ?? '') !== 'superadmin') {
-            header('Location: ' . BASE_URL . '/login');
-            exit;
-        }
-    }
-
     public function index()
     {
-        $this->guard();
         require_once 'app/models/User.php';
         require_once 'app/models/Admin.php';
         $userModel   = new User();
@@ -39,7 +30,6 @@ class SuperAdminDashboardController extends Controller
 
     public function admins()
     {
-        $this->guard();
         require_once 'app/models/Admin.php';
         $this->superadmin('superadmin/admins', [
             'title'  => 'Admins',
@@ -49,7 +39,6 @@ class SuperAdminDashboardController extends Controller
 
     public function profile()
     {
-        $this->guard();
         $this->superadmin('superadmin/profile', [
             'title' => 'Profile',
             'user'  => Session::get('user'),
@@ -58,7 +47,6 @@ class SuperAdminDashboardController extends Controller
 
     public function settings()
     {
-        $this->guard();
         $this->superadmin('superadmin/settings', ['title' => 'Settings']);
     }
 }

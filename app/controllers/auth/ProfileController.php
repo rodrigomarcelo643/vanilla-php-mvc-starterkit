@@ -4,10 +4,6 @@ class ProfileController extends Controller
 {
     public function index(): void
     {
-        if (!Auth::check()) {
-            Router::redirect('login');
-        }
-
         $user = $this->freshUser();
         $role = $user['role'] ?? 'user';
         $data = ['title' => 'Profile', 'user' => $user];
@@ -23,10 +19,6 @@ class ProfileController extends Controller
 
     public function ajaxUploadAvatar(): void
     {
-        if (!Auth::check()) {
-            Router::json(['success' => false, 'message' => 'Unauthorized.'], 401);
-        }
-
         $file = $_FILES['avatar'] ?? null;
 
         if (!$file || $file['error'] !== UPLOAD_ERR_OK) {
@@ -91,10 +83,6 @@ class ProfileController extends Controller
 
     public function ajaxUpdateProfile(): void
     {
-        if (!Auth::check()) {
-            Router::json(['success' => false, 'message' => 'Unauthorized.'], 401);
-        }
-
         $session = Session::get('user');
         $name    = trim($_POST['name']  ?? '');
         $email   = trim($_POST['email'] ?? '');
@@ -124,10 +112,6 @@ class ProfileController extends Controller
 
     public function ajaxChangePassword(): void
     {
-        if (!Auth::check()) {
-            Router::json(['success' => false, 'message' => 'Unauthorized.'], 401);
-        }
-
         $session  = Session::get('user');
         $current  = trim($_POST['current_password']  ?? '');
         $password = trim($_POST['new_password']      ?? '');

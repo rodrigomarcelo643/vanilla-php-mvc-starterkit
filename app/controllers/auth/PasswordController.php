@@ -4,9 +4,6 @@ class PasswordController extends Controller
 {
     public function forgotPassword(): void
     {
-        if (Auth::check()) {
-            Router::redirect('dashboard');
-        }
         $this->auth('auth/forgot-password', ['title' => 'Forgot Password']);
     }
 
