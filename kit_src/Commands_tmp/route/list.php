@@ -19,7 +19,9 @@ if (file_exists($webFile)) {
 $hasAjaxRoutes = file_exists(KIT_ROOT . '/routes/web/auth/ajax.php')
               || file_exists(KIT_ROOT . '/routes/web/app/ajax.php')
               || file_exists(KIT_ROOT . '/routes/web/admin/ajax.php')
-              || file_exists(KIT_ROOT . '/routes/web/superadmin/ajax.php');
+              || file_exists(KIT_ROOT . '/routes/web/superadmin/ajax.php')
+              || file_exists(KIT_ROOT . '/routes/web/auth/jquery.php')
+              || file_exists(KIT_ROOT . '/routes/web/app/jquery.php');
 
 $isJqueryPreset = file_exists(KIT_ROOT . '/js/jquery.min.js');
 
@@ -97,7 +99,7 @@ for ($i = 2; $i < count($argv); $i++) {
             $valUpper = strtoupper($arg);
             if (in_array($valUpper, ['GET', 'POST', 'ANY'])) {
                 $filterMethod = $valUpper;
-            } elseif (in_array(strtolower($arg), ['public', 'auth', 'authentication', 'oauth', 'app', 'admin', 'superadmin', 'ajax', 'api'])) {
+            } elseif (in_array(strtolower($arg), ['public', 'auth', 'authentication', 'oauth', 'app', 'admin', 'superadmin', 'ajax', 'jquery', 'api'])) {
                 $filterGroup = strtolower($arg);
                 if ($filterGroup === 'auth') $filterGroup = 'authentication';
             } else {
@@ -118,7 +120,7 @@ foreach ($routes as $route) {
     
     // Determine the route's group
     $first = explode('/', trim($uri, '/'))[0];
-    if ($first === '' || !in_array($first, ['admin', 'superadmin', 'app', 'ajax', 'oauth', 'api'])) {
+    if ($first === '' || !in_array($first, ['admin', 'superadmin', 'app', 'ajax', 'jquery', 'oauth', 'api'])) {
         if (in_array($first, ['login', 'register', 'forgot-password', 'reset-password'])) {
             $group = 'Authentication';
         } else {
@@ -128,6 +130,7 @@ foreach ($routes as $route) {
         $group = ucfirst($first);
         if ($group === 'Oauth') $group = 'OAuth';
         if ($group === 'Ajax') $group = 'AJAX';
+        if ($group === 'Jquery') $group = 'jQuery';
         if ($group === 'Api') $group = 'API';
     }
     
@@ -144,7 +147,7 @@ foreach ($routes as $route) {
     $groups[$group][] = $route;
 }
 
-$order = ['Public', 'Authentication', 'OAuth', 'App', 'Admin', 'Superadmin', 'AJAX', 'API'];
+$order = ['Public', 'Authentication', 'OAuth', 'App', 'Admin', 'Superadmin', 'AJAX', 'jQuery', 'API'];
 uksort($groups, function($a, $b) use ($order) {
     $posA = array_search($a, $order);
     $posB = array_search($b, $order);

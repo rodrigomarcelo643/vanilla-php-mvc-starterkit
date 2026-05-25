@@ -227,6 +227,21 @@ class Installer
                 "}\n";
             file_put_contents($basePath . 'app/core/Controller.php', $apiControllerContent);
 
+            // 4. Update controllers and routes/api.php to rename 'ajaxX' methods to 'apiX'
+            $controllers = array_merge(glob($basePath . 'app/controllers/*.php') ?: [], glob($basePath . 'app/controllers/*/*.php') ?: []);
+            foreach ($controllers as $ctrl) {
+                if (file_exists($ctrl)) {
+                    $content = file_get_contents($ctrl);
+                    $content = preg_replace('/function ajax([A-Z])/', 'function api$1', $content);
+                    file_put_contents($ctrl, $content);
+                }
+            }
+            $apiRouteFile = $basePath . 'routes/api.php';
+            if (file_exists($apiRouteFile)) {
+                $content = file_get_contents($apiRouteFile);
+                $content = preg_replace("/'ajax([A-Z][a-zA-Z0-9_]*)'/", "'api$1'", $content);
+                file_put_contents($apiRouteFile, $content);
+            }
 
             // 5. Overwrite app/controllers/ErrorController.php to output JSON 404
             $errorControllerContent = "<?php\n\n" .
@@ -299,50 +314,49 @@ class Installer
                 "Router::dispatch();\n";
             file_put_contents($basePath . 'routes/web.php', $webRouteContent);
             
-            // 3. Overwrite js/ajax.js to seamlessly map all /ajax/ frontend calls to /api/ REST endpoints
-            $jsAjaxContent = "/**\n" .
-                " * Ajax — lightweight fetch wrapper with REST API mapping\n" .
-                " */\n" .
-                "const Ajax = {\n" .
-                "    _mapUrl(url) {\n" .
-                "        return url.replace('/ajax/login', '/api/auth/login')\n" .
-                "                  .replace('/ajax/register', '/api/auth/register')\n" .
-                "                  .replace('/ajax/logout', '/api/auth/logout')\n" .
-                "                  .replace('/ajax/forgot-password', '/api/auth/forgot-password')\n" .
-                "                  .replace('/ajax/reset-password', '/api/auth/reset-password')\n" .
-                "                  .replace('/ajax/users/create', '/api/admin/users')\n" .
-                "                  .replace('/ajax/users/update', '/api/admin/users/update')\n" .
-                "                  .replace('/ajax/users/delete', '/api/admin/users/delete')\n" .
-                "                  .replace('/ajax/admins/create', '/api/superadmin/admins')\n" .
-                "                  .replace('/ajax/admins/update', '/api/superadmin/admins/update')\n" .
-                "                  .replace('/ajax/admins/delete', '/api/superadmin/admins/delete')\n" .
-                "                  .replace('/ajax/avatar', '/api/profile/avatar')\n" .
-                "                  .replace('/ajax/profile', '/api/profile/update')\n" .
-                "                  .replace('/ajax/change-password', '/api/profile/change-password');\n" .
-                "    },\n\n" .
-                "    post(url, data) {\n" .
-                "        url = this._mapUrl(url);\n" .
-                "        const body = data instanceof FormData ? data : (() => {\n" .
-                "            const fd = new FormData();\n" .
-                "            Object.entries(data).forEach(([k, v]) => fd.append(k, v));\n" .
-                "            return fd;\n" .
-                "        })();\n\n" .
-                "        return fetch(url, {\n" .
-                "            method: 'POST',\n" .
-                "            headers: { 'X-Requested-With': 'XMLHttpRequest' },\n" .
-                "            body,\n" .
-                "        }).then(res => res.json());\n" .
-                "    },\n\n" .
-                "    get(url) {\n" .
-                "        url = this._mapUrl(url);\n" .
-                "        return fetch(url, {\n" .
-                "            headers: { 'X-Requested-With': 'XMLHttpRequest' },\n" .
-                "        }).then(res => res.json());\n" .
-                "    },\n" .
-                "};\n";
-            file_put_contents($basePath . 'js/ajax.js', $jsAjaxContent);
+            // 3. Update all JS files to directly call /api/ REST endpoints instead of /ajax/
+            $jsFiles = array_merge(glob($basePath . 'js/*.js') ?: [], glob($basePath . 'js/*/*.js') ?: []);
+            $apiMap = [
+                "'/ajax/login'"           => "'/api/auth/login'",
+                "'/ajax/register'"        => "'/api/auth/register'",
+                "'/ajax/logout'"          => "'/api/auth/logout'",
+                "'/ajax/forgot-password'" => "'/api/auth/forgot-password'",
+                "'/ajax/reset-password'"  => "'/api/auth/reset-password'",
+                "'/ajax/users/create'"    => "'/api/admin/users'",
+                "'/ajax/users/update'"    => "'/api/admin/users/update'",
+                "'/ajax/users/delete'"    => "'/api/admin/users/delete'",
+                "'/ajax/admins/create'"   => "'/api/superadmin/admins'",
+                "'/ajax/admins/update'"   => "'/api/superadmin/admins/update'",
+                "'/ajax/admins/delete'"   => "'/api/superadmin/admins/delete'",
+                "'/ajax/avatar'"          => "'/api/profile/avatar'",
+                "'/ajax/profile'"         => "'/api/profile/update'",
+                "'/ajax/change-password'" => "'/api/profile/change-password'",
+            ];
+            foreach ($jsFiles as $jsFile) {
+                if (file_exists($jsFile) && basename($jsFile) !== 'ajax.js' && basename($jsFile) !== 'jquery.min.js' && basename($jsFile) !== 'jquery_ajax.js') {
+                    $jsContent = file_get_contents($jsFile);
+                    $jsContent = strtr($jsContent, $apiMap);
+                    file_put_contents($jsFile, $jsContent);
+                }
+            }
 
-            // 4. Overwrite app/core/Controller.php — smart API detector, authorization constructor, and view json interceptor
+            // 4. Update controllers and routes/api.php to rename 'ajaxX' methods to 'apiX'
+            $controllers = array_merge(glob($basePath . 'app/controllers/*.php') ?: [], glob($basePath . 'app/controllers/*/*.php') ?: []);
+            foreach ($controllers as $ctrl) {
+                if (file_exists($ctrl)) {
+                    $content = file_get_contents($ctrl);
+                    $content = preg_replace('/function ajax([A-Z])/', 'function api$1', $content);
+                    file_put_contents($ctrl, $content);
+                }
+            }
+            $apiRouteFile = $basePath . 'routes/api.php';
+            if (file_exists($apiRouteFile)) {
+                $content = file_get_contents($apiRouteFile);
+                $content = preg_replace("/'ajax([A-Z][a-zA-Z0-9_]*)'/", "'api$1'", $content);
+                file_put_contents($apiRouteFile, $content);
+            }
+
+            // 5. Overwrite app/core/Controller.php — smart API detector, authorization constructor, and view json interceptor
             $apiControllerContent = "<?php\n\n" .
                 "class Controller\n" .
                 "{\n" .
@@ -459,7 +473,7 @@ class Installer
                 }
             }
 
-            // 2. Overwrite js/ajax.js with a jQuery $.ajax wrapper
+            // 2. Overwrite js/ajax.js with a jQuery $.ajax wrapper (rename to jquery_ajax.js)
             //    — identical public API to the native fetch wrapper (Ajax.post / Ajax.get)
             //    — so ALL existing JS files (auth.js, users.js, profile.js, etc.) work unchanged
             $jsAjaxContent =
@@ -517,9 +531,69 @@ class Installer
                 "        });\n" .
                 "    },\n" .
                 "};\n";
-            file_put_contents($basePath . 'js/ajax.js', $jsAjaxContent);
+            file_put_contents($basePath . 'js/jquery_ajax.js', $jsAjaxContent);
+            if (file_exists($basePath . 'js/ajax.js')) unlink($basePath . 'js/ajax.js');
 
-            // 3. Inject jQuery script tag into every layout header that loads JS assets
+            // 3. Rename route files and update file contents to use 'jquery' instead of 'ajax'
+            $routeGroups = ['auth', 'admin', 'superadmin', 'app'];
+            foreach ($routeGroups as $group) {
+                $oldPath = $basePath . "routes/web/$group/ajax.php";
+                $newPath = $basePath . "routes/web/$group/jquery.php";
+                if (file_exists($oldPath)) {
+                    rename($oldPath, $newPath);
+                    $content = file_get_contents($newPath);
+                    $content = str_replace('ajax/', 'jquery/', $content);
+                    $content = str_replace('AJAX Routes', 'jQuery Routes', $content);
+                    $content = preg_replace("/'ajax([A-Z][a-zA-Z0-9_]*)'/", "'jquery$1'", $content);
+                    file_put_contents($newPath, $content);
+                }
+            }
+
+            // 3.5 Update controllers and routes/api.php to rename 'ajaxX' methods to 'jqueryX'
+            $controllers = array_merge(glob($basePath . 'app/controllers/*.php') ?: [], glob($basePath . 'app/controllers/*/*.php') ?: []);
+            foreach ($controllers as $ctrl) {
+                if (file_exists($ctrl)) {
+                    $content = file_get_contents($ctrl);
+                    $content = preg_replace('/function ajax([A-Z])/', 'function jquery$1', $content);
+                    file_put_contents($ctrl, $content);
+                }
+            }
+            $apiRouteFile = $basePath . 'routes/api.php';
+            if (file_exists($apiRouteFile)) {
+                $content = file_get_contents($apiRouteFile);
+                $content = preg_replace("/'ajax([A-Z][a-zA-Z0-9_]*)'/", "'jquery$1'", $content);
+                file_put_contents($apiRouteFile, $content);
+            }
+
+            // 4. Update routes/web.php
+            $webPhpPath = $basePath . 'routes/web.php';
+            if (file_exists($webPhpPath)) {
+                $webPhp = file_get_contents($webPhpPath);
+                $webPhp = str_replace('ajax.php', 'jquery.php', $webPhp);
+                file_put_contents($webPhpPath, $webPhp);
+            }
+
+            // 5. Update layout footers to load js/jquery_ajax.js instead of js/ajax.js
+            $footers = glob($basePath . 'app/views/layouts/*/footer.php');
+            foreach ($footers as $fFile) {
+                if (file_exists($fFile)) {
+                    $html = file_get_contents($fFile);
+                    $html = str_replace('js/ajax.js', 'js/jquery_ajax.js', $html);
+                    file_put_contents($fFile, $html);
+                }
+            }
+
+            // 6. Update all JS files to point to /jquery/ endpoints
+            $jsFiles = array_merge(glob($basePath . 'js/*.js') ?: [], glob($basePath . 'js/*/*.js') ?: []);
+            foreach ($jsFiles as $jsFile) {
+                if (file_exists($jsFile) && basename($jsFile) !== 'jquery.min.js' && basename($jsFile) !== 'jquery_ajax.js') {
+                    $jsContent = file_get_contents($jsFile);
+                    $jsContent = str_replace("'/ajax/", "'/jquery/", $jsContent);
+                    file_put_contents($jsFile, $jsContent);
+                }
+            }
+
+            // 7. Inject jQuery script tag into every layout header that loads JS assets
             $layoutHeaders = [
                 $basePath . 'app/views/layouts/auth/header.php',
                 $basePath . 'app/views/layouts/admin/header.php',
@@ -543,10 +617,7 @@ class Installer
                 }
             }
 
-            // 4. routes/web.php stays identical to option [1] (full monolith) — all page + ajax routes intact
-            //    No route files are deleted; admin/user/superadmin displays are completely unaffected.
-
-            self::log("✔ jQuery Full Stack configured. js/ajax.js replaced with jQuery wrapper. All views and role panels untouched.", $event);
+            self::log("✔ jQuery Full Stack configured. Files renamed, routes updated to /jquery/*, js/ajax.js replaced with js/jquery_ajax.js.", $event);
         } else {
             self::log("✔ Configuring as Full Stack Monolith (Default)...", $event);
         }

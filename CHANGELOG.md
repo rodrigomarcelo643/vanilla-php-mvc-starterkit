@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] — 2026-05-25
+
+### Changed
+- **Installation Wizard:**
+  - Option 4 (jQuery Stack) now physically renames `ajax.php` route files to `jquery.php` and updates internal controller method prefixes (`ajaxLogin` → `jqueryLogin`).
+  - Option 2 (REST API) and Option 3 (Headless) now physically rename controller methods to `apiLogin` and update paths dynamically.
+  - Option 2 (REST API) now rewrites all `js/*.js` files to use `/api/` endpoints directly, removing the need for a runtime path mapper.
+
+---
+
 ## [1.1.0] — 2026-05-25
 
 ### Added
