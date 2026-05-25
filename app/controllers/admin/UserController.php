@@ -2,26 +2,8 @@
 
 class UserController extends Controller
 {
-    private function guard(): void
-    {
-        $role = Session::get('user')['role'] ?? '';
-        if (!Auth::check() || !in_array($role, ['admin', 'superadmin'])) {
-            header('Location: ' . BASE_URL . '/login');
-            exit;
-        }
-    }
-
-    private function guardAjax(): void
-    {
-        $role = Session::get('user')['role'] ?? '';
-        if (!Auth::check() || !in_array($role, ['admin', 'superadmin'])) {
-            Router::json(['success' => false, 'message' => 'Unauthorized.'], 401);
-        }
-    }
-
     public function index(): void
     {
-        $this->guard();
         require_once 'app/models/User.php';
         $this->admin('admin/users', [
             'title' => 'Users',
@@ -31,7 +13,6 @@ class UserController extends Controller
 
     public function ajaxCreate(): void
     {
-        $this->guardAjax();
         require_once 'app/models/User.php';
 
         $name     = trim($_POST['name']     ?? '');
@@ -60,7 +41,6 @@ class UserController extends Controller
 
     public function ajaxUpdate(): void
     {
-        $this->guardAjax();
         require_once 'app/models/User.php';
 
         $id     = (int) ($_POST['id']     ?? 0);
@@ -86,7 +66,6 @@ class UserController extends Controller
 
     public function ajaxDelete(): void
     {
-        $this->guardAjax();
         require_once 'app/models/User.php';
 
         $id = (int) ($_POST['id'] ?? 0);

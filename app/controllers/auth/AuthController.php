@@ -4,31 +4,11 @@ class AuthController extends Controller
 {
     public function login()
     {
-        if (Auth::check()) {
-            $role = Session::get('user')['role'] ?? 'user';
-            $redirect = match($role) {
-                'admin'      => BASE_URL . '/admin/dashboard',
-                'superadmin' => BASE_URL . '/superadmin/dashboard',
-                default      => BASE_URL . '/app/home',
-            };
-            header('Location: ' . $redirect);
-            exit;
-        }
         $this->auth('auth/login', ['title' => 'Sign in']);
     }
 
     public function register()
     {
-        if (Auth::check()) {
-            $role = Session::get('user')['role'] ?? 'user';
-            $redirect = match($role) {
-                'admin'      => BASE_URL . '/admin/dashboard',
-                'superadmin' => BASE_URL . '/superadmin/dashboard',
-                default      => BASE_URL . '/app/home',
-            };
-            header('Location: ' . $redirect);
-            exit;
-        }
         $this->auth('auth/register', ['title' => 'Create account']);
     }
 

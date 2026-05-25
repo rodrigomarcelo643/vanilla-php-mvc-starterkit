@@ -4,10 +4,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        if (!Auth::check()) {
-            header('Location: ' . BASE_URL . '/login');
-            exit;
-        }
         require_once 'app/models/User.php';
         $userModel   = new User();
         $allUsers    = $userModel->getAll();
@@ -31,20 +27,12 @@ class DashboardController extends Controller
 
     public function profile()
     {
-        if (!Auth::check()) {
-            header('Location: ' . BASE_URL . '/login');
-            exit;
-        }
         $user = Session::get('user');
         $this->admin('admin/profile', ['title' => 'Profile', 'user' => $user]);
     }
 
     public function settings()
     {
-        if (!Auth::check()) {
-            header('Location: ' . BASE_URL . '/login');
-            exit;
-        }
         $this->admin('admin/settings', ['title' => 'Settings']);
     }
 }

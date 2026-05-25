@@ -2,16 +2,8 @@
 
 class SuperAdminAdminController extends Controller
 {
-    private function guard(): void
-    {
-        if (!Auth::check() || (Session::get('user')['role'] ?? '') !== 'superadmin') {
-            Router::json(['success' => false, 'message' => 'Unauthorized.'], 401);
-        }
-    }
-
     public function ajaxCreate(): void
     {
-        $this->guard();
         require_once 'app/models/Admin.php';
 
         $name     = trim($_POST['name']     ?? '');
@@ -39,7 +31,6 @@ class SuperAdminAdminController extends Controller
 
     public function ajaxUpdate(): void
     {
-        $this->guard();
         require_once 'app/models/Admin.php';
 
         $id     = (int) ($_POST['id']     ?? 0);
@@ -64,7 +55,6 @@ class SuperAdminAdminController extends Controller
 
     public function ajaxDelete(): void
     {
-        $this->guard();
         require_once 'app/models/Admin.php';
 
         $id = (int) ($_POST['id'] ?? 0);
