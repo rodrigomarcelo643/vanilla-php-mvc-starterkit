@@ -6,83 +6,85 @@ class Installer
 {
     public static function install($event = null)
     {
-        $choice = '1';
+        $choice = getenv('INSTALLER_PRESET') ?: '1';
 
-        // 1. Get input using Composer IO if available, otherwise direct console fallback
-        if ($event && method_exists($event, 'getIO')) {
-            $io = $event->getIO();
-            $io->write('');
-            $io->write('<fg=blue>  ┌────────────────────────────────────────────────┐</>');
-            $io->write('<fg=blue>  │</>  <options=bold>Choose Your Installation Preset</>               <fg=blue>│</>');
-            $io->write('<fg=blue>  └────────────────────────────────────────────────┘</>');
-            $io->write('');
-            $io->write('  <comment>[1]</comment> <options=bold>Full Stack</options=bold>      — Alpine.js + AJAX Monolith  <info>← default</info>');
-            $io->write('  <comment>[2]</comment> <options=bold>REST API</options=bold>        — Full Stack with JS Frontend');
-            $io->write('  <comment>[3]</comment> <options=bold>Backend Only</options=bold>    — REST API, No UI');
-            $io->write('  <comment>[4]</comment> <options=bold>jQuery Stack</options=bold>    — Full Stack with jQuery AJAX');
-            $io->write('');
+        if (!getenv('INSTALLER_PRESET')) {
+            // 1. Get input using Composer IO if available, otherwise direct console fallback
+            if ($event && method_exists($event, 'getIO')) {
+                $io = $event->getIO();
+                $io->write('');
+                $io->write('<fg=blue>  ┌────────────────────────────────────────────────┐</>');
+                $io->write('<fg=blue>  │</>  <options=bold>Choose Your Installation Preset</>               <fg=blue>│</>');
+                $io->write('<fg=blue>  └────────────────────────────────────────────────┘</>');
+                $io->write('');
+                $io->write('  <comment>[1]</comment> <options=bold>Full Stack</options=bold>      — Alpine.js + AJAX Monolith  <info>← default</info>');
+                $io->write('  <comment>[2]</comment> <options=bold>REST API</options=bold>        — Full Stack with JS Frontend');
+                $io->write('  <comment>[3]</comment> <options=bold>Backend Only</options=bold>    — REST API, No UI');
+                $io->write('  <comment>[4]</comment> <options=bold>jQuery Stack</options=bold>    — Full Stack with jQuery AJAX');
+                $io->write('');
 
-            $choice = $io->ask('  <question>Select an option</question> [<comment>1</comment>]: ', '1');
-        } else {
-            // Fallback for direct execution
-            $isWin = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
-            
-            $menu  = "\n";
-            $menu .= "\033[1;34m  ┌────────────────────────────────────────────────┐\033[0m\n";
-            $menu .= "\033[1;34m  │\033[0m  \033[1;37mChoose Your Installation Preset\033[0m               \033[1;34m│\033[0m\n";
-            $menu .= "\033[1;34m  └────────────────────────────────────────────────┘\033[0m\n";
-            $menu .= "\n";
-            $menu .= "  \033[1;33m[1]\033[0m \033[1mFull Stack\033[0m      — Alpine.js + AJAX Monolith  \033[1;32m← default\033[0m\n";
-            $menu .= "  \033[1;33m[2]\033[0m \033[1mREST API\033[0m        — Full Stack with JS Frontend\n";
-            $menu .= "  \033[1;33m[3]\033[0m \033[1mBackend Only\033[0m    — REST API, No UI\n";
-            $menu .= "  \033[1;33m[4]\033[0m \033[1mjQuery Stack\033[0m    — Full Stack with jQuery AJAX\n";
-            $menu .= "\n";
-            $menu .= "  \033[1;36mSelect an option\033[0m [\033[1;33m1\033[0m]: ";
-
-            $conIn = null;
-            $conOut = null;
-
-            if ($isWin) {
-                // Try to open CON device
-                $conIn = @fopen('CON', 'r');
-                if (!$conIn) {
-                    $conIn = @fopen('CONIN$', 'r');
-                }
-                $conOut = @fopen('CON', 'w');
-                if (!$conOut) {
-                    $conOut = @fopen('CONOUT$', 'w');
-                }
+                $choice = $io->ask('  <question>Select an option</question> [<comment>1</comment>]: ', '1');
             } else {
-                $tty = @fopen('/dev/tty', 'r+');
-                $conIn = $tty;
-                $conOut = $tty;
-            }
+                // Fallback for direct execution
+                $isWin = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+                
+                $menu  = "\n";
+                $menu .= "\033[1;34m  ┌────────────────────────────────────────────────┐\033[0m\n";
+                $menu .= "\033[1;34m  │\033[0m  \033[1;37mChoose Your Installation Preset\033[0m               \033[1;34m│\033[0m\n";
+                $menu .= "\033[1;34m  └────────────────────────────────────────────────┘\033[0m\n";
+                $menu .= "\n";
+                $menu .= "  \033[1;33m[1]\033[0m \033[1mFull Stack\033[0m      — Alpine.js + AJAX Monolith  \033[1;32m← default\033[0m\n";
+                $menu .= "  \033[1;33m[2]\033[0m \033[1mREST API\033[0m        — Full Stack with JS Frontend\n";
+                $menu .= "  \033[1;33m[3]\033[0m \033[1mBackend Only\033[0m    — REST API, No UI\n";
+                $menu .= "  \033[1;33m[4]\033[0m \033[1mjQuery Stack\033[0m    — Full Stack with jQuery AJAX\n";
+                $menu .= "\n";
+                $menu .= "  \033[1;36mSelect an option\033[0m [\033[1;33m1\033[0m]: ";
 
-            if ($conOut) {
-                fwrite($conOut, $menu);
-                if ($isWin) fclose($conOut);
-            } else {
-                echo $menu;
-                if (ob_get_level()) ob_flush();
-                flush();
-            }
+                $conIn = null;
+                $conOut = null;
 
-            if ($conIn) {
-                $line = fgets($conIn);
-                fclose($conIn);
-                if ($line !== false) {
-                    $digit = preg_replace('/[^1-9]/', '', $line);
-                    if ($digit !== '') {
-                        $choice = $digit;
+                if ($isWin) {
+                    // Try to open CON device
+                    $conIn = @fopen('CON', 'r');
+                    if (!$conIn) {
+                        $conIn = @fopen('CONIN$', 'r');
                     }
+                    $conOut = @fopen('CON', 'w');
+                    if (!$conOut) {
+                        $conOut = @fopen('CONOUT$', 'w');
+                    }
+                } else {
+                    $tty = @fopen('/dev/tty', 'r+');
+                    $conIn = $tty;
+                    $conOut = $tty;
                 }
-            } else {
-                if (defined('STDIN') && STDIN !== false) {
-                    stream_set_blocking(STDIN, true);
-                    $line = fgets(STDIN);
+
+                if ($conOut) {
+                    fwrite($conOut, $menu);
+                    if ($isWin) fclose($conOut);
+                } else {
+                    echo $menu;
+                    if (ob_get_level()) ob_flush();
+                    flush();
+                }
+
+                if ($conIn) {
+                    $line = fgets($conIn);
+                    fclose($conIn);
                     if ($line !== false) {
                         $digit = preg_replace('/[^1-9]/', '', $line);
-                        if ($digit !== '') $choice = $digit;
+                        if ($digit !== '') {
+                            $choice = $digit;
+                        }
+                    }
+                } else {
+                    if (defined('STDIN') && STDIN !== false) {
+                        stream_set_blocking(STDIN, true);
+                        $line = fgets(STDIN);
+                        if ($line !== false) {
+                            $digit = preg_replace('/[^1-9]/', '', $line);
+                            if ($digit !== '') $choice = $digit;
+                        }
                     }
                 }
             }
@@ -573,12 +575,16 @@ class Installer
                 file_put_contents($webPhpPath, $webPhp);
             }
 
-            // 5. Update layout footers to load js/jquery_ajax.js instead of js/ajax.js
+            // 5. Update layout footers to load js/jquery.min.js and js/jquery_ajax.js instead of js/ajax.js
             $footers = glob($basePath . 'app/views/layouts/*/footer.php');
             foreach ($footers as $fFile) {
                 if (file_exists($fFile)) {
                     $html = file_get_contents($fFile);
-                    $html = str_replace('js/ajax.js', 'js/jquery_ajax.js', $html);
+                    $html = str_replace(
+                        'js/ajax.js',
+                        "js/jquery.min.js\"></script>\n<script src=\"<?= BASE_URL ?>/js/jquery_ajax.js",
+                        $html
+                    );
                     file_put_contents($fFile, $html);
                 }
             }
@@ -590,30 +596,6 @@ class Installer
                     $jsContent = file_get_contents($jsFile);
                     $jsContent = str_replace("'/ajax/", "'/jquery/", $jsContent);
                     file_put_contents($jsFile, $jsContent);
-                }
-            }
-
-            // 7. Inject jQuery script tag into every layout header that loads JS assets
-            $layoutHeaders = [
-                $basePath . 'app/views/layouts/auth/header.php',
-                $basePath . 'app/views/layouts/admin/header.php',
-                $basePath . 'app/views/layouts/superadmin/header.php',
-                $basePath . 'app/views/layouts/app/header.php',
-                $basePath . 'app/views/layouts/client/header.php',
-            ];
-            $jqTag = '<script src="' . "<?= BASE_URL ?>" . '/js/jquery.min.js"></script>';
-            foreach ($layoutHeaders as $hFile) {
-                if (!file_exists($hFile)) continue;
-                $html = file_get_contents($hFile);
-                // Only inject once — before the first local <script src=
-                if (strpos($html, 'jquery.min.js') === false) {
-                    $html = preg_replace(
-                        '/(<script\s[^>]*src=["\'][^"\'>]*\/js\/[^"\'>]*["\'][^>]*>)/i',
-                        $jqTag . "\n    $1",
-                        $html,
-                        1
-                    );
-                    file_put_contents($hFile, $html);
                 }
             }
 
