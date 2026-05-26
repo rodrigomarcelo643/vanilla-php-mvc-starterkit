@@ -182,7 +182,7 @@
                             <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                                 The interactive setup wizard prompts you to select one of the three tailored modes during installation:
                             </p>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div class="p-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 rounded-lg">
                                     <span class="text-[10px] uppercase font-bold text-indigo-600 dark:text-indigo-400">Option 1</span>
                                     <h5 class="text-xs font-semibold text-zinc-900 dark:text-zinc-100 mt-1 mb-1.5">Full Stack Monolith</h5>
@@ -197,6 +197,11 @@
                                     <span class="text-[10px] uppercase font-bold text-indigo-600 dark:text-indigo-400">Option 3</span>
                                     <h5 class="text-xs font-semibold text-zinc-900 dark:text-zinc-100 mt-1 mb-1.5">Backend Only</h5>
                                     <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Deletes all views and frontend folders completely, delivering a 100% stateless RESTful JSON API.</p>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 rounded-lg">
+                                    <span class="text-[10px] uppercase font-bold text-indigo-600 dark:text-indigo-400">Option 4</span>
+                                    <h5 class="text-xs font-semibold text-zinc-900 dark:text-zinc-100 mt-1 mb-1.5">jQuery Stack</h5>
+                                    <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Alternative monolith setup preconfigured to use traditional jQuery integrations instead of Alpine.js.</p>
                                 </div>
                             </div>
                         </div>
@@ -448,6 +453,14 @@
                                 </div>
                                 <p class="text-xs text-zinc-500 dark:text-zinc-400">Clears all application caches and logs at once.</p>
                             </div>
+
+                            <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <code class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">php kit security:check</code>
+                                    <span class="text-[10px] bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-1.5 py-0.5 rounded font-mono">security</span>
+                                </div>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Launches a Static Application Security Testing (SAST) suite that audits templates for XSS protection, database models for SQLi vulnerability patterns, controllers for active CSRF mitigations, variables for proper parameter type-casting, cryptographic hashes, and HTTP security headers.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -466,6 +479,7 @@
                         ['admin.php',  'admin/',  'Admin panel'],
                         ['app.php',    'app/',    'Authenticated users'],
                         ['ajax.php',   'ajax/',   'AJAX endpoints'],
+                        ['jquery.php', 'jquery/', 'jQuery Stack endpoints (Option 4)'],
                         ['api.php',    'api/',    'REST API JSON endpoints'],
                     ] as $r): ?>
                     <div class="p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg">
