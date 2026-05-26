@@ -1,6 +1,15 @@
 # These are supported funding model platforms
+# The 'github:' key only works if the account is enrolled in GitHub Sponsors.
+# Using 'custom:' shows a Sponsor button immediately on the sidebar.
 
-github: rodrigomarcelo643
-patreon: rodrigomarcelo643
+# Uncomment 'github' once you are approved at github.com/sponsors
+# github: rodrigomarcelo643
+
+# Ko-fi (shows instantly if account exists at ko-fi.com)
 ko_fi: rodrigomarcelo643
-custom: ['https://github.com/rodrigomarcelo643/vanilla-php-mvc-starterkit']
+
+# Patreon (shows instantly if account exists at patreon.com)
+patreon: rodrigomarcelo643
+
+# Custom payment link — always shows the Sponsor button
+custom: ['https://ko-fi.com/rodrigomarcelo643']
