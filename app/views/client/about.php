@@ -48,12 +48,13 @@
             <p class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-3">What you'll use</p>
             <h2 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Tools that are beginner-friendly.</h2>
         </div>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             <?php
             $stack = [
                 ['PHP 8+',       'Core language — same as Laravel',   'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',  false, null],
+                ['REST API',     'JSON-only endpoints for decoupled applications', 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', false, null],
                 ['Tailwind CSS', 'Same styling Laravel ships with',    null, false, 'tailwind'],
-                ['Alpine.js',    'Lightweight reactivity, no Vue yet', 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4', false, null],
+                ['Alpine.js / jQuery', 'Lightweight reactivity or traditional AJAX stack presets', 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4', false, null],
                 ['MySQL / PDO',  'Raw queries before Eloquent ORM',   'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4', false, null],
             ];
             foreach ($stack as $s): ?>
