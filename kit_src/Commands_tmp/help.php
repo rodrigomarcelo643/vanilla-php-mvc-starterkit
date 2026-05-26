@@ -28,6 +28,7 @@ $categories = [
         'tinker'            => ['Start an interactive PHP REPL session', ''],
         'serve'             => ['Start the local PHP built-in dev server', '[host?] [port?]'],
         'key:generate'      => ['Generate and apply a new APP_KEY in .env', ''],
+        'security:check'    => ['Run static security audits on configurations & source code', ''],
         'cache:clear'       => ['Clear application cache files', ''],
         'logs:clear'        => ['Clear application log files', ''],
         'optimize:clear'    => ['Clear all compiled caches and logs at once', ''],

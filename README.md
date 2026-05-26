@@ -175,19 +175,13 @@ starterkit/
 
 ### Steps
 
-**1. Clone the repository**
+**1. Create the project via Composer**
 
 ```bash
-git clone https://github.com/rodrigomarcelo643/php-vanilla-mvc-starterkit.git
+composer create-project mardev/starter-kit my-app
 ```
 
-Place it inside your server's web root (e.g. `htdocs/` or `www/`).
-
-**2. Install dependencies**
-
-```bash
-composer install
-```
+Place it inside your server's web root (e.g., `htdocs/` or `www/`). Composer will automatically download the kit, install all vendor dependencies, and trigger the interactive setup wizard automatically.
 
 **3. Set up the database**
 
@@ -242,6 +236,7 @@ Which preset would you like to install?
   [1] Full Stack (Alpine.js + AJAX Monolith) - Default
   [2] REST API (Full Stack with JS)
   [3] Backend Only (REST API, No UI)
+  [4] jQuery Stack (Full Stack with jQuery AJAX)
 
 Select an option [1]:
 ```
@@ -276,17 +271,27 @@ Pure JSON API mode. All frontend assets (views, JS, CSS, client routes) are remo
 - ✅ `http://localhost/yourapp/` → returns JSON welcome message
 - ✅ `http://localhost/yourapp/api/admin/users` → returns JSON user list
 
+### Option 4 — jQuery Stack (Full Stack with jQuery AJAX)
+
+Full stack traditional monolith mode leveraging **jQuery** instead of Alpine.js for interactive views and AJAX forms. The installer automatically downloads and incorporates the dynamic jQuery libraries.
+
+- ✅ All HTML views intact (client, admin, superadmin, app panels)
+- ✅ Session-based auth powered by custom jQuery AJAX calls
+- ✅ Complete jQuery setup with preconfigured fetch/XHR handlers
+- ✅ `http://localhost/yourapp/` → renders HTML homepage
+
 ### Comparison
 
-| Feature                        | Option 1 | Option 2 | Option 3 |
-|-------------------------------|----------|----------|----------|
-| HTML Views                    | ✅       | ✅       | ❌       |
-| Session Auth (Browser)        | ✅       | ✅       | ✅       |
-| `/ajax/` AJAX endpoints       | ✅       | ✅       | ❌       |
-| `/api/` REST endpoints (JSON) | ✅       | ✅       | ✅       |
-| Smart JSON/HTML auto-switch   | ❌       | ✅       | ✅       |
-| Root `/` returns HTML         | ✅       | ✅       | ❌       |
-| Root `/` returns JSON         | ❌       | ❌       | ✅       |
+| Feature                        | Option 1 | Option 2 | Option 3 | Option 4 |
+|-------------------------------|----------|----------|----------|----------|
+| HTML Views                    | ✅       | ✅       | ❌       | ✅       |
+| Session Auth (Browser)        | ✅       | ✅       | ✅       | ✅       |
+| `/ajax/` AJAX endpoints       | ✅       | ✅       | ❌       | ✅       |
+| `/api/` REST endpoints (JSON) | ✅       | ✅       | ✅       | ✅       |
+| Smart JSON/HTML auto-switch   | ❌       | ✅       | ✅       | ❌       |
+| Root `/` returns HTML         | ✅       | ✅       | ❌       | ✅       |
+| Root `/` returns JSON         | ❌       | ❌       | ✅       | ❌       |
+| Primary Frontend Driver       | Alpine.js| Alpine.js| N/A      | jQuery   |
 
 > You can re-run the installer at any time with: `php kit env:setup`
 
@@ -335,6 +340,7 @@ kit.bat [command] [arguments] [options]
 * `php kit cache:clear` — Clears application cache files.
 * `php kit logs:clear` — Clears application log files.
 * `php kit optimize:clear` — Clears all compiled caches and logs at once.
+* `php kit security:check` — Launches a full **Static Application Security Testing (SAST) and configuration audit scanner** on your project. It automatically audits your views for XSS prevention (untrusted raw outputs), database models for SQL injection patterns, authentication controllers for active CSRF protection headers, route input parameters for integer casting safety, secure cryptographic hashing algorithms (`password_hash`), rate-limiting middleware, and global HTTP security headers configuration.
 
 ### ⚙️ Environment & Routing Intelligence
 * **Environment-Aware Server Router (`server.php`)**: Dynamically parses the `BASE_URL` from `.env` to strip any path prefix when serving requests using PHP's built-in development server (`php kit serve`).
@@ -354,6 +360,57 @@ kit.bat [command] [arguments] [options]
 | `auth/ajax.php`         | `ajax/`            | Login, register + AJAX endpoints         |
 | `auth/oauth.php`        | `oauth/`           | Google + GitHub OAuth redirect/callback  |
 | `routes/api.php`        | `api/`             | Unified REST API — JSON-only endpoints for all roles |
+
+### 🔄 Dynamic Routing Behavior by Preset Option
+
+The active installation preset dynamically alters how routing and request handling are structured:
+
+* **Option 1 (Full Stack - Alpine.js & AJAX)**:
+  * Both web routes (`routes/web/`) and API routes (`routes/api.php`) are fully loaded.
+  * Standard web controllers return rendered `.php` templates.
+  * AJAX requests submit to the `/ajax/` prefix, returning JSON responses.
+  
+* **Option 2 (REST API - Full Stack with JS)**:
+  * Web routes (`routes/web/`) and API routes (`routes/api.php`) are fully loaded.
+  * The smart base `Controller` automatically detects incoming requests prefixed with `/api/`.
+  * If a request is under `/api/`, it bypasses view rendering and outputs JSON payload data directly, making the server work seamlessly in both modes.
+
+* **Option 3 (Backend Only - REST API)**:
+  * The `routes/web/` folder is deleted entirely.
+  * Only `routes/api.php` is loaded in `routes/web.php` for routing.
+  * The router returns JSON only. Direct hits to the homepage `/` return an API welcome screen in JSON format.
+  * Auth guards return JSON `401` or `403` status codes instead of HTML login redirects.
+
+* **Option 4 (jQuery Stack)**:
+  * Similar to Option 1, but routing is preconfigured to load jQuery scripts in layouts instead of Alpine.js scripts.
+  * Interactive forms use standard jQuery-based XHR endpoints.
+
+### 🛣️ Routing Architecture: AJAX vs. REST API vs. jQuery
+
+Depending on the chosen installation preset, routing matches one of three distinct endpoint protocols:
+
+#### 1. Standard AJAX Routes (`/ajax/*`)
+Used in **Option 1 (Full Stack)**. These routes are designed for the monolith's frontend and return JSON.
+* **Route Files**: Loaded via `routes/web/*/ajax.php`.
+* **Path Prefix**: All routes are prefixed with `/ajax/` (e.g., `/ajax/login`, `/ajax/register`).
+* **Frontend Handler**: Driven by Vanilla JS in `js/ajax.js` using standard `fetch()` calls.
+* **CSRF Protection**: Automatically protected via custom `verifyCsrf()` middleware validating `X-CSRF-Token` headers.
+
+#### 2. REST API Routes (`/api/*`)
+Universal endpoints returned in JSON. Under **Option 3 (Backend Only)**, these are the *only* routes loaded. Under **Option 2**, they auto-switch dynamically.
+* **Route File**: Contained inside the main `routes/api.php` file.
+* **Path Prefix**: All routes are prefixed with `/api/` (e.g., `/api/auth/login`, `/api/admin/users`).
+* **Format**: Enforces strictly JSON output.
+* **Use Case**: Best for decoupled frontend frameworks (React, Vue, mobile apps) or programmatic access.
+
+#### 3. jQuery Stack Routes (`/jquery/*`)
+Active in **Option 4 (jQuery Stack)**. This rewrites the monolith's entire route and controller layers to use jQuery standard interfaces.
+* **Route Files**: Loaded via `routes/web/*/jquery.php`.
+* **Path Prefix**: All routes are rewritten with `/jquery/` (e.g., `/jquery/login`, `/jquery/register`).
+* **Frontend Handler**: Handled via `js/jquery.min.js` and a custom `js/jquery_ajax.js` wrapper leveraging `$.ajax` calls.
+* **Controller Bindings**: Action handlers are dynamically mapped to `jqueryLogin()`, `jqueryRegister()`, and other jQuery-specific methods.
+
+---
 
 ### REST API Endpoints (`routes/api.php`)
 

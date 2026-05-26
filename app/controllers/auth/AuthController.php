@@ -14,6 +14,7 @@ class AuthController extends Controller
 
     public function ajaxLogin()
     {
+        $this->verifyCsrf();
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             Router::json(['success' => false, 'message' => 'Method not allowed'], 405);
         }
@@ -68,6 +69,7 @@ class AuthController extends Controller
 
     public function ajaxRegister()
     {
+        $this->verifyCsrf();
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             Router::json(['success' => false, 'message' => 'Method not allowed'], 405);
         }
@@ -110,6 +112,7 @@ class AuthController extends Controller
 
     public function ajaxLogout()
     {
+        $this->verifyCsrf();
         Session::destroy();
         Router::json(['success' => true, 'redirect' => BASE_URL . '/login']);
     }
