@@ -1,9 +1,17 @@
 /**
- * Ajax — lightweight fetch wrapper
+ * Ajax — lightweight fetch wrapper with automatic CSRF protection
  */
 const Ajax = {
     /**
-     * POST form data to a URL
+     * Read the session CSRF token injected by the server via <meta name="csrf-token">
+     * @returns {string}
+     */
+    _csrfToken() {
+        return document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+    },
+
+    /**
+     * POST form data to a URL — automatically includes X-CSRF-Token header
      * @param {string} url
      * @param {FormData|object} data
      * @returns {Promise<object>}
@@ -17,7 +25,10 @@ const Ajax = {
 
         return fetch(url, {
             method: 'POST',
-            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-Token': this._csrfToken(),
+            },
             body,
         }).then(res => res.json());
     },
