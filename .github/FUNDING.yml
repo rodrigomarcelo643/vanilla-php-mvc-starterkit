@@ -1,25 +1,14 @@
 # GitHub FUNDING.yml
 # Displays the "Sponsor" heart button on the repository sidebar.
-#
-# HOW TO ACTIVATE:
-#   Option A (Instant): Replace the custom URL below with your PayPal.me, Buy Me a Coffee,
-#                       or any payment link you own. The button appears immediately.
-#   Option B (GitHub Sponsors): Apply at https://github.com/sponsors, then uncomment:
-#                       github: rodrigomarcelo643
-#
-# Supported platforms: github, patreon, open_collective, ko_fi, tidelift,
-#                      community_bridge, liberapay, issuehunt, otechie,
-#                      lfx_crowdfunding, polar, buy_me_a_coffee, custom
 
 # Uncomment after GitHub Sponsors approval:
 # github: rodrigomarcelo643
 
-# Uncomment if you have a Ko-fi account at ko-fi.com/rodrigomarcelo643
-# ko_fi: rodrigomarcelo643
+# Ko-fi — active (account: ko-fi.com/rodrigomarcelo643)
+ko_fi: rodrigomarcelo643
 
 # Uncomment if you have a Patreon at patreon.com/rodrigomarcelo643
 # patreon: rodrigomarcelo643
 
-# Replace this URL with your actual payment link (PayPal, GCASH QR page, etc.)
-# This is the ONLY entry needed to show the Sponsor button right now.
-custom: ['https://github.com/rodrigomarcelo643']
+# Custom fallback link
+custom: ['https://ko-fi.com/rodrigomarcelo643']
