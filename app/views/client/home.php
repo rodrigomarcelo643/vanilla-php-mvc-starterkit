@@ -119,9 +119,9 @@
                     'fill'  => false,
                 ],
                 [
-                    'title' => 'Tailwind CSS',
-                    'desc'  => 'Utility-first styling via CDN — no build step, so you focus on PHP not tooling.',
-                    'svg'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6C9.6 6 8.1 7.2 7.5 9.6c.9-1.2 1.95-1.65 3.15-1.35.685.171 1.174.668 1.715 1.219C13.24 10.39 14.205 11.4 16.5 11.4c2.4 0 3.9-1.2 4.5-3.6-.9 1.2-1.95 1.65-3.15 1.35-.685-.171-1.174-.668-1.715-1.219C15.26 7.011 14.295 6 12 6zm-4.5 5.4C5.1 11.4 3.6 12.6 3 15c.9-1.2 1.95-1.65 3.15-1.35.685.171 1.174.668 1.715 1.219C8.74 15.79 9.705 16.8 12 16.8c2.4 0 3.9-1.2 4.5-3.6-.9 1.2-1.95 1.65-3.15 1.35-.685-.171-1.174-.668-1.715-1.219C10.76 12.411 9.795 11.4 7.5 11.4z"/>',
+                    'title' => 'REST API & JSON',
+                    'desc'  => 'Build pure RESTful JSON endpoints for decoupled applications or choose full-stack templates.',
+                    'svg'   => '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>',
                     'fill'  => false,
                 ],
                 [
@@ -156,7 +156,7 @@
         <div class="grid sm:grid-cols-3 gap-6">
             <?php
             $steps = [
-                ['01', 'Clone & install',     'Drop it in your htdocs, run composer install, import the SQL — done.',              '<path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>'],
+                ['01', 'Composer install',    'Install using composer create-project mardev/starter-kit to trigger the setup wizard.', '<path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>'],
                 ['02', 'Read the code',        'Every file is readable and commented. No magic, no black boxes — just PHP.',         '<ellipse cx="12" cy="5" rx="9" ry="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 5v14c0 1.657 4.03 3 9 3s9-1.343 9-3V5M3 12c0 1.657 4.03 3 9 3s9-1.343 9-3"/>'],
                 ['03', 'Graduate to Laravel',  'Once you understand MVC from scratch, Laravel\'s conventions will click immediately.', '<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>'],
             ];
@@ -220,18 +220,18 @@
 
         <div class="max-w-xl mb-12 fade-in">
             <p class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-3">Frontend Layer</p>
-            <h2 class="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100 leading-tight">AJAX, Alpine.js &amp; JS interactions — all wired up.</h2>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed">No build pipeline. No bundler. Just clean, readable JavaScript files that show you exactly how the frontend talks to the backend.</p>
+            <h2 class="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100 leading-tight">AJAX, API, Alpine.js &amp; jQuery interactions — all wired up.</h2>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed">No build pipeline. No bundler. Just clean, readable JavaScript files and preset frontend bundles that show you exactly how the frontend talks to the backend.</p>
         </div>
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-200 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden mb-10">
             <?php
             $jsFeatures = [
                 [
-                    'title' => 'Ajax.js — Fetch Wrapper',
-                    'desc'  => 'A tiny <code>Ajax.post()</code> and <code>Ajax.get()</code> wrapper around the Fetch API. Every form submission — login, register, profile update — goes through it.',
+                    'title' => 'Ajax.js / jquery_ajax.js',
+                    'desc'  => 'Clean wrappers around Fetch API or jQuery $.ajax. Every form submission — login, register, profile update — is automatically wired through them.',
                     'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>',
-                    'file'  => 'js/ajax.js',
+                    'file'  => 'js/ajax.js or jquery_ajax.js',
                 ],
                 [
                     'title' => 'App.js — Global Utilities',
@@ -252,14 +252,14 @@
                     'file'  => 'js/avatar.js',
                 ],
                 [
-                    'title' => 'Alpine.js — Reactive UI',
-                    'desc'  => 'Used for the admin sidebar toggle, user modal (create/edit/delete), dark mode state, and global search — all via <code>x-data</code>, <code>x-show</code>, and <code>Alpine.store()</code>.',
+                    'title' => 'Alpine.js or jQuery Stack',
+                    'desc'  => 'Pick Alpine.js for modern reactive attributes or jQuery for traditional AJAX stack monolith flows — both come fully ready out of the box.',
                     'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>',
-                    'file'  => 'Alpine.js via CDN',
+                    'file'  => 'Alpine.js CDN or js/jquery.min.js',
                 ],
                 [
                     'title' => 'Theme.js + Sidebar.js',
-                    'desc'  => 'Dark/light mode toggle persisted to <code>localStorage</code>. Sidebar open/close bound to Alpine state with a <kbd>Ctrl+B</kbd> keyboard shortcut.',
+                    'desc'  => 'Dark/light mode toggle persisted to <code>localStorage</code>. Sidebar open/close bound to frontend state with a <kbd>Ctrl+B</kbd> keyboard shortcut.',
                     'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>',
                     'file'  => 'js/theme.js · js/sidebar.js',
                 ],
