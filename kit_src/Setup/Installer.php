@@ -225,6 +225,14 @@ class Installer
                 "        include 'app/views/layouts/superadmin/header.php';\n" .
                 "        include \"app/views/\$view.php\";\n" .
                 "        include 'app/views/layouts/superadmin/footer.php';\n" .
+                "    }\n\n" .
+                "    /**\n" .
+                "     * CSRF is not applicable for pure REST API mode.\n" .
+                "     * Auth is enforced via session guards in the constructor.\n" .
+                "     */\n" .
+                "    protected function verifyCsrf(): void\n" .
+                "    {\n" .
+                "        // No-op: REST API endpoints are protected by session auth guards, not CSRF tokens.\n" .
                 "    }\n" .
                 "}\n";
             file_put_contents($basePath . 'app/core/Controller.php', $apiControllerContent);
@@ -503,6 +511,24 @@ class Installer
                 "        include 'app/views/layouts/superadmin/header.php';\n" .
                 "        include \"app/views/\$view.php\";\n" .
                 "        include 'app/views/layouts/superadmin/footer.php';\n" .
+                "    }\n\n" .
+                "    /**\n" .
+                "     * Skip CSRF for API requests — they use session auth guards.\n" .
+                "     * Web/AJAX requests still validate the X-CSRF-Token header.\n" .
+                "     */\n" .
+                "    protected function verifyCsrf(): void\n" .
+                "    {\n" .
+                "        if (\$this->isApiRequest()) {\n" .
+                "            return;\n" .
+                "        }\n" .
+                "        \$headerToken  = \$_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';\n" .
+                "        \$sessionToken = \$_SESSION['csrf_token']       ?? '';\n" .
+                "        if (!\$headerToken || !\$sessionToken || !hash_equals(\$sessionToken, \$headerToken)) {\n" .
+                "            http_response_code(403);\n" .
+                "            header('Content-Type: application/json');\n" .
+                "            echo json_encode(['success' => false, 'message' => 'Invalid or missing CSRF token.']);\n" .
+                "            exit;\n" .
+                "        }\n" .
                 "    }\n" .
                 "}\n";
             file_put_contents($basePath . 'app/core/Controller.php', $apiControllerContent);
