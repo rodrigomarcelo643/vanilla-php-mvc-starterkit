@@ -25,7 +25,7 @@ $navGroups = [
 
 <!-- Sidebar skeleton — visible until Alpine boots -->
 <aside id="sidebar-skeleton"
-    style="position:fixed;top:0;left:0;height:100vh;z-index:40;display:flex;flex-direction:column;background:#fff;border-right:1px solid #e4e4e7;width:60px">
+    style="position:fixed;top:var(--banner-h,0px);left:0;height:calc(100vh - var(--banner-h,0px));z-index:40;display:flex;flex-direction:column;background:#fff;border-right:1px solid #e4e4e7;width:60px">
 <script>(function(){
     var dk = localStorage.getItem('theme')==='dark';
     var el = document.getElementById('sidebar-skeleton');
@@ -98,10 +98,10 @@ $navGroups = [
         'w-[60px]': !isMobile && !sidebarOpen && !hovered,
         'translate-x-0':  !isMobile || sidebarOpen,
         '-translate-x-full': isMobile && !sidebarOpen
-    }" class="fixed top-0 left-0 h-screen z-40 flex flex-col
+    }" class="fixed left-0 z-40 flex flex-col
            bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 shadow-sm
            transition-all duration-300 ease-in-out overflow-hidden"
-    style="display:none"
+    style="display:none; top:var(--banner-h,0px); height:calc(100vh - var(--banner-h,0px))"
     x-init="$el.style.display = '';">
     <!-- Header -->
     <div class="flex items-center h-14 border-b border-zinc-200 dark:border-zinc-800 shrink-0 px-3 gap-3">

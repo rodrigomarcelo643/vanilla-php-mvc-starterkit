@@ -5,9 +5,8 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/skeleton.css">
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased"
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased flex flex-col h-screen overflow-hidden"
       x-data="{
         sidebarOpen: window.innerWidth >= 1024,
         isMobile: window.innerWidth < 1024,
@@ -18,7 +17,9 @@
         window.addEventListener('resize', () => { isMobile = window.innerWidth < 1024; });
       ">
 
-<div class="flex h-screen overflow-hidden">
+<?php include 'app/views/components/shared/maintenance-banner.php'; ?>
+
+<div class="flex flex-1 overflow-hidden" style="height: calc(100vh - var(--banner-h, 0px))" id="app-layout">
 
     <?php include 'app/views/components/app/sidebar.php'; ?>
 

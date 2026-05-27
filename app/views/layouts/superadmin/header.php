@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/skeleton.css">
 </head>
-<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased"
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased flex flex-col h-screen overflow-hidden"
       x-data="{
         sidebarOpen: window.innerWidth >= 1024,
         isMobile: window.innerWidth < 1024,
@@ -20,7 +20,9 @@
         });
       ">
 
-<div class="flex h-screen">
+<?php include 'app/views/components/shared/maintenance-banner.php'; ?>
+
+<div class="flex flex-1 overflow-hidden">
 
     <?php include 'app/views/components/superadmin/sidebar.php'; ?>
 

@@ -60,4 +60,33 @@ class Controller
             exit;
         }
     }
+
+    /**
+     * Abort the request with a specific HTTP status code and render the error view.
+     */
+    protected function abort(int $code): void
+    {
+        require_once 'app/controllers/ErrorController.php';
+        $controller = new ErrorController();
+        
+        switch ($code) {
+            case 403:
+                $controller->forbidden();
+                break;
+            case 404:
+                $controller->notFound();
+                break;
+            case 501:
+                $controller->notImplemented();
+                break;
+            case 503:
+                $controller->serviceUnavailable();
+                break;
+            case 500:
+            default:
+                $controller->internalError();
+                break;
+        }
+        exit;
+    }
 }
