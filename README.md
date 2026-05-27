@@ -1,10 +1,12 @@
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.0-4F46E5?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-1.1.4-4F46E5?style=for-the-badge)
 ![PHP](https://img.shields.io/badge/PHP-8.0+-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-5.7+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![Alpine.js](https://img.shields.io/badge/Alpine.js-3.x-8BC0D0?style=for-the-badge&logo=alpine.js&logoColor=white)
+![jQuery](https://img.shields.io/badge/jQuery-3.7.1-0769AD?style=for-the-badge&logo=jquery&logoColor=white)
+![REST API](https://img.shields.io/badge/REST_API-JSON-FF6B6B?style=for-the-badge&logo=postman&logoColor=white)
 ![PHPUnit](https://img.shields.io/badge/PHPUnit-11.x-3F9142?style=for-the-badge&logo=php&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-77%20passing-22C55E?style=for-the-badge)
 

@@ -245,7 +245,7 @@ class Installer
                 file_put_contents($apiRouteFile, $content);
             }
 
-            // 5. Overwrite app/controllers/ErrorController.php to output JSON 404
+            // 5. Overwrite app/controllers/ErrorController.php to output JSON responses for all error types
             $errorControllerContent = "<?php\n\n" .
                 "class ErrorController extends Controller\n" .
                 "{\n" .
@@ -256,6 +256,55 @@ class Installer
                 "            'message' => 'Resource not found',\n" .
                 "            'code' => 404\n" .
                 "        ], 404);\n" .
+                "    }\n\n" .
+                "    public function forbidden()\n" .
+                "    {\n" .
+                "        Router::json([\n" .
+                "            'status' => 'error',\n" .
+                "            'message' => 'Forbidden',\n" .
+                "            'code' => 403\n" .
+                "        ], 403);\n" .
+                "    }\n\n" .
+                "    public function internalError(\$exception = null)\n" .
+                "    {\n" .
+                "        \$response = [\n" .
+                "            'status' => 'error',\n" .
+                "            'message' => 'Internal Server Error',\n" .
+                "            'code' => 500\n" .
+                "        ];\n" .
+                "        if (\$exception !== null && (\$_ENV['APP_DEBUG'] ?? 'false') === 'true') {\n" .
+                "            \$response['debug'] = [\n" .
+                "                'message' => \$exception->getMessage(),\n" .
+                "                'file' => \$exception->getFile(),\n" .
+                "                'line' => \$exception->getLine(),\n" .
+                "                'trace' => explode(\"\\n\", \$exception->getTraceAsString())\n" .
+                "            ];\n" .
+                "        }\n" .
+                "        Router::json(\$response, 500);\n" .
+                "    }\n\n" .
+                "    public function notImplemented()\n" .
+                "    {\n" .
+                "        Router::json([\n" .
+                "            'status' => 'error',\n" .
+                "            'message' => 'Not Implemented',\n" .
+                "            'code' => 501\n" .
+                "        ], 501);\n" .
+                "    }\n\n" .
+                "    public function serviceUnavailable()\n" .
+                "    {\n" .
+                "        Router::json([\n" .
+                "            'status' => 'error',\n" .
+                "            'message' => 'Service Unavailable',\n" .
+                "            'code' => 503\n" .
+                "        ], 503);\n" .
+                "    }\n\n" .
+                "    public function maintenance()\n" .
+                "    {\n" .
+                "        Router::json([\n" .
+                "            'status' => 'error',\n" .
+                "            'message' => 'Service Unavailable (Maintenance Mode)',\n" .
+                "            'code' => 503\n" .
+                "        ], 503);\n" .
                 "    }\n" .
                 "}\n";
             file_put_contents($basePath . 'app/controllers/ErrorController.php', $errorControllerContent);
@@ -504,11 +553,14 @@ class Installer
                 "                data: fd,\n" .
                 "                processData: false,\n" .
                 "                contentType: false,\n" .
-                "                headers: { 'X-Requested-With': 'XMLHttpRequest' },\n" .
+                "                headers: {\n" .
+                "                    'X-Requested-With': 'XMLHttpRequest',\n" .
+                "                    'X-CSRF-Token': document.querySelector('meta[name=\"csrf-token\"]')?.content ?? '',\n" .
+                "                },\n" .
                 "                success: resolve,\n" .
                 "                error: (xhr) => {\n" .
                 "                    try { resolve(JSON.parse(xhr.responseText)); }\n" .
-                "                    catch { reject(new Error(xhr.statusText)); }\n" .
+                "                    catch { reject(new Error(xhr.statusText || 'Network Error')); }\n" .
                 "                },\n" .
                 "            });\n" .
                 "        });\n" .
@@ -523,11 +575,14 @@ class Installer
                 "            \$.ajax({\n" .
                 "                url,\n" .
                 "                method: 'GET',\n" .
-                "                headers: { 'X-Requested-With': 'XMLHttpRequest' },\n" .
+                "                headers: {\n" .
+                "                    'X-Requested-With': 'XMLHttpRequest',\n" .
+                "                    'X-CSRF-Token': document.querySelector('meta[name=\\"csrf-token\\"]')?.content ?? '',\n" .
+                "                },\n" .
                 "                success: resolve,\n" .
                 "                error: (xhr) => {\n" .
                 "                    try { resolve(JSON.parse(xhr.responseText)); }\n" .
-                "                    catch { reject(new Error(xhr.statusText)); }\n" .
+                "                    catch { reject(new Error(xhr.statusText || 'Network Error')); }\n" .
                 "                },\n" .
                 "            });\n" .
                 "        });\n" .
@@ -599,6 +654,18 @@ class Installer
                 }
             }
 
+            // 7. Update inline /ajax/ paths inside PHP view files (e.g. admins.php has
+            //    inline <script> blocks with BASE_URL + '/ajax/admins/...' that the
+            //    JS-only pass above does not reach).
+            $viewFiles = self::getPhpViewFiles($basePath . 'app/views');
+            foreach ($viewFiles as $vFile) {
+                $vContent = file_get_contents($vFile);
+                if (strpos($vContent, "'/ajax/") !== false) {
+                    $vContent = str_replace("'/ajax/", "'/jquery/", $vContent);
+                    file_put_contents($vFile, $vContent);
+                }
+            }
+
             self::log("✔ jQuery Full Stack configured. Files renamed, routes updated to /jquery/*, js/ajax.js replaced with js/jquery_ajax.js.", $event);
         } else {
             self::log("✔ Configuring as Full Stack Monolith (Default)...", $event);
@@ -612,6 +679,24 @@ class Installer
         } else {
             echo "\033[32m{$message}\033[0m\n";
         }
+    }
+
+    /**
+     * Recursively collect all .php files under $dir.
+     */
+    private static function getPhpViewFiles(string $dir): array
+    {
+        $files = [];
+        if (!is_dir($dir)) return $files;
+        $it = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS)
+        );
+        foreach ($it as $file) {
+            if ($file->isFile() && $file->getExtension() === 'php') {
+                $files[] = $file->getPathname();
+            }
+        }
+        return $files;
     }
 
     private static function deleteDir($dirPath)
