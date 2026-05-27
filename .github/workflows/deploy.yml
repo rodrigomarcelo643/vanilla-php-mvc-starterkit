@@ -9,16 +9,15 @@
 #    SSH_PRIVATE_KEY — private key (contents of id_rsa)
 #    DEPLOY_PATH     — absolute path on server e.g. /var/www/html/project
 #
-#  STATUS: inactive — trigger manually via Actions > Run workflow
+#  STATUS: active — triggers automatically on push to master, or manually via Actions > Run workflow
 # ──────────────────────────────────────────────────────────────
 
 name: Deploy
 
 on:
   workflow_dispatch:
-  # To auto-deploy on push to main, uncomment below:
-  # push:
-  #   branches: [main]
+  push:
+    branches: [master]
 
 jobs:
   deploy:
@@ -34,11 +33,12 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.SSH_PORT || '22' }} -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
         run: |
           rsync -avz --delete \
+            -e "ssh -p ${{ secrets.SSH_PORT || '22' }}" \
             --exclude='.git/' \
             --exclude='.env' \
             --exclude='.github/' \
@@ -50,5 +50,5 @@ jobs:
 
       - name: Verify deployment
         run: |
-          ssh "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+          ssh -p ${{ secrets.SSH_PORT || '22' }} "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
             "php -l ${{ secrets.DEPLOY_PATH }}/index.php && echo '✅ Deploy verified.'"
