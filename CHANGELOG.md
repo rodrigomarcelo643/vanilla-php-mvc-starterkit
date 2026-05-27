@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 - **jQuery Stack (Option 4):**
   - Resolved AJAX network errors on CRUD operations by adding a recursive PHP view file scanner to map all frontend endpoints correctly.
   - Automatically injects `X-CSRF-Token` headers parsed from meta tags on jQuery AJAX calls.
+- **Installer.php:**
+  - Fixed `ParseError: syntax error, unexpected identifier "csrf"` caused by JavaScript optional chaining (`?.`) inside a PHP double-quoted string in the generated `jquery_ajax.js` template. Replaced with a PHP-parser-safe JS fallback: `(document.querySelector(...) || {}).content || ''`.
 
 ---
 
