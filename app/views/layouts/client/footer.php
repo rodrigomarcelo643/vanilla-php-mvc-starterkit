@@ -1,6 +1,8 @@
     </main>
 
-    <?php include 'app/views/components/client/footer.php'; ?>
+    <?php if (empty($hideFooter)): ?>
+        <?php include 'app/views/components/client/footer.php'; ?>
+    <?php endif; ?>
 
     <script>const BASE_URL = '<?= BASE_URL ?>';</script>
     <script src="<?= BASE_URL ?>/js/theme.js"></script>
