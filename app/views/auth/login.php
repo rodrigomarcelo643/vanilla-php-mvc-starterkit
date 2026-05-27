@@ -154,8 +154,8 @@
 
                 <p class="text-center text-xs text-zinc-400 dark:text-zinc-500 mt-6">
                     By signing in, you agree to our
-                    <a href="#" class="underline underline-offset-2 hover:text-zinc-700 dark:hover:text-zinc-300">Terms</a> and
-                    <a href="#" class="underline underline-offset-2 hover:text-zinc-700 dark:hover:text-zinc-300">Privacy Policy</a>.
+                    <a href="<?= BASE_URL ?>/terms" class="underline underline-offset-2 hover:text-zinc-700 dark:hover:text-zinc-300">Terms</a> and
+                    <a href="<?= BASE_URL ?>/privacy" class="underline underline-offset-2 hover:text-zinc-700 dark:hover:text-zinc-300">Privacy Policy</a>.
                 </p>
             </div>
         </div>
