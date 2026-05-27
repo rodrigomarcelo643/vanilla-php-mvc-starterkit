@@ -696,6 +696,10 @@ class Installer
         } else {
             self::log("✔ Configuring as Full Stack Monolith (Default)...", $event);
         }
+
+        if ($choice !== '3') {
+            self::downloadOfflineAssets($basePath, $event);
+        }
     }
 
     private static function log($message, $event = null)
@@ -739,6 +743,62 @@ class Installer
             }
         }
         rmdir($dirPath);
+    }
+
+    private static function downloadOfflineAssets(string $basePath, $event): void
+    {
+        $jsDir = $basePath . 'js';
+        if (!is_dir($jsDir)) {
+            @mkdir($jsDir, 0755, true);
+        }
+
+        $assets = [
+            'tailwind.min.js'         => 'https://cdn.tailwindcss.com/3.4.15',
+            'alpine.min.js'           => 'https://unpkg.com/alpinejs@3.14.7/dist/cdn.min.js',
+            'alpine-intersect.min.js' => 'https://unpkg.com/@alpinejs/intersect@3.14.7/dist/cdn.min.js'
+        ];
+
+        self::log("Checking local assets for offline support...", $event);
+
+        foreach ($assets as $filename => $url) {
+            $dest = $jsDir . '/' . $filename;
+            if (!file_exists($dest)) {
+                self::log("  Downloading {$filename} from CDN...", $event);
+                $content = self::downloadUrl($url);
+                if ($content !== null && strlen($content) > 0) {
+                    file_put_contents($dest, $content);
+                    self::log("  ✔ {$filename} successfully downloaded.", $event);
+                } else {
+                    self::log("  ⚠ Could not download {$filename}. Please ensure you have internet access or install manually in js/{$filename}.", $event);
+                }
+            } else {
+                self::log("  ✔ {$filename} already exists locally.", $event);
+            }
+        }
+    }
+
+    private static function downloadUrl(string $url): ?string
+    {
+        $content = @file_get_contents($url);
+        if ($content !== false) {
+            return $content;
+        }
+
+        if (function_exists('curl_init')) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+            $content = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            if ($httpCode === 200 && $content !== false) {
+                return $content;
+            }
+        }
+        return null;
     }
 }
 
