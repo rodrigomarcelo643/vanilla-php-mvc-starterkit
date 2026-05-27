@@ -555,7 +555,7 @@ class Installer
                 "                contentType: false,\n" .
                 "                headers: {\n" .
                 "                    'X-Requested-With': 'XMLHttpRequest',\n" .
-                "                    'X-CSRF-Token': document.querySelector('meta[name=\"csrf-token\"]')?.content ?? '',\n" .
+                "                    'X-CSRF-Token': (document.querySelector('meta[name=csrf-token]') || {}).content || '',\n" .
                 "                },\n" .
                 "                success: resolve,\n" .
                 "                error: (xhr) => {\n" .
@@ -577,7 +577,7 @@ class Installer
                 "                method: 'GET',\n" .
                 "                headers: {\n" .
                 "                    'X-Requested-With': 'XMLHttpRequest',\n" .
-                "                    'X-CSRF-Token': document.querySelector('meta[name=\\"csrf-token\\"]')?.content ?? '',\n" .
+                "                    'X-CSRF-Token': (document.querySelector('meta[name=csrf-token]') || {}).content || '',\n" .
                 "                },\n" .
                 "                success: resolve,\n" .
                 "                error: (xhr) => {\n" .
