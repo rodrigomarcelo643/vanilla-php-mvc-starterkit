@@ -1,6 +1,26 @@
 Options -Indexes
 
+# ──────────────────────────────────────────────────────────────
+#  SECURITY: Block direct access to sensitive files & folders
+# ──────────────────────────────────────────────────────────────
+
+# Block dot files (.env, .gitignore, .htaccess itself, etc.)
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block sensitive config and project files by extension/name
+<FilesMatch "(^composer\.(json|lock)$|^package(-lock)?\.json$|^phpunit\.xml$|^server\.php$|^kit$|^kit\.bat$|README\.md|CHANGELOG\.md|CONTRIBUTING\.md|SECURITY\.md|LICENSE)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to sensitive directories
 RewriteEngine On
+RewriteRule ^(app|routes|database|storage|tests|vendor|kit_src|js)/.*$ - [F,L]
+RewriteRule ^(app|routes|database|storage|tests|vendor|kit_src|js)$ - [F,L]
+
 RewriteBase /starterkit/
 
 # Skip real files and directories (assets, css, js, images)
