@@ -5,8 +5,47 @@ session_start();
 // ── Load .env ─────────────────────────────────────────────────
 $env = parse_ini_file(__DIR__ . '/.env');
 foreach ($env as $key => $value) {
-    $_ENV[$key] = $value;
+    // parse_ini_file converts true/false/yes/no/on/off to 1/"" — normalize back to strings
+    if ($value === 1 || $value === '1') {
+        $_ENV[$key] = 'true';
+    } elseif ($value === '' || $value === 0 || $value === '0') {
+        // Only treat as false for known boolean keys to avoid clobbering real empty strings
+        if (in_array($key, ['MAINTENANCE_MODE', 'APP_DEBUG'])) {
+            $_ENV[$key] = 'false';
+        } else {
+            $_ENV[$key] = $value;
+        }
+    } else {
+        $_ENV[$key] = $value;
+    }
 }
+
+// ── Global Error Boundary ──────────────────────────────────────
+set_error_handler(function ($severity, $message, $file, $line) {
+    if (!(error_reporting() & $severity)) {
+        return false;
+    }
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
+
+set_exception_handler(function ($exception) {
+    error_log($exception->getMessage() . ' in ' . $exception->getFile() . ':' . $exception->getLine());
+
+    while (ob_get_level() > 0) {
+        ob_end_clean();
+    }
+
+    if (!class_exists('Controller')) {
+        require_once __DIR__ . '/app/core/Controller.php';
+    }
+    if (!class_exists('ErrorController')) {
+        require_once __DIR__ . '/app/controllers/ErrorController.php';
+    }
+
+    (new ErrorController())->internalError($exception);
+    exit;
+});
+
 
 // ── HTTP Security Headers ──────────────────────────────────────
 header('X-Frame-Options: SAMEORIGIN');
