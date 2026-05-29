@@ -539,16 +539,6 @@ GITHUB_CLIENT_ID=your-client-id
 GITHUB_CLIENT_SECRET=your-client-secret
 ```
 
-### New files added
-
-```
-app/config/oauth.php
-app/controllers/auth/OAuthController.php
-routes/web/auth/oauth.php
-```
-
----
-
 ## 🔔 Flash Toast System
 
 `Session::flash()` stores a one-time message that fires as a toast on the next page load. All layout footers (auth, app, admin, superadmin) read and display it automatically.
