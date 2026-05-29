@@ -18,11 +18,14 @@ echo "\n-----------------------------\n";
 // Fix concatenated SSH_PORT and SSH_USER line if present
 $fixedContent = preg_replace('/SSH_PORT=(\d+)SSH_USER=(.+)/', "SSH_PORT=$1\nSSH_USER=$2", $content);
 
+// Convert all '#' comments to ';' comments since PHP 8 parse_ini_file does not support '#' comments
+$fixedContent = preg_replace('/^\s*#/m', ';', $fixedContent);
+
 if ($content !== $fixedContent) {
     file_put_contents($envPath, $fixedContent);
-    echo "Found and fixed the concatenated SSH_PORT and SSH_USER line!\n";
+    echo "Found and fixed the concatenated line or '#' comments in the .env file!\n";
 } else {
-    echo "No concatenated SSH_PORT/SSH_USER line was found in the .env file.\n";
+    echo "No syntax fixes were needed in the .env file.\n";
 }
 
 // Test parsing the .env file now
