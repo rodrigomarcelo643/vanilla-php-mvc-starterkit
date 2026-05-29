@@ -2,24 +2,6 @@
 
 session_start();
 
-// ── Load .env ─────────────────────────────────────────────────
-$env = parse_ini_file(__DIR__ . '/.env');
-foreach ($env as $key => $value) {
-    // parse_ini_file converts true/false/yes/no/on/off to 1/"" — normalize back to strings
-    if ($value === 1 || $value === '1') {
-        $_ENV[$key] = 'true';
-    } elseif ($value === '' || $value === 0 || $value === '0') {
-        // Only treat as false for known boolean keys to avoid clobbering real empty strings
-        if (in_array($key, ['MAINTENANCE_MODE', 'APP_DEBUG'])) {
-            $_ENV[$key] = 'false';
-        } else {
-            $_ENV[$key] = $value;
-        }
-    } else {
-        $_ENV[$key] = $value;
-    }
-}
-
 // ── Global Error Boundary ──────────────────────────────────────
 set_error_handler(function ($severity, $message, $file, $line) {
     if (!(error_reporting() & $severity)) {
@@ -45,6 +27,33 @@ set_exception_handler(function ($exception) {
     (new ErrorController())->internalError($exception);
     exit;
 });
+
+// ── Load .env ─────────────────────────────────────────────────
+$envPath = __DIR__ . '/.env';
+if (!file_exists($envPath)) {
+    throw new Exception("The .env file could not be found. Please create a .env file in the root directory.");
+}
+
+$env = @parse_ini_file($envPath);
+if ($env === false) {
+    throw new Exception("The .env file contains syntax errors and could not be parsed. Please check for formatting issues (e.g., missing newlines, unquoted spaces, or concatenated values).");
+}
+
+foreach ($env as $key => $value) {
+    // parse_ini_file converts true/false/yes/no/on/off to 1/"" — normalize back to strings
+    if ($value === 1 || $value === '1') {
+        $_ENV[$key] = 'true';
+    } elseif ($value === '' || $value === 0 || $value === '0') {
+        // Only treat as false for known boolean keys to avoid clobbering real empty strings
+        if (in_array($key, ['MAINTENANCE_MODE', 'APP_DEBUG'])) {
+            $_ENV[$key] = 'false';
+        } else {
+            $_ENV[$key] = $value;
+        }
+    } else {
+        $_ENV[$key] = $value;
+    }
+}
 
 
 // ── HTTP Security Headers ──────────────────────────────────────
