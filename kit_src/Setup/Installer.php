@@ -700,6 +700,79 @@ class Installer
         if ($choice !== '3') {
             self::downloadOfflineAssets($basePath, $event);
         }
+
+        // 3. Clean up repository-specific maintenance/deployment files for a clean starter workspace
+        self::log("Cleaning up repository-specific deployment, funding, and diagnostic files...", $event);
+        $filesToDelete = [
+            'clear_cache.php',
+            'fix_env.php',
+            'install_composer.php',
+            'test_env.php',
+            '.env.production',
+            'CHANGELOG.md',
+            'CODE_OF_CONDUCT.md',
+            'CONTRIBUTING.md',
+            'SECURITY.md',
+            'VISUALS.md'
+        ];
+        foreach ($filesToDelete as $file) {
+            $path = $basePath . $file;
+            if (file_exists($path)) {
+                @unlink($path);
+            }
+        }
+
+        // Exclude repository-specific funding configuration
+        if (file_exists($basePath . '.github/FUNDING.yml')) {
+            @unlink($basePath . '.github/FUNDING.yml');
+        }
+
+        // Rename Github workflows to inactive so they don't run automatically in a fresh repository
+        $workflowFiles = glob($basePath . '.github/workflows/*.yml');
+        if ($workflowFiles) {
+            foreach ($workflowFiles as $wf) {
+                if (file_exists($wf)) {
+                    rename($wf, $wf . '.inactive');
+                }
+            }
+        }
+
+        // Create a beautifully formatted fresh README template with the Mardev Watermark
+        $readmeTemplate = "# 🚀 My New Web Application\n\n" .
+            "This project was freshly generated using the **Mardev Starter Kit** installation wizard. It is pre-configured with a modern, high-performance MVC architecture, secure database routing, global exception handling, and full command-line support.\n\n" .
+            "---\n\n" .
+            "## 📦 What's Pre-Installed?\n\n" .
+            "- **Routing Engine**: Clean URLs with custom query strings and subfolder support.\n" .
+            "- **Robust Exception Handling**: Custom styled pages for `403`, `404`, `500`, and `503` (Maintenance) errors.\n" .
+            "- **Database Engine**: Singleton PDO model integration.\n" .
+            "- **Authentication**: Fully scaffolded secure login, registration, and role management.\n" .
+            "- **CLI Assistant**: Execute commands using `php kit`.\n\n" .
+            "---\n\n" .
+            "## 🛠️ Getting Started\n\n" .
+            "### 1. Local Server\n" .
+            "Start the high-performance local development server:\n" .
+            "```bash\n" .
+            "php kit serve\n" .
+            "```\n" .
+            "Your application will be available at: **http://localhost:8000**\n\n" .
+            "### 2. Seeding the Database\n" .
+            "To reset or seed your database with starter tables and default users:\n" .
+            "```bash\n" .
+            "php kit db:seed\n" .
+            "```\n\n" .
+            "### 3. Generate Encryption Key\n" .
+            "Ensure your application key is generated:\n" .
+            "```bash\n" .
+            "php kit key:generate\n" .
+            "```\n\n" .
+            "---\n\n" .
+            "## 🛡️ Engine Watermark & Diagnostics\n" .
+            "- **Engine**: Mardev Starter Kit Engine\n" .
+            "- **Generated**: Fresh Installation\n" .
+            "- **Status**: Stable / Active\n\n" .
+            "*Happy coding! Built with passion by Mardev.*\n";
+
+        file_put_contents($basePath . 'README.md', $readmeTemplate);
     }
 
     private static function log($message, $event = null)

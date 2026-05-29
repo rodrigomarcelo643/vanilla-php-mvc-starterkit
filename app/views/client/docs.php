@@ -168,9 +168,9 @@
                             <span class="label-check hidden text-green-400">Copied!</span>
                         </button>
                     </div>
-                    <div class="mt-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 rounded-xl p-4 text-xs text-amber-800 dark:text-amber-300">
-                        <p class="font-semibold mb-1">⚠️ Important Routing Precaution</p>
-                        <p>We recommend using your Apache local server address (e.g. <code class="px-1 py-0.5 bg-amber-100 dark:bg-amber-900 rounded font-mono">http://localhost/myphpapp/</code>) to run the project. Do not use <code class="px-1 py-0.5 bg-amber-100 dark:bg-amber-900 rounded font-mono">php kit serve</code> or <code class="px-1 py-0.5 bg-amber-100 dark:bg-amber-900 rounded font-mono">localhost:8000</code> for development yet due to temporary routing and .htaccess path constraints.</p>
+                    <div class="mt-3 bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900/50 rounded-xl p-4 text-xs text-green-800 dark:text-green-300">
+                        <p class="font-semibold mb-1">🚀 Local Development Server Support</p>
+                        <p>The built-in dev server <code class="px-1 py-0.5 bg-green-100 dark:bg-green-900/50 rounded font-mono">php kit serve</code> is now <strong>fully supported</strong> and works perfectly! Even if your application is configured with a subfolder path in your <code class="px-1 py-0.5 bg-green-100 dark:bg-green-900/50 rounded font-mono">.env</code>'s <code class="px-1 py-0.5 bg-green-100 dark:bg-green-900/50 rounded font-mono">BASE_URL</code> (e.g. <code class="px-1 py-0.5 bg-green-100 dark:bg-green-900/50 rounded font-mono">http://localhost:8000/my-app</code>), all static assets, authentication systems, and dynamic API/web routes will resolve flawlessly.</p>
                     </div>
 
                     <!-- Preset Options Wizard -->
