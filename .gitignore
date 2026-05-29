@@ -1,5 +1,6 @@
 # Environment
 .env
+.env.production
 
 # Agent — keep context/prompts, ignore any local secret overrides
 .agent/context/local.md

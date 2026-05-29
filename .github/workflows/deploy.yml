@@ -50,6 +50,13 @@ jobs:
             --exclude='storage/cache/' \
             ./ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}"
 
+      - name: Write production .env via SSH
+        run: |
+          ssh -p ${{ secrets.SSH_PORT || '22' }} "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "cat > ${{ secrets.DEPLOY_PATH }}/.env" << 'ENVEOF'
+          ${{ secrets.ENV_PRODUCTION }}
+          ENVEOF
+
       - name: Verify deployment
         run: |
           ssh -p ${{ secrets.SSH_PORT || '22' }} "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
