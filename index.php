@@ -25,6 +25,9 @@ set_exception_handler(function ($exception) {
         define('BASE_URL', '');
     }
 
+    if (!class_exists('Router')) {
+        require_once __DIR__ . '/app/core/Router.php';
+    }
     if (!class_exists('Controller')) {
         require_once __DIR__ . '/app/core/Controller.php';
     }
