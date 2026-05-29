@@ -17,6 +17,14 @@ set_exception_handler(function ($exception) {
         ob_end_clean();
     }
 
+    // Define safe fallback constants so that the error page rendering doesn't crash on undefined constants
+    if (!defined('APP_NAME')) {
+        define('APP_NAME', 'Starter Kit');
+    }
+    if (!defined('BASE_URL')) {
+        define('BASE_URL', '');
+    }
+
     if (!class_exists('Controller')) {
         require_once __DIR__ . '/app/core/Controller.php';
     }
