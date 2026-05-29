@@ -10,7 +10,7 @@
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-700 text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-7">
                 <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                v2.0 &mdash; Free for beginners
+                v1.1.4 &mdash; Free for beginners
                 <span class="w-px h-3 bg-zinc-300"></span>
                 <a href="<?= $githubUrl ?>" target="_blank" class="inline-flex items-center gap-1 text-zinc-900 dark:text-zinc-100 hover:underline underline-offset-2">
                     <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
@@ -70,7 +70,7 @@
 <div class="border-y border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900" style="overflow:hidden;padding:10px 0">
     <div class="marquee-track" style="display:flex;flex-direction:row;align-items:center;gap:2.5rem;width:max-content;white-space:nowrap">
         <?php
-        $marqueeItems = ['Beginner Friendly', 'PHP MVC Starter Kit v2.0', 'Laravel Preparation', 'Tailwind CSS + Alpine.js', 'Session Auth built-in', 'Full Admin Panel', 'AJAX Ready', 'Fully Responsive', 'Open Source & Free', 'Composer Ready', 'PHP 8+', 'Understand MVC First'];
+        $marqueeItems = ['Beginner Friendly', 'PHP MVC Starter Kit v1.1.4', 'Laravel Preparation', 'Tailwind CSS + Alpine.js', 'Session Auth built-in', 'Full Admin Panel', 'AJAX Ready', 'Fully Responsive', 'Open Source & Free', 'Composer Ready', 'PHP 8+', 'Understand MVC First'];
         $all = array_merge($marqueeItems, $marqueeItems);
         foreach ($all as $mi): ?>
         <span style="display:inline-flex;align-items:center;gap:8px;color:#a1a1aa;font-size:12px;font-weight:500;flex-shrink:0">
