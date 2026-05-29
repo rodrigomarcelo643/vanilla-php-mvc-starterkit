@@ -46,9 +46,15 @@ jobs:
             --exclude='.github/' \
             --exclude='.agent/' \
             --exclude='.claude/' \
+            --exclude='vendor/' \
             --exclude='storage/logs/' \
             --exclude='storage/cache/' \
             ./ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}"
+
+      - name: Install Composer dependencies on server
+        run: |
+          ssh -p ${{ secrets.SSH_PORT || '22' }} "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "cd ${{ secrets.DEPLOY_PATH }} && composer install --no-dev --optimize-autoloader --no-interaction"
 
       - name: Write production .env via SSH
         run: |
