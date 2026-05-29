@@ -773,6 +773,50 @@ class Installer
             "*Happy coding! Built with passion by Mardev.*\n";
 
         file_put_contents($basePath . 'README.md', $readmeTemplate);
+
+        // Remove Setup autoload, bin configuration, and setup command triggers from composer.json
+        $composerPath = $basePath . 'composer.json';
+        if (file_exists($composerPath)) {
+            $composerData = json_decode(file_get_contents($composerPath), true);
+            if (is_array($composerData)) {
+                // Remove autoload entry
+                if (isset($composerData['autoload']['psr-4']['Setup\\'])) {
+                    unset($composerData['autoload']['psr-4']['Setup\\']);
+                }
+                if (isset($composerData['autoload']['psr-4']) && empty($composerData['autoload']['psr-4'])) {
+                    unset($composerData['autoload']['psr-4']);
+                }
+                if (isset($composerData['autoload']) && empty($composerData['autoload'])) {
+                    unset($composerData['autoload']);
+                }
+                // Remove bin configuration
+                if (isset($composerData['bin'])) {
+                    unset($composerData['bin']);
+                }
+                // Remove post-create-project-cmd scripts
+                if (isset($composerData['scripts']['post-create-project-cmd'])) {
+                    unset($composerData['scripts']['post-create-project-cmd']);
+                }
+                file_put_contents($composerPath, json_encode($composerData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            }
+        }
+
+        // Clean up installation scripts and files
+        $installationFiles = [
+            'kit-new',
+            'kit-new.bat'
+        ];
+        foreach ($installationFiles as $file) {
+            $path = $basePath . $file;
+            if (file_exists($path)) {
+                @unlink($path);
+            }
+        }
+
+        // Delete the kit_src/Setup folder completely so Installer.php is not included in the final setup
+        if (is_dir($basePath . 'kit_src/Setup')) {
+            self::deleteDir($basePath . 'kit_src/Setup');
+        }
     }
 
     private static function log($message, $event = null)
