@@ -539,17 +539,6 @@ GITHUB_CLIENT_ID=your-client-id
 GITHUB_CLIENT_SECRET=your-client-secret
 ```
 
-## 🔔 Flash Toast System
-
-`Session::flash()` stores a one-time message that fires as a toast on the next page load. All layout footers (auth, app, admin, superadmin) read and display it automatically.
-
-```php
-// Set in any controller before redirecting
-Session::flash('toast', ['message' => 'Saved successfully!', 'type' => 'success']);
-// types: success | error | info
-Router::redirect('dashboard');
-```
-
 The toast renders bottom-right with a gradient background, progress bar, and auto-dismisses after 4 seconds.
 
 ---
