@@ -660,8 +660,7 @@ You are free to use, copy, modify, merge, publish, distribute, sublicense, and/o
 
 ---
 
-<div align="center">
+
 
 **Developed by [MarDev](https://github.com/rodrigomarcelo643) — Software Developer**
 
-</div>
