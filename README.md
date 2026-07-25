@@ -168,7 +168,7 @@ starterkit/
 
 ## ⚙️ Installation
 
-### Requirements
+### Requiremen
 
 - PHP **8.0+**
 - MySQL **5.7+**
