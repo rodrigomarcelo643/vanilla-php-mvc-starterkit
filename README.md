@@ -90,7 +90,6 @@ The patterns here are intentionally **Laravel-inspired** — so once you underst
 
 ---
 
-## 🖼️ UI Visuals
 
 <div align="center">
 
