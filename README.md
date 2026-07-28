@@ -44,7 +44,6 @@ Backed by PHPUnit with 77 tests across unit and feature suites, GitHub Actions w
 - **Environment config** — `.env`-driven configuration, no hardcoded credentials
 - **Tailwind CSS + Alpine.js** — Modern UI via CDN, no build step required
 - **Composer managed** — PHPMailer, PHPUnit, and more via a clean `composer.json`
-- **77 PHPUnit tests** — Unit and feature suites with automatic cleanup
 
 ---
 
