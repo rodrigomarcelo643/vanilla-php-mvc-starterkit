@@ -618,8 +618,6 @@ Before enabling `deploy.yml`, add these in **Settings → Secrets → Actions**:
 
 ---
 
-## 🤖 Agent Context (AI Coding Assistant)
-
 This project ships with ready-made context files for AI coding assistants so they understand the architecture, conventions, and patterns without you having to explain them every time.
 
 ```
